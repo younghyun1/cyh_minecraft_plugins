@@ -109,6 +109,50 @@ fn identical_display_colors_retain_distinct_hover_names() -> Result<(), Box<dyn 
 }
 
 #[test]
+fn frozen_river_stays_distinct_in_png_pixels_and_hover_metadata()
+-> Result<(), Box<dyn std::error::Error>> {
+    let fixtures = [
+        ("frozen_river", [0x8d, 0xd8, 0xe8, 255]),
+        ("river", [0x53, 0x7f, 0xba, 255]),
+        ("snowy_plains", [0xd6, 0xe4, 0xe1, 255]),
+        ("ice_spikes", [0xd6, 0xe4, 0xe1, 255]),
+        ("grove", [0xd6, 0xe4, 0xe1, 255]),
+        ("frozen_ocean", [0x53, 0x7f, 0xba, 255]),
+    ];
+    let mut tile = tile(
+        fixtures
+            .iter()
+            .map(|(name, _)| format!("minecraft:{name}"))
+            .collect(),
+    );
+    tile.indices.fill(None);
+    for (index, value) in tile.indices.iter_mut().take(fixtures.len()).enumerate() {
+        *value = Some(index as u16);
+    }
+    let bytes = encode(&tile)?;
+    assert_eq!(metadata(&bytes)?, seed_tile_binary::encode(&tile)?);
+    let mut decoder = png::Decoder::new(Cursor::new(&bytes));
+    decoder.set_transformations(png::Transformations::EXPAND);
+    let mut reader = decoder.read_info()?;
+    let mut pixels = vec![
+        0;
+        reader
+            .output_buffer_size()
+            .ok_or("PNG dimensions missing")?
+    ];
+    let info = reader.next_frame(&mut pixels)?;
+    assert_eq!(info.color_type, png::ColorType::Rgba);
+    for (index, (name, color)) in fixtures.iter().enumerate() {
+        assert_eq!(&pixels[index * 4..index * 4 + 4], color, "{name}");
+    }
+    assert_eq!(
+        &pixels[fixtures.len() * 4..fixtures.len() * 4 + 4],
+        &[0, 0, 0, 0]
+    );
+    Ok(())
+}
+
+#[test]
 fn dimension_colors_match_the_browser_palette() {
     for (name, color) in [
         ("nether_wastes", [0x91, 0x46, 0x46]),

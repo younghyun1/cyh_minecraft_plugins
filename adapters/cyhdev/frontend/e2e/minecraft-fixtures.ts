@@ -37,7 +37,14 @@ export async function installMinecraftMapMocks(page: Page) {
   await page.route("**/api/minecraft/map/seed-tile.{bin,png}", async route => {
     const query = route.request().postDataJSON() as MinecraftSeedTileQuery;
     predictions.push(query);
-    const tile = seedMapData(query, await page.evaluate(() => Date.now())), png = route.request().url().endsWith(".png");
+    let now: number;
+    try { now = await page.evaluate(() => Date.now()); }
+    catch (cause) {
+      // Leaving the map cancels its tile fetch and destroys the fixture clock's context.
+      if (cause instanceof Error && cause.message.includes("Execution context was destroyed")) return;
+      throw cause;
+    }
+    const tile = seedMapData(query, now), png = route.request().url().endsWith(".png");
     return route.fulfill({ contentType: png ? "image/png" : "application/vnd.cyhdev.biome-tile", body: png ? encodeSeedTilePngFixture(tile) : encodeSeedTileFixture(tile) });
   });
   await page.route("**/api/minecraft/map/query", async route => {

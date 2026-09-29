@@ -3,6 +3,7 @@
 /// Convert the public biome identifier into its map RGB color.
 pub fn color(biome: &str) -> [u8; 3] {
     let explicit = match biome {
+        "minecraft:frozen_river" => Some(0x8dd8e8),
         "minecraft:nether_wastes" => Some(0x914646),
         "minecraft:soul_sand_valley" => Some(0x655044),
         "minecraft:crimson_forest" => Some(0xb1324c),

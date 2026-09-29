@@ -7,6 +7,7 @@ import { biomeColor, displayName, elevationColor, selectionRegion, WORLD_LIMIT, 
 import { createSeedTileLayer, createTerrainBoundary, minimumMapZoom } from "./seedTileLayer";
 import { type SeedTiles } from "./seedTiles";
 import { createTerrainRefresh, type TerrainRefreshState } from "./terrainRefresh";
+import { createMapControls } from "./mapControls";
 
 export type { TerrainRefreshState } from "./terrainRefresh";
 
@@ -60,6 +61,7 @@ export default function MapCanvas(props: Props) {
   let seedLayer: ReturnType<typeof createSeedTileLayer> | undefined;
   let boundary: ReturnType<typeof createTerrainBoundary> | undefined;
   let terrainRefresh: ReturnType<typeof createTerrainRefresh> | undefined;
+  let removeControls: (() => void) | undefined;
   let dragStart: MapPoint | null = null, dragEnd: MapPoint | null = null, dragPointer: number | null = null, suppressClickUntil = 0;
   const [ready, setReady] = createSignal(false);
   const sampled = L.layerGroup(), markers = L.layerGroup(), playersLayer = L.layerGroup(), selection = L.layerGroup(), grid = L.layerGroup();
@@ -129,6 +131,7 @@ export default function MapCanvas(props: Props) {
     if (!element) return;
     map = L.map(element, { crs: L.CRS.Simple, attributionControl: false, preferCanvas: true, minZoom: minimumMapZoom(element.clientWidth, element.clientHeight, settings.maxZoom), maxZoom: settings.maxZoom + settings.extraZoom, zoomControl: true });
     map.setView(position(untrack(() => props.view)), settings.defaultZoom);
+    removeControls = createMapControls(map, settings.maxZoom, clearInspection);
     const reportZoom = () => { if (element && map) element.dataset.zoom = String(map.getZoom()); };
     map.on("zoomend", reportZoom); reportZoom();
     // Leaflet's own empty-image URL means canceled, so it never completes missing tiles.
@@ -166,7 +169,7 @@ export default function MapCanvas(props: Props) {
     }, 30_000);
     setReady(true);
   });
-  onCleanup(() => { window.clearInterval(refreshTimer); terrainRefresh?.dispose(); seedLayer?.dispose(); boundary?.dispose(); element?.removeEventListener("mousemove", inspectCursor); element?.removeEventListener("mouseleave", clearInspection); element?.removeEventListener("pointerdown", beginSelection); element?.removeEventListener("pointermove", moveSelection); element?.removeEventListener("pointerup", endSelection); element?.removeEventListener("pointercancel", cancelSelection); observer?.disconnect(); map?.remove(); map = undefined; });
+  onCleanup(() => { removeControls?.(); window.clearInterval(refreshTimer); terrainRefresh?.dispose(); seedLayer?.dispose(); boundary?.dispose(); element?.removeEventListener("mousemove", inspectCursor); element?.removeEventListener("mouseleave", clearInspection); element?.removeEventListener("pointerdown", beginSelection); element?.removeEventListener("pointermove", moveSelection); element?.removeEventListener("pointerup", endSelection); element?.removeEventListener("pointercancel", cancelSelection); observer?.disconnect(); map?.remove(); map = undefined; });
 
   createEffect(() => [ready(), props.selecting, props.region] as const, ([mounted, selecting, region]) => {
     if (!mounted || !map) return;

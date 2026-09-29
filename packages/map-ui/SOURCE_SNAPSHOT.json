@@ -5,7 +5,7 @@
   "files": [
     {
       "path": "src/components/minecraft/MapCanvas.tsx",
-      "sha256": "9bee4292d6cf6a6332828c8b205c05c8820cf5a83472d8bb65387fdabc0e5464"
+      "sha256": "71a60aee4c47ada468717aa33b7397a0374b45b2cb9e97d6e4e9c38e558d4401"
     },
     {
       "path": "src/components/minecraft/MapInspection.tsx",
@@ -17,7 +17,7 @@
     },
     {
       "path": "src/components/minecraft/mapMath.ts",
-      "sha256": "f2f535462d514ea06eff2e7dda011f40bf5493cf6cc87d6ff00c658c5e8a72a0"
+      "sha256": "a9fa8973d63c6c3b40f528f4f0724ed0206964e2188360053620812b69f3edb9"
     },
     {
       "path": "src/components/minecraft/seedTileLayer.ts",
@@ -45,7 +45,7 @@
     },
     {
       "path": "src/styles/minecraft.css",
-      "sha256": "200e10b8f001396a8029cbc27f0d1bf4b915644dcfffb3454225ad4938d8c8ad"
+      "sha256": "43ca56f304d08f68c4fdabcdc2389a5781ef5514cb15652d0fbd13e19ce9dc69"
     },
     {
       "path": "src/__tests__/minecraft_seed_tiles.test.ts",
@@ -57,7 +57,7 @@
     },
     {
       "path": "src/__tests__/minecraft_metadata.test.ts",
-      "sha256": "72c3a38b01604db6c10df221f3c928a3856c5a98bd8a2dc1af1d9c3397c1fe73"
+      "sha256": "1aab4093deb943bce05be170679bc15d1e7dd2b03ee7ab994f364f6810073121"
     },
     {
       "path": "src/__tests__/minecraft_inspection.test.ts",
@@ -142,7 +142,15 @@
     {
       "path": "playwright.seed-benchmark.config.ts",
       "sha256": "34c8b2e17c85c79244fbf08562ed4c9c55b44032ce42c67be97cd41cda2c1990"
+    },
+    {
+      "path": "src/__tests__/minecraft_map_controls.test.ts",
+      "sha256": "8bf3a7cddce19547bf7bea9d8ad8fa135113115c7e7aecfe4742ef46861caf9c"
+    },
+    {
+      "path": "src/components/minecraft/mapControls.ts",
+      "sha256": "5f66c4645ed9f95ddc186ad249095b7ab9e53b5e4c0b1cf44032dff582cf7342"
     }
   ],
-  "sourceCommit": "edcb4e8ae95593f28d12f4c44a456d7c3726e7d9"
+  "sourceCommit": "ef29ece5a2d049902aaa5a1cff5130a4b3b6804d"
 }

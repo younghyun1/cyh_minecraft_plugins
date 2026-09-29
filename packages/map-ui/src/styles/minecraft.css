@@ -52,12 +52,18 @@
 .minecraft-atlas-stage { --mc-readout-space: 52px; position: relative; flex: 1; min-width: 0; min-height: 0; background: #242c22; }
 .minecraft-atlas-stage:has(.minecraft-selection-readout small) { --mc-readout-space: 72px; }
 .minecraft-atlas-stage:has(.minecraft-selection-readout small + small) { --mc-readout-space: 92px; }
-.minecraft-atlas-canvas { position: absolute; inset: 0; background: #242c22; }
+/* Keep Leaflet's controls beneath the host's floating menus. */
+.minecraft-atlas-canvas { position: absolute; inset: 0; z-index: 0; background: #242c22; }
 .minecraft-atlas-canvas.minecraft-selecting { cursor: crosshair; touch-action: none; }
 .minecraft-atlas-canvas .leaflet-tile { image-rendering: pixelated; }
 .minecraft-atlas-canvas .leaflet-tooltip { width: max-content; max-width: 260px; white-space: normal; overflow-wrap: anywhere; color: var(--mc-ink); background: var(--mc-paper); border: 2px solid var(--mc-edge); border-radius: 0; font-family: "IBM Plex Mono", monospace; }
 .minecraft-atlas-canvas .leaflet-control-zoom { border: 2px solid #15160e; border-radius: 0; box-shadow: none; }
 .minecraft-atlas-canvas .leaflet-control-zoom a { background: var(--mc-panel); color: var(--mc-ink); border-radius: 0 !important; text-decoration: none; }
+.minecraft-atlas-canvas .minecraft-home-control { border: 2px solid #15160e; border-radius: 0; box-shadow: none; }
+.minecraft-atlas-canvas .minecraft-map-home { display: block; width: 30px; height: 30px; min-height: 30px; padding: 0; border: 0; font-size: 22px; line-height: 30px; box-shadow: none; }
+.minecraft-atlas-canvas .minecraft-map-scale { color: #f5f0df; font-family: monospace; font-size: 10px; line-height: 16px; pointer-events: none; }
+.minecraft-map-scale-label { display: block; width: max-content; padding: 0 3px; background: #151b16d9; white-space: nowrap; text-shadow: 0 1px #151b16; font-variant-numeric: tabular-nums; }
+.minecraft-map-scale-line { box-sizing: border-box; height: 7px; border: 2px solid #f5f0df; border-top: 0; background: #151b16d9; }
 .minecraft-map-controls { position: absolute; z-index: 500; left: 60px; top: 12px; right: 12px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; pointer-events: none; }
 .minecraft-map-controls > * { pointer-events: auto; }
 .minecraft-map-controls button { font-size: 10px; }

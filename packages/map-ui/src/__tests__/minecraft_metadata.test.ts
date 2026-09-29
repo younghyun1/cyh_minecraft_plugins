@@ -3,6 +3,11 @@ import { biomeColor, coordinate, displayName, distance, scanOrigin, selectionReg
 import { mapId, parsePlayers, parseSettings, parseWorlds } from "../services/squaremap";
 
 describe("Minecraft metadata boundaries", () => {
+  it("distinguishes frozen rivers from snow and other water biomes", () => {
+    const frozenRiver = biomeColor("minecraft:frozen_river");
+    expect(frozenRiver).toBe("#8dd8e8");
+    for (const biome of ["river", "ocean", "frozen_ocean", "snowy_plains", "ice_spikes", "grove"]) expect(biomeColor(`minecraft:${biome}`)).not.toBe(frozenRiver);
+  });
   it("supports canonical dimensions and assigns distinct Nether and End biome colors", () => {
     for (const world of ["minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"]) expect(supportsSeedWorld(world)).toBe(true);
     expect(supportsSeedWorld("custom:nether")).toBe(false);

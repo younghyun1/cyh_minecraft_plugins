@@ -1,6 +1,7 @@
 export type MapPoint = { readonly x: number; readonly z: number };
 export const WORLD_LIMIT = 30_000_000;
-const DIMENSION_BIOME_COLORS: Readonly<Record<string, string>> = {
+const BIOME_COLORS: Readonly<Record<string, string>> = {
+  "minecraft:frozen_river": "#8dd8e8",
   "minecraft:nether_wastes": "#914646", "minecraft:soul_sand_valley": "#655044", "minecraft:crimson_forest": "#b1324c", "minecraft:warped_forest": "#338b80", "minecraft:basalt_deltas": "#666676",
   "minecraft:the_end": "#c8c28c", "minecraft:end_highlands": "#b6ae72", "minecraft:end_midlands": "#d1c895", "minecraft:small_end_islands": "#a293bc", "minecraft:end_barrens": "#716885",
 };
@@ -32,8 +33,8 @@ export function distance(a: MapPoint, b: MapPoint): number {
 }
 
 export function biomeColor(biome: string): string {
-  const dimensionColor = DIMENSION_BIOME_COLORS[biome];
-  if (dimensionColor) return dimensionColor;
+  const biomeOverride = BIOME_COLORS[biome];
+  if (biomeOverride) return biomeOverride;
   if (biome.includes("ocean") || biome.endsWith(":river")) return "#537fba";
   if (/snow|frozen|ice|grove/.test(biome)) return "#d6e4e1";
   if (/desert|beach/.test(biome)) return "#d4c28a";
