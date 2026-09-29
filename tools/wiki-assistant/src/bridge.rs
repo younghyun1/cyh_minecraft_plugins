@@ -37,9 +37,17 @@ pub async fn serve(
 ) -> Result<()> {
     let mut input = BufReader::new(tokio::io::stdin());
     let mut output = tokio::io::stdout();
-    let mut codex = tokio::time::timeout(Duration::from_secs(20), Codex::start(binary, home, cwd))
+    let started = tokio::time::timeout(Duration::from_secs(20), Codex::start(binary, home, cwd))
         .await
-        .map_err(|_| Error::Timeout)??;
+        .map_err(|_| Error::Timeout)
+        .and_then(|result| result);
+    let mut codex = match started {
+        Ok(codex) => codex,
+        Err(error) => {
+            protocol::startup_failure(&error)?;
+            return Err(error);
+        }
+    };
     output
         .write_all(b"{\"ready\":true,\"protocol\":1}\n")
         .await?;

@@ -9,6 +9,7 @@ mod evidence;
 #[cfg(test)]
 mod fixtures;
 mod index;
+mod isolation;
 #[cfg(test)]
 mod live_bridge_tests;
 mod memory;

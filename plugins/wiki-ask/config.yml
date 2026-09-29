@@ -6,4 +6,5 @@ codex-binary: ''
 codex-home: ''
 work-directory: ''
 # Admission is bounded to one request globally and one per player per 10 seconds.
-# Answers are private, at most 60 words / 360 characters, with clickable attribution.
+# Questions and final answers are shared within the world among permitted players.
+# Answers have at most 60 words / 360 characters, with clickable attribution.

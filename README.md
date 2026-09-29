@@ -6,7 +6,7 @@ Custom Paper plugins, Minecraft map integration and operational tools. The reusa
 | --- | --- | --- |
 | Paper map control and world profiles | `plugins/map-control` | Java 25; provided Paper 26.3 and squaremap dependencies |
 | First-join equipment plugin | `plugins/starting-equipment` | Gradle and Java 21; provided Paper 1.21.11 API |
-| Private Minecraft Wiki chat | `plugins/wiki-ask` | Java 25; provided Paper 26.2+ API and local Rust companion |
+| Shared per-world Minecraft Wiki chat | `plugins/wiki-ask` | Java 25; provided Paper 26.2+ API and local Rust companion |
 | Offline wiki index and Codex IPC | `tools/wiki-assistant` | `cargo run --package minecraft-wiki-assistant -- --help` |
 | Streaming playtime report | `crates/playtime` | `cargo run --package parse_logs -- --help` |
 | Status and ping timing probe | `crates/lag-probe` | `cargo run --package mc-lag-probe -- --help` |

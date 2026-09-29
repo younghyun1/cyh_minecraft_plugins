@@ -40,6 +40,9 @@ final class BridgeClient implements AutoCloseable {
 
     private void ready() throws IOException {
         JsonObject value = parse(readLine(reader));
+        if (value.has("ready") && !value.get("ready").getAsBoolean() && value.has("diagnostic")) {
+            throw new IOException("Bridge startup failed: " + plain(value.get("diagnostic").getAsString()));
+        }
         if (!value.has("ready") || !value.get("ready").getAsBoolean()
                 || value.get("protocol").getAsInt() != 1) throw new IOException("Bridge handshake failed");
     }

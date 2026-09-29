@@ -1,8 +1,8 @@
 name: WikiAsk
-version: '0.1.0'
+version: '0.1.1'
 main: com.cyhdev.minecraft.ask.WikiAsk
 api-version: '26.2'
-description: Fast private Minecraft Wiki answers through a local Codex CLI
+description: Fast shared per-world Minecraft Wiki chat through a local Codex CLI
 commands:
   ask:
     description: Ask a short Minecraft gameplay question

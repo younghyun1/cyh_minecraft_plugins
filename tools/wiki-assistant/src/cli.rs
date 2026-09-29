@@ -92,9 +92,19 @@ impl Cli {
                 codex_home,
                 work_dir,
             } => {
-                let search = Search::open(&index)?;
-                search.verify_corpus(&corpus)?;
-                let pages = crate::memory::Pages::load(&corpus)?;
+                let prepared = (|| -> Result<_> {
+                    let search = Search::open(&index)?;
+                    search.verify_corpus(&corpus)?;
+                    let pages = crate::memory::Pages::load(&corpus)?;
+                    Ok((search, pages))
+                })();
+                let (search, pages) = match prepared {
+                    Ok(data) => data,
+                    Err(error) => {
+                        crate::protocol::startup_failure(&error)?;
+                        return Err(error);
+                    }
+                };
                 tracing::info!(
                     pages = pages.pages.len(),
                     text_bytes = pages.text_bytes,

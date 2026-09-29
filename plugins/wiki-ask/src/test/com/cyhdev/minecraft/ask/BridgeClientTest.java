@@ -18,6 +18,11 @@ public final class BridgeClientTest {
 
     public static void main(String[] args) throws IOException {
         if (args.length > 0 && args[0].equals("--fixture")) { fixture(); return; }
+        if (args.length > 0 && args[0].equals("--live")) { live(args); return; }
+        if (args.length > 0 && args[0].equals("--startup-failure")) {
+            System.out.println("{\"ready\":false,\"protocol\":1,\"diagnostic\":\"dedicated Codex home must not contain custom skills\"}");
+            return;
+        }
         String text = BridgeClient.plain("§\u202eReason\n" + "🪨 word ".repeat(1000));
         check(!text.contains("\n") && !text.contains("§") && !text.contains("\u202e"));
         check(text.codePointCount(0, text.length()) <= 360);
@@ -46,8 +51,35 @@ public final class BridgeClientTest {
             boolean stopped = false;
             try { client.prepare(); } catch (IOException expected) { stopped = true; }
             check(stopped);
+        }
+        List<String> failedCommand = new java.util.ArrayList<>(command);
+        failedCommand.set(failedCommand.size() - 2, "--startup-failure");
+        try (BridgeClient client = new BridgeClient(failedCommand)) {
+            boolean explained = false;
+            try { client.prepare(); }
+            catch (IOException expected) { explained = expected.getMessage().contains("custom skills"); }
+            check(explained);
         } finally { Files.deleteIfExists(work); }
-        System.out.println("BridgeClient: 10 checks passed");
+        System.out.println("BridgeClient: 11 checks passed");
+    }
+
+    /** Explicit opt-in verifies the exact Java environment and repeated starts with one Codex home. */
+    private static void live(String[] args) throws IOException {
+        if (args.length != 7) throw new IOException("Expected --live bridge index corpus codex codex-home work-directory");
+        List<String> command = List.of(args[1], "serve", "--index", args[2], "--corpus", args[3],
+                "--codex", args[4], "--codex-home", args[5], "--work-dir", args[6]);
+        for (int attempt = 0; attempt < 2; attempt++) {
+            try (BridgeClient client = new BridgeClient(command)) {
+                client.prepare();
+                String[] reply = client.ask("12345678-1234-1234-1234-123456789abc", "JavaProbe",
+                        "00000000-0000-0000-0000-000000000001", "SyntheticWorld",
+                        "How fast is a blue ice boat highway compared to a packed ice highway?");
+                check(reply[0].toLowerCase(java.util.Locale.ROOT).contains("ice"));
+                check(!reply[0].contains("unavailable"));
+                check(reply[0].codePointCount(0, reply[0].length()) <= 360);
+                System.out.println("Java bridge start " + (attempt + 1) + ": " + reply[0]);
+            }
+        }
     }
 
     private static void fixture() throws IOException {

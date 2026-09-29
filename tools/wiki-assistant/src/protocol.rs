@@ -2,6 +2,17 @@
 use crate::error::{Error, Result};
 use tokio::io::{AsyncBufRead, AsyncBufReadExt, AsyncReadExt};
 
+/// Send a bounded startup failure on the existing pipe instead of losing stderr diagnostics.
+pub fn startup_failure(error: &Error) -> Result<()> {
+    use std::io::Write;
+    let frame =
+        serde_json::json!({"ready":false,"protocol":1,"diagnostic":error.startup_diagnostic()});
+    let mut output = std::io::stdout().lock();
+    writeln!(output, "{frame}")?;
+    output.flush()?;
+    Ok(())
+}
+
 /// Take caps allocations even if a child never sends a newline.
 pub async fn line<R: AsyncBufRead + Unpin>(reader: &mut R, max: usize) -> Result<String> {
     let mut bytes = Vec::new();

@@ -27,19 +27,7 @@ impl Codex {
                 "Codex paths must be absolute; home and work directory must differ".into(),
             ));
         }
-        for name in [
-            "config.toml",
-            "AGENTS.md",
-            "skills",
-            "plugins",
-            "hooks.json",
-        ] {
-            if home.join(name).exists() {
-                return Err(Error::Invalid(format!(
-                    "dedicated Codex home must not contain {name}"
-                )));
-            }
-        }
+        crate::isolation::validate_home(home)?;
         if std::fs::read_dir(cwd)?.next().is_some() {
             return Err(Error::Invalid("Codex work directory must be empty".into()));
         }

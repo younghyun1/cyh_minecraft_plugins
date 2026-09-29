@@ -27,7 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/** Private gameplay answers; Bukkit state is read and written only on the server thread. */
+/** Shared per-world gameplay chat; Bukkit state stays on the server thread. */
 public final class WikiAsk extends JavaPlugin implements Listener {
     private final Map<UUID, Long> cooldowns = new HashMap<>();
     private final AtomicBoolean busy = new AtomicBoolean();
@@ -62,7 +62,7 @@ public final class WikiAsk extends JavaPlugin implements Listener {
                 bridge.prepare();
             } catch (IOException | RuntimeException exception) {
                 bridge.close();
-                getLogger().warning("WikiAsk startup failed; check the dedicated bridge configuration and Codex login.");
+                logFailure("startup", exception);
             } finally {
                 deadline.cancel(false);
                 busy.set(false);
@@ -114,6 +114,7 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         try {
             worker.execute(() -> answer(id, username, worldId, worldName, question));
             cooldowns.put(id, now);
+            WorldChat.send(getServer().getOnlinePlayers(), worldId, WorldChat.question(username, question));
             player.sendActionBar(Component.text("Checking the local wiki…", NamedTextColor.GRAY));
         } catch (RejectedExecutionException exception) {
             busy.set(false);
@@ -133,7 +134,7 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         } catch (IOException | RuntimeException exception) {
             bridge.close();
             text = "Minecraft help is temporarily unavailable. Try again shortly.";
-            getLogger().warning("WikiAsk request failed; check the dedicated bridge configuration and Codex login.");
+            logFailure("request", exception);
         } finally {
             deadline.cancel(false);
         }
@@ -152,7 +153,7 @@ public final class WikiAsk extends JavaPlugin implements Listener {
                                 .clickEvent(ClickEvent.openUrl(url))
                                 .hoverEvent(HoverEvent.showText(Component.text("Minecraft Wiki contributors · CC BY-NC-SA 3.0 · summarized"))));
                     }
-                    player.sendMessage(message);
+                    WorldChat.send(getServer().getOnlinePlayers(), worldId, message);
                 } finally { busy.set(false); }
             });
         } catch (RuntimeException exception) { busy.set(false); }
@@ -160,6 +161,13 @@ public final class WikiAsk extends JavaPlugin implements Listener {
 
     private static void tell(Player player, String message) {
         player.sendMessage(Component.text("[Ask] " + message, NamedTextColor.GRAY));
+    }
+
+    private void logFailure(String operation, Exception exception) {
+        // Only bridge-owned IOException messages are eligible; parser exceptions may contain content.
+        String detail = exception instanceof IOException && exception.getMessage() != null ? BridgeClient.plain(exception.getMessage())
+                : exception.getClass().getSimpleName();
+        getLogger().warning("WikiAsk " + operation + " failed: " + detail);
     }
 
     @EventHandler

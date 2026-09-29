@@ -212,6 +212,11 @@ async fn live_cli_keeps_prior_messages() -> Result<()> {
         assert!(result.tool_calls >= 2);
         client.unload(&thread).await?;
         client.stop().await?;
+        // Reusing a populated home catches the generated skills/.system startup regression.
+        let mut restarted = Codex::start(Path::new(&binary), &home, &work).await?;
+        let restarted_thread = restarted.start_thread().await?;
+        assert!(!restarted_thread.is_empty());
+        restarted.stop().await?;
         Ok::<(), Error>(())
     }).await.map_err(|_| Error::Timeout)?
 }
