@@ -1,0 +1,8 @@
+# Absolute paths supplied by the server operator. Blank paths disable the plugin.
+bridge-binary: ''
+wiki-index: ''
+codex-binary: ''
+codex-home: ''
+work-directory: ''
+# Admission is bounded to one request globally and one per player per 10 seconds.
+# Answers are private, at most 60 words / 360 characters, with clickable attribution.

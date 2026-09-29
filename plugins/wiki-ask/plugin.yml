@@ -1,0 +1,14 @@
+name: WikiAsk
+version: '0.1.0'
+main: com.cyhdev.minecraft.ask.WikiAsk
+api-version: '26.2'
+description: Fast private Minecraft Wiki answers through a local Codex CLI
+commands:
+  ask:
+    description: Ask a short Minecraft gameplay question
+    usage: /ask <question>
+    permission: wikiask.use
+permissions:
+  wikiask.use:
+    description: Ask Minecraft questions using the shared Codex account
+    default: true

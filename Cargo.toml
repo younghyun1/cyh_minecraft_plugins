@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/playtime", "crates/lag-probe", "crates/seed", "crates/tile-codec", "tools/tile-benchmark"]
+members = ["crates/playtime", "crates/lag-probe", "crates/seed", "crates/tile-codec", "tools/tile-benchmark", "tools/wiki-assistant"]
 exclude = ["archive/mc", "archive/mc-backup"]
 
 [workspace.package]
