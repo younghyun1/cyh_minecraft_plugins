@@ -5,7 +5,7 @@
   "files": [
     {
       "path": "src/components/minecraft/MapCanvas.tsx",
-      "sha256": "9277af695d92c2868038e99b8d6b74f18a2780f5595b2e221f4ecc01084a9562"
+      "sha256": "e9ac2f690256f75e6148225d749fc3fc2af6c20ae7b355f61c51a0d779c99cbe"
     },
     {
       "path": "src/components/minecraft/MapInspection.tsx",
@@ -21,7 +21,7 @@
     },
     {
       "path": "src/components/minecraft/seedTileLayer.ts",
-      "sha256": "3c56a8ea522c7f153809238bd9ce56260bbbfb3b36d46f2e1bcad6b4df862eb5"
+      "sha256": "22c1d4e0d2653c7717dac1c721851b9044298a6f6b9ec14561d9fcca254e8ebc"
     },
     {
       "path": "src/components/minecraft/seedTiles.ts",
@@ -45,7 +45,7 @@
     },
     {
       "path": "src/styles/minecraft.css",
-      "sha256": "a75cd55f85cfcddeb5a9798b5fea4eedf53e37e2f8500b6febb052c4e8a2ec35"
+      "sha256": "b678da9cc9608ae4bcb5bf0ebd376a060bd976fef51c7b3124b1eaefaf25df1a"
     },
     {
       "path": "src/__tests__/minecraft_seed_tiles.test.ts",
@@ -150,7 +150,15 @@
     {
       "path": "src/components/minecraft/mapControls.ts",
       "sha256": "3b8d3ba69e848cbd6c085d90fbaca8e9709561297d283e1f5a83c429ee6a557b"
+    },
+    {
+      "path": "src/components/minecraft/biomeChoices.ts",
+      "sha256": "20aa5cb39ad3c59337bd374122aa988bc74c28b578c74d0c28c6af0f85001e0a"
+    },
+    {
+      "path": "src/__tests__/minecraft_biome_choices.test.ts",
+      "sha256": "03ea24c70889b0a725b0cb7c02a5f52fec09d2489e451804446c2bf459282bda"
     }
   ],
-  "sourceCommit": "555a948391b4b28ffc1f89ee5940d0e117a28e21"
+  "sourceCommit": "88a332c8495e31831195650a416e37f4eaef74cc"
 }

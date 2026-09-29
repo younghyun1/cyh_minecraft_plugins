@@ -72,6 +72,52 @@ export function createSeedTileLayer(options: Options): { layer: L.GridLayer; dis
   return { layer, dispose: () => { options.map.off("moveend", prefetch); for (const release of neighbors) release(); neighbors = []; layer.remove(); for (const release of releases.values()) release(); releases.clear(); } };
 }
 
+/** A 64-pixel overlay reuses the seed store's tile requests and exact biome indices. */
+export function createBiomeHighlightLayer(options: Omit<Options, "changed">, biomes: readonly string[]): { layer: L.GridLayer; setBiomes: (values: readonly string[]) => void; dispose: () => void } {
+  const active = new Map<HTMLCanvasElement, { redraw: () => void; unsubscribe: () => void }>();
+  let selected = new Set(biomes);
+  class HighlightLayer extends L.GridLayer {
+    override createTile(coords: L.Coords): HTMLElement {
+      const canvas = document.createElement("canvas"); canvas.width = 64; canvas.height = 64; canvas.className = "minecraft-biome-highlight-tile";
+      canvas.dataset.tileX = String(coords.x); canvas.dataset.tileZ = String(coords.y); canvas.dataset.level = String(options.maxZoom - coords.z);
+      const level = options.maxZoom - coords.z, span = 256 * 2 ** level;
+      if (active.size >= SEED_MAX_TILES || coords.x * span >= WORLD_LIMIT || (coords.x + 1) * span <= -WORLD_LIMIT || coords.y * span >= WORLD_LIMIT || (coords.y + 1) * span <= -WORLD_LIMIT) return canvas;
+      const context = canvas.getContext("2d");
+      let lastTile: SeedTile | null = null;
+      const redraw = () => {
+        context?.clearRect(0, 0, 64, 64);
+        if (!context || !lastTile) return;
+        const matches = lastTile.palette.map(name => selected.has(name));
+        context.fillStyle = "rgba(255, 232, 96, 0.42)";
+        for (let y = 0; y < 64; ++y) for (let x = 0; x < 64;) {
+          const index = lastTile.indices[y * 64 + x] ?? 65535, match = matches[index] === true;
+          let end = x + 1;
+          while (end < 64 && (matches[lastTile.indices[y * 64 + end] ?? 65535] === true) === match) ++end;
+          if (match) context.fillRect(x, y, end - x, 1);
+          x = end;
+        }
+      };
+      const query: MinecraftSeedTileQuery = { world: options.world, y: options.y, tile_x: coords.x, tile_z: coords.y, level };
+      const unsubscribe = options.store.subscribe(query, tile => { lastTile = tile; canvas.dataset.ready = tile ? "true" : "false"; redraw(); }, () => {
+        const center = options.map.project(options.map.getCenter(), coords.z).divideBy(256);
+        return Math.hypot(coords.x + 0.5 - center.x, coords.y + 0.5 - center.y);
+      });
+      active.set(canvas, { redraw, unsubscribe });
+      return canvas;
+    }
+  }
+  const layer = new HighlightLayer({ pane: "minecraft-biome-highlights", tileSize: 256, minZoom: options.maxZoom - SEED_MAX_LEVEL, minNativeZoom: options.maxZoom - SEED_MAX_LEVEL, maxNativeZoom: options.maxZoom, noWrap: true, keepBuffer: 1, updateWhenIdle: false, updateInterval: 150 });
+  layer.on("tileunload", (event: L.TileEvent) => {
+    if (!(event.tile instanceof HTMLCanvasElement)) return;
+    active.get(event.tile)?.unsubscribe(); active.delete(event.tile);
+  });
+  return {
+    layer,
+    setBiomes(values: readonly string[]) { selected = new Set(values); for (const tile of active.values()) tile.redraw(); },
+    dispose() { layer.remove(); for (const tile of active.values()) tile.unsubscribe(); active.clear(); },
+  };
+}
+
 type AlphaTile = { coords: L.Coords; alpha: Uint8Array; edges: Uint32Array };
 const ALPHA_SIDE = 256, MAX_TILE_EDGES = 4096, MAX_DRAW_EDGES = 8192;
 const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]] as const;

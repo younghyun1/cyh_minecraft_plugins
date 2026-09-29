@@ -1,11 +1,12 @@
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import type { MinecraftMapData } from "../../generated";
 import type { MapExplorer } from "./createMapExplorer";
+import { biomeChoices } from "./biomeChoices";
 import { biomeColor, coordinate, displayName } from "./mapMath";
 
 export type LayerControls = {
-  readonly biome: () => string;
-  readonly setBiome: (value: string) => void;
+  readonly highlightedBiomes: () => readonly string[];
+  readonly setHighlightedBiomes: (value: readonly string[]) => void;
   readonly biomes: () => boolean;
   readonly setBiomes: (value: boolean) => void;
   readonly elevation: () => boolean;
@@ -24,10 +25,22 @@ export function ScanReceipt(props: { readonly result: MinecraftMapData }) {
 
 export function MapAnalysis(props: { readonly explorer: MapExplorer; readonly layers: LayerControls }) {
   const [height, setHeight] = createSignal("");
-  const biomes = createMemo(() => [...new Set(props.explorer.area()?.cells.map(cell => cell.biome) ?? [])].sort());
+  const surveyedBiomes = createMemo(() => [...new Set(props.explorer.area()?.cells.map(cell => cell.biome) ?? [])].sort());
+  const choices = createMemo(() => biomeChoices(props.explorer.currentWorld()?.id));
   const heights = createMemo(() => props.explorer.area()?.cells.map(cell => cell.y) ?? []);
   const validHeight = () => height() === "" || (coordinate(height()) !== null && Number(height()) >= (props.explorer.currentWorld()?.min_y ?? -64) && Number(height()) <= (props.explorer.currentWorld()?.max_y ?? 319));
+  const toggleBiome = (biome: string, checked: boolean) => {
+    const selected = props.layers.highlightedBiomes();
+    props.layers.setHighlightedBiomes(checked ? [...selected, biome] : selected.filter(value => value !== biome));
+  };
   return <section class="minecraft-tool-panel" aria-labelledby="minecraft-survey-title">
+    <Show when={choices().length > 0}><details class="minecraft-biome-picker">
+      <summary>Highlight biomes<Show when={props.layers.highlightedBiomes().length > 0}> ({props.layers.highlightedBiomes().length})</Show></summary>
+      <div class="minecraft-biome-picker-list" role="group" aria-label="Biomes to highlight">
+        <For each={choices()}>{biome => <label><input type="checkbox" checked={props.layers.highlightedBiomes().includes(biome)} onChange={event => toggleBiome(biome, event.currentTarget.checked)} /><span class="minecraft-biome-swatch" aria-hidden="true" style={{ "background-color": biomeColor(biome) }} />{displayName(biome)}</label>}</For>
+      </div>
+      <Show when={props.layers.highlightedBiomes().length > 0}><button type="button" onClick={() => props.layers.setHighlightedBiomes([])}>Clear highlights</button></Show>
+    </details></Show>
     <h2 id="minecraft-survey-title">Survey the landscape</h2>
     <form onSubmit={event => { event.preventDefault(); props.explorer.scan(height() === "" ? null : coordinate(height())); }}>
       <label>Biome sampling height<input type="number" placeholder="Surface" value={height()} min={props.explorer.currentWorld()?.min_y} max={props.explorer.currentWorld()?.max_y} step="1" onInput={event => setHeight(event.currentTarget.value)} /></label>
@@ -42,8 +55,7 @@ export function MapAnalysis(props: { readonly explorer: MapExplorer; readonly la
     <Show when={props.explorer.area()}>{result => <>
       <ScanReceipt result={result()} />
       <small>Biome sample: {props.explorer.areaSlice() === null ? "surface" : `Y ${props.explorer.areaSlice()}`}</small>
-      <label>Highlight biome<select value={props.layers.biome()} onChange={event => props.layers.setBiome(event.currentTarget.value)}><option value="">All sampled biomes</option><For each={biomes()}>{biome => <option value={biome}>{displayName(biome)}</option>}</For></select></label>
-      <Show when={!props.layers.elevation()}><ul class="minecraft-biome-legend"><For each={biomes()}>{biome => <li><span aria-hidden="true" style={{ "background-color": biomeColor(biome) }} />{displayName(biome)}</li>}</For></ul></Show>
+      <Show when={!props.layers.elevation()}><ul class="minecraft-biome-legend"><For each={surveyedBiomes()}>{biome => <li><span aria-hidden="true" style={{ "background-color": biomeColor(biome) }} />{displayName(biome)}</li>}</For></ul></Show>
       <Show when={props.layers.elevation() && heights().length > 0}><div class="minecraft-height-legend"><span>Y {Math.min(...heights())}</span><span aria-hidden="true" /><span>Y {Math.max(...heights())}</span></div></Show>
       <h3>Structures ({result().structures.length})</h3>
       <ul class="minecraft-result-list"><For each={result().structures} fallback={<li>No structures returned for this survey.</li>}>{structure => <li><button class="minecraft-place-link" type="button" onClick={() => props.explorer.navigate({ x: Math.floor((structure.min_x + structure.max_x) / 2), z: Math.floor((structure.min_z + structure.max_z) / 2) })}>{displayName(structure.kind)}<small>{structure.min_x}, {structure.min_y}, {structure.min_z}</small></button></li>}</For></ul>

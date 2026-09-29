@@ -19,12 +19,13 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
     expect(fixture.queries.map(query => query.kind)).toEqual(["catalog"]);
     await page.getByRole("button", { name: "Survey selected area" }).click();
     await expect(page.getByText(/60 chunks read · 4 unavailable/)).toBeVisible();
-    await page.getByLabel("Highlight biome").selectOption("minecraft:forest");
-    await expect(page.getByLabel("Highlight biome")).toHaveValue("minecraft:forest");
+    await page.getByText("Highlight biomes", { exact: true }).click();
+    await page.getByRole("checkbox", { name: "forest", exact: true }).check();
+    await expect(page.getByRole("checkbox", { name: "forest", exact: true })).toBeChecked();
     await page.getByLabel("Surface elevation").check();
     await expect(page.locator(".minecraft-height-legend")).toBeVisible();
     await page.getByLabel("Surface elevation").uncheck();
-    await page.getByLabel("Highlight biome").selectOption("");
+    await page.getByRole("button", { name: "Clear highlights" }).click();
     await page.getByText(/60 chunks read · 4 unavailable/).scrollIntoViewIfNeeded();
     await page.screenshot({ path: `../target/minecraft-tests/explorer-${viewport.width}.png` });
     const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);

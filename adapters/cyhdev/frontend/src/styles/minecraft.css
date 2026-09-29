@@ -44,6 +44,14 @@
 .minecraft-layer-options { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 12px; border: 2px solid var(--mc-shadow); }
 .minecraft-layer-options legend { padding: 0 5px; font-weight: 700; }
 .minecraft-layer-options label { display: flex; align-items: center; gap: 9px; }
+.minecraft-biome-picker { border: 2px solid var(--mc-shadow); background: var(--mc-paper); }
+.minecraft-biome-picker summary { padding: 10px 12px; cursor: pointer; font-weight: 700; }
+.minecraft-biome-picker[open] summary { border-bottom: 1px solid var(--mc-shadow); }
+.minecraft-biome-picker-list { display: grid; gap: 3px; max-height: 240px; overflow-y: auto; padding: 8px; scrollbar-color: #827b69 #b6b1a4; }
+.minecraft-biome-picker-list label { display: flex; align-items: center; gap: 8px; min-height: 30px; padding: 2px 4px; cursor: pointer; }
+.minecraft-biome-picker-list label:hover { background: #d5cebc; }
+.minecraft-biome-swatch { flex: none; width: 13px; height: 13px; border: 1px solid var(--mc-edge); }
+.minecraft-atlas .minecraft-biome-picker > button { margin: 0 8px 8px; min-height: 30px; font-size: 10px; }
 .minecraft-selection-readout { position: absolute; z-index: 500; bottom: 12px; left: 12px; padding: 7px 10px; border: 1px solid #b8ac7955; color: #f5f0df; background: #151b16e6; pointer-events: none; }
 .minecraft-selection-readout > span { display: block; margin-bottom: 5px; font-size: 9px; letter-spacing: 1px; color: #4f493d; }
 .minecraft-selection-readout strong { display: block; font-size: 11px; }
@@ -102,6 +110,8 @@
 .minecraft-key-match { color: #68e4ef; }
 .minecraft-key-prediction { color: #d7ccb2; }
 .minecraft-atlas-canvas .leaflet-minecraft-seeds-pane { z-index: 190; pointer-events: none; }
+.minecraft-atlas-canvas .leaflet-minecraft-biome-highlights-pane { z-index: 410; pointer-events: none; }
+.minecraft-biome-highlight-tile { image-rendering: pixelated; pointer-events: none; }
 .minecraft-atlas-canvas .leaflet-minecraft-frontier-pane { z-index: 350; pointer-events: none; }
 .minecraft-atlas-canvas .minecraft-frontier-zooming { visibility: hidden; }
 .minecraft-seed-tile { image-rendering: pixelated; filter: saturate(0.55); }
@@ -150,7 +160,7 @@
   .minecraft-map-controls { top: 8px; right: 8px; left: 52px; gap: 5px; }
   .minecraft-map-controls button { margin-left: auto; min-height: 44px; padding: 6px; }
   .minecraft-refresh-status { top: 57px; left: 52px; max-width: calc(100% - 115px); font-size: 9px; }
-  .minecraft-inspection { left: 8px; max-width: calc(100% - 16px); max-height: calc(100% - 84px); padding: 5px 8px; font-size: 9px; line-height: 1.5; }
+  .minecraft-inspection { left: 8px; bottom: calc(var(--mc-readout-space) + 60px); max-width: calc(100% - 16px); max-height: calc(100% - 144px); padding: 5px 8px; font-size: 9px; line-height: 1.5; }
   .minecraft-inspection > strong { font-size: 10px; }
   .minecraft-inspection-id { display: none; }
   .minecraft-map-key { bottom: calc(var(--mc-readout-space) + 52px); right: 8px; gap: 8px; padding: 5px 7px; font-size: 8px; }

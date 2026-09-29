@@ -350,7 +350,7 @@
     {
       "path": "frontend/e2e/minecraft-explorer.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-explorer.spec.ts",
-      "sha256": "146e1cdab6f6bb700ec5657914e797330d640089bd677f1295d8cdb3fc2247de"
+      "sha256": "4b2da6784985fc1af0115a00213ac56e79ccda81285e1a612c3a2dd93d07bb52"
     },
     {
       "path": "frontend/e2e/minecraft-fixtures.ts",
@@ -480,12 +480,12 @@
     {
       "path": "frontend/src/components/minecraft/MapAnalysis.tsx",
       "source": "solid-csr-spa-template/src/components/minecraft/MapAnalysis.tsx",
-      "sha256": "35369491196729c331dc8703602e160b648a770726536426e0f1f890eb9a8c5e"
+      "sha256": "ab594ab0762d44002b082b884b2024acfcf200d31fe7130d0d87fadba3c30a6e"
     },
     {
       "path": "frontend/src/components/minecraft/MapCanvas.tsx",
       "source": "solid-csr-spa-template/src/components/minecraft/MapCanvas.tsx",
-      "sha256": "9277af695d92c2868038e99b8d6b74f18a2780f5595b2e221f4ecc01084a9562"
+      "sha256": "e9ac2f690256f75e6148225d749fc3fc2af6c20ae7b355f61c51a0d779c99cbe"
     },
     {
       "path": "frontend/src/components/minecraft/mapControls.ts",
@@ -535,7 +535,7 @@
     {
       "path": "frontend/src/components/minecraft/seedTileLayer.ts",
       "source": "solid-csr-spa-template/src/components/minecraft/seedTileLayer.ts",
-      "sha256": "3c56a8ea522c7f153809238bd9ce56260bbbfb3b36d46f2e1bcad6b4df862eb5"
+      "sha256": "22c1d4e0d2653c7717dac1c721851b9044298a6f6b9ec14561d9fcca254e8ebc"
     },
     {
       "path": "frontend/src/components/minecraft/seedTilePng.ts",
@@ -675,7 +675,7 @@
     {
       "path": "frontend/src/pages/minecraft.tsx",
       "source": "solid-csr-spa-template/src/pages/minecraft.tsx",
-      "sha256": "c098e5f5d60687b5d4e625e68ff4396f5cd4f68429481ea88488883efadcd4fa"
+      "sha256": "d1f58a7644b623a6f612d22df72bc403283faa4cf39ffc9b30f7043718f55143"
     },
     {
       "path": "frontend/src/services/minecraft_seed_tile.ts",
@@ -695,12 +695,27 @@
     {
       "path": "frontend/src/styles/minecraft.css",
       "source": "solid-csr-spa-template/src/styles/minecraft.css",
-      "sha256": "a75cd55f85cfcddeb5a9798b5fea4eedf53e37e2f8500b6febb052c4e8a2ec35"
+      "sha256": "b678da9cc9608ae4bcb5bf0ebd376a060bd976fef51c7b3124b1eaefaf25df1a"
     },
     {
       "path": "frontend/e2e/minecraft-surface.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-surface.spec.ts",
       "sha256": "e07b5ec166898ce3b949163773d94bfbb02d490dd5c3b9df9f488859f5970b93"
+    },
+    {
+      "path": "frontend/e2e/minecraft-biome-highlights.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-biome-highlights.spec.ts",
+      "sha256": "6c4842f87289cc13cd420366c54a570f7ae54dacf1480fc5be3dddb984d64528"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_biome_choices.test.ts",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_biome_choices.test.ts",
+      "sha256": "03ea24c70889b0a725b0cb7c02a5f52fec09d2489e451804446c2bf459282bda"
+    },
+    {
+      "path": "frontend/src/components/minecraft/biomeChoices.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/biomeChoices.ts",
+      "sha256": "20aa5cb39ad3c59337bd374122aa988bc74c28b578c74d0c28c6af0f85001e0a"
     }
   ],
   "extracted": [
@@ -711,7 +726,7 @@
       "sha256": "ec95d1ca4c8af27b1c1648befe672543e5bc8c0b493e52ff8d79b8fabdbf7386"
     }
   ],
-  "sourceCommit": "555a948391b4b28ffc1f89ee5940d0e117a28e21",
+  "sourceCommit": "88a332c8495e31831195650a416e37f4eaef74cc",
   "documentation": [
     {
       "path": "docs/architecture/be/minecraft-explorer.md",
@@ -730,8 +745,8 @@
     {
       "path": "docs/design/fe/minecraft.md",
       "source": "docs/design/fe/minecraft.md",
-      "source_sha256": "f301809ccbb6992048513268c348dd650367eec943c4a7152f1257b9f6f65d80",
-      "sha256": "3d23b26b5f9509dc35556073489f0e21f4fc7c3f556ad5c53479761f7b9e96a8",
+      "source_sha256": "d375fb483fa42a0ca770128d81a861d92b1cef70a4f78017e46f581bae4ae1ef",
+      "sha256": "34483d75adc9c230f8615302cd37cbc98b6ee6409065394ba7e53c3d25ee51f0",
       "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
     }
   ]

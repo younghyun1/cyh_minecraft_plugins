@@ -16,7 +16,7 @@ Solid, its signals/web runtimes, and its compiler are pinned to the coordinated 
 | `MapInspection`, `createMapInspection`, `createMapQueryGate` | Supply authorized observed-world reads and lifecycle cleanup; render the inspection value where appropriate. |
 | `createSeedTiles`, `createSeedTileReader`, `createSeedTilePngReader` | Supply the fetch transport and binary or PNG endpoint, configure dimension/surface-or-Y/visibility, and dispose the store when leaving the map. |
 | `createSquaremapClient` | Supply a transport and the base URL for public squaremap JSON. |
-| `createSeedTileLayer`, `createTerrainBoundary` | Integrate with an existing Leaflet map when not using `MapCanvas`. |
+| `createSeedTileLayer`, `createBiomeHighlightLayer`, `createTerrainBoundary`, `biomeChoices` | Integrate prediction tiles, transparent selected-biome highlights and the pinned dimension list with an existing Leaflet map when not using `MapCanvas`. |
 | `decodeSeedTileBinary`, `decodeSeedTilePng`, `decodeSeedTile`, geometry helpers and generated contracts | Reuse framing, validation, colors, bounds, and typed data without adopting the page controller. |
 
 The transport signature is `ApiTransport = (path: string, init: RequestInit) => Promise<Response>`. Authentication, origin selection, credential policy, and session redirects belong in that function. The package performs no global session mutation and has no hardcoded production origin. Metadata requests preserve the source public squaremap policy (`credentials: "omit"`); an authenticated deployment can override that in its supplied transport.

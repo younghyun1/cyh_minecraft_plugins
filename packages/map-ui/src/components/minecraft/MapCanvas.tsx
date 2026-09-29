@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import type { MinecraftMapData, MinecraftWaypoint } from "../../contracts";
 import type { SquaremapPlayer, SquaremapSettings } from "../../services/squaremap";
 import { biomeColor, displayName, elevationColor, selectionRegion, WORLD_LIMIT, type scanOrigin, type MapPoint } from "./mapMath";
-import { createSeedTileLayer, createTerrainBoundary, minimumMapZoom } from "./seedTileLayer";
+import { createBiomeHighlightLayer, createSeedTileLayer, createTerrainBoundary, minimumMapZoom } from "./seedTileLayer";
 import { type SeedTiles } from "./seedTiles";
 import { createTerrainRefresh, type TerrainRefreshState } from "./terrainRefresh";
 import { createMapControls } from "./mapControls";
@@ -36,7 +36,7 @@ export type MapCanvasProps = {
   readonly matchRegion: ReturnType<typeof scanOrigin> | null;
   readonly waypoints: readonly MinecraftWaypoint[];
   readonly players: readonly SquaremapPlayer[];
-  readonly biome: string;
+  readonly highlightedBiomes: readonly string[];
   readonly biomeLayer: boolean;
   readonly elevation: boolean;
   readonly structures: boolean;
@@ -67,12 +67,14 @@ export default function MapCanvas(props: MapCanvasProps) {
   let observer: ResizeObserver | undefined;
   let refreshTimer: number | undefined;
   let seedLayer: ReturnType<typeof createSeedTileLayer> | undefined;
+  let biomeHighlightLayer: ReturnType<typeof createBiomeHighlightLayer> | undefined;
+  let highlightedWorld: string | undefined, highlightedY: number | null | undefined;
   let boundary: ReturnType<typeof createTerrainBoundary> | undefined;
   let terrainRefresh: ReturnType<typeof createTerrainRefresh> | undefined;
   let removeControls: (() => void) | undefined;
   let dragStart: MapPoint | null = null, dragEnd: MapPoint | null = null, dragPointer: number | null = null, suppressClickUntil = 0;
   const [ready, setReady] = createSignal(false);
-  const sampled = L.layerGroup(), markers = L.layerGroup(), playersLayer = L.layerGroup(), selection = L.layerGroup(), grid = L.layerGroup();
+  const sampled = L.layerGroup(), observedHighlights = L.layerGroup(), markers = L.layerGroup(), playersLayer = L.layerGroup(), selection = L.layerGroup(), grid = L.layerGroup();
   const waypointRenderer = L.svg({ pane: "minecraft-waypoints" });
   const dragged = L.layerGroup();
   // The parent keys this component by its loaded world, so projection settings are immutable here.
@@ -149,12 +151,13 @@ export default function MapCanvas(props: MapCanvasProps) {
     terrainRefresh = createTerrainRefresh({ loading: () => tiles?.isLoading() ?? false, reload: nonce => { tiles?.setUrl(assets.terrainTileUrl(worldMapId, nonce)); }, report: state => untrack(() => props.onRefreshState(state)) });
     tiles.on("load", terrainRefresh.loaded).on("tileerror", terrainRefresh.failed).addTo(map);
     map.createPane("minecraft-seeds");
+    map.createPane("minecraft-biome-highlights");
     map.createPane("minecraft-frontier");
     map.createPane("minecraft-player-nameplates");
     map.createPane("minecraft-waypoints");
     boundary = createTerrainBoundary(map, tiles, settings.maxZoom, point => untrack(() => props.seedWorld ? props.seedTiles.sample(props.seedWorld, point, props.predictionY) !== null : false), () => untrack(props.onInspectionRefresh));
     untrack(() => props.onRenderedLookup(point => boundary?.rendered(point) ?? false));
-    sampled.addTo(map); grid.addTo(map); markers.addTo(map); playersLayer.addTo(map); selection.addTo(map); dragged.addTo(map);
+    sampled.addTo(map); observedHighlights.addTo(map); grid.addTo(map); markers.addTo(map); playersLayer.addTo(map); selection.addTo(map); dragged.addTo(map);
     map.on("click", (event: L.LeafletMouseEvent) => untrack(() => {
       if (props.selecting || Date.now() < suppressClickUntil) return;
       const point = eventPoint(event.originalEvent);
@@ -179,7 +182,7 @@ export default function MapCanvas(props: MapCanvasProps) {
     }, 30_000);
     setReady(true);
   });
-  onCleanup(() => { removeControls?.(); window.clearInterval(refreshTimer); terrainRefresh?.dispose(); seedLayer?.dispose(); boundary?.dispose(); element?.removeEventListener("mousemove", inspectCursor); element?.removeEventListener("mouseleave", clearInspection); element?.removeEventListener("pointerdown", beginSelection); element?.removeEventListener("pointermove", moveSelection); element?.removeEventListener("pointerup", endSelection); element?.removeEventListener("pointercancel", cancelSelection); observer?.disconnect(); map?.remove(); map = undefined; });
+  onCleanup(() => { removeControls?.(); window.clearInterval(refreshTimer); terrainRefresh?.dispose(); seedLayer?.dispose(); biomeHighlightLayer?.dispose(); boundary?.dispose(); element?.removeEventListener("mousemove", inspectCursor); element?.removeEventListener("mouseleave", clearInspection); element?.removeEventListener("pointerdown", beginSelection); element?.removeEventListener("pointermove", moveSelection); element?.removeEventListener("pointerup", endSelection); element?.removeEventListener("pointercancel", cancelSelection); observer?.disconnect(); map?.remove(); map = undefined; });
 
   createEffect(() => [ready(), props.selecting, props.region] as const, ([mounted, selecting, region]) => {
     if (!mounted || !map) return;
@@ -202,17 +205,32 @@ export default function MapCanvas(props: MapCanvasProps) {
     seedLayer = createSeedTileLayer({ map, maxZoom: settings.maxZoom, store: untrack(() => props.seedTiles), world, y, changed: () => boundary?.refresh() });
     seedLayer.layer.addTo(map);
   });
-  createEffect(() => [ready(), props.area, props.biome, props.biomeLayer, props.elevation] as const, ([mounted, area, biome, showBiomes, elevation]) => {
+  createEffect(() => [ready(), props.seedWorld, props.predictionsEnabled, props.predictionY, props.highlightedBiomes] as const, ([mounted, world, enabled, y, selected]) => {
+    if (!mounted || !map || !world || !enabled || selected.length === 0) {
+      biomeHighlightLayer?.dispose(); biomeHighlightLayer = undefined; highlightedWorld = undefined; highlightedY = undefined;
+      return;
+    }
+    if (biomeHighlightLayer && (highlightedWorld !== world || highlightedY !== y)) { biomeHighlightLayer.dispose(); biomeHighlightLayer = undefined; }
+    if (!biomeHighlightLayer) {
+      biomeHighlightLayer = createBiomeHighlightLayer({ map, maxZoom: settings.maxZoom, store: untrack(() => props.seedTiles), world, y }, selected);
+      highlightedWorld = world; highlightedY = y;
+      biomeHighlightLayer.layer.addTo(map);
+    } else biomeHighlightLayer.setBiomes(selected);
+  });
+  createEffect(() => [ready(), props.area, props.highlightedBiomes, props.biomeLayer, props.elevation] as const, ([mounted, area, selected, showBiomes, elevation]) => {
     if (!mounted) return;
-    sampled.clearLayers();
-    if (!area || (!showBiomes && !elevation)) return;
+    sampled.clearLayers(); observedHighlights.clearLayers();
+    if (!area || (!showBiomes && !elevation && selected.length === 0)) return;
+    const highlighted = new Set(selected);
     const heights = area.cells.map(cell => cell.y);
     const min = Math.min(...heights), max = Math.max(...heights);
     for (const cell of area.cells) {
-      const selected = !biome || cell.biome === biome;
-      const color = elevation ? elevationColor(cell.y, min, max) : biomeColor(cell.biome);
-      L.rectangle(bounds(cell.x, cell.z, cell.x + 4, cell.z + 4), { stroke: false, fillColor: selected ? color : "#111111", fillOpacity: selected ? 0.65 : 0.75 })
-        .bindTooltip(label(`${displayName(cell.biome)} · surface Y ${cell.y} · ${cell.x}, ${cell.z}`)).addTo(sampled);
+      if (showBiomes || elevation) {
+        const color = elevation ? elevationColor(cell.y, min, max) : biomeColor(cell.biome);
+        L.rectangle(bounds(cell.x, cell.z, cell.x + 4, cell.z + 4), { stroke: false, fillColor: color, fillOpacity: 0.65 })
+          .bindTooltip(label(`${displayName(cell.biome)} · surface Y ${cell.y} · ${cell.x}, ${cell.z}`)).addTo(sampled);
+      }
+      if (highlighted.has(cell.biome)) L.rectangle(bounds(cell.x, cell.z, cell.x + 4, cell.z + 4), { pane: "minecraft-biome-highlights", stroke: false, fillColor: "#ffe860", fillOpacity: 0.42, interactive: false }).addTo(observedHighlights);
     }
   });
   createEffect(() => [ready(), props.area, props.matches, props.waypoints, props.structures] as const, ([mounted, area, matches, waypoints, structures]) => {
