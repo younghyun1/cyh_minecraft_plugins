@@ -46,6 +46,9 @@ for (const width of [1440, 390]) {
         return map && marker ? Math.hypot(marker.x + marker.width / 2 - map.x - map.width / 2, marker.y + marker.height / 2 - map.y - map.height / 2) : Infinity;
       }).toBeLessThan(2);
       await expect(page.locator(".minecraft-map-scale")).toHaveCount(1);
+      const zoomControl = await page.locator(".leaflet-control-zoom").boundingBox();
+      const dimensionControl = await page.locator(".minecraft-world-picker").boundingBox();
+      expect(Math.abs((zoomControl?.y ?? Infinity) - (dimensionControl?.y ?? -Infinity))).toBeLessThan(1);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     expect(errors).toEqual([]);
@@ -54,26 +57,33 @@ for (const width of [1440, 390]) {
 }
 
 for (const maxZoom of [3, 5]) {
-  test(`kilometre scale matches block distances and resize with native zoom ${maxZoom}`, async ({ page }) => {
+  test(`centered metre and kilometre scale matches block distances and resize with native zoom ${maxZoom}`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await setup(page, maxZoom);
     const scale = page.locator(".minecraft-map-scale-line");
-    const label = page.locator(".minecraft-map-scale-label");
+    const labels = page.locator(".minecraft-map-scale-label");
+    const label = labels.last();
     const verify = async (zoom: number) => {
-      await expect(label).toHaveText(/^\d+(?:\.\d+)? km$/);
-      const kilometres = Number.parseFloat(await label.innerText());
+      await expect(label).toHaveText(/^\d+(?:\.\d+)? (?:m|km)$/);
+      const distance = await label.innerText();
+      const metres = Number.parseFloat(distance) * (distance.endsWith("km") ? 1000 : 1);
       const box = await scale.boundingBox();
+      const map = await page.locator(".minecraft-atlas-canvas").boundingBox();
       expect(box).not.toBeNull();
+      expect(Math.abs((box?.x ?? Infinity) + (box?.width ?? 0) / 2 - (map?.x ?? 0) - (map?.width ?? 0) / 2)).toBeLessThan(1);
+      expect((map?.y ?? 0) + (map?.height ?? 0) - (box?.y ?? 0) - (box?.height ?? 0)).toBeLessThan(60);
       // The line's full CSS width represents the printed physical distance.
-      expect(Math.abs((box?.width ?? 0) * 2 ** (maxZoom - zoom) - kilometres * 1000)).toBeLessThan(2 ** (maxZoom - zoom) + 0.01);
+      expect(Math.abs((box?.width ?? 0) * 2 ** (maxZoom - zoom) - metres)).toBeLessThan(2 ** (maxZoom - zoom) + 0.01);
+      await expect(page.locator(".minecraft-map-scale-mark")).toHaveCount(5);
+      await expect(labels).toHaveCount(5);
     };
     for (const zoom of [maxZoom, maxZoom + 2, maxZoom - 1, -2, maxZoom]) {
       await zoomTo(page, zoom);
       await verify(zoom);
     }
-    await expect(label).toHaveText("0.1 km");
+    await expect(label).toHaveText("500 m");
     await page.setViewportSize({ width: 320, height: 700 });
-    await expect(label).toHaveText("0.05 km");
+    await expect(label).toHaveText("200 m");
     await verify(maxZoom);
     await expect(scale).toBeInViewport();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);

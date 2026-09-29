@@ -370,7 +370,7 @@
     {
       "path": "frontend/e2e/minecraft-navigation.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-navigation.spec.ts",
-      "sha256": "d08c1c7fac87438b001d2ad6a7deccb881c59aaf8ea75a84542021f1677aa5dc"
+      "sha256": "1243056a74cb197d97da2e706a0e096557378c5f324ecd50f2df325d6b2e81bd"
     },
     {
       "path": "frontend/e2e/minecraft-prediction.spec.ts",
@@ -440,7 +440,7 @@
     {
       "path": "frontend/src/__tests__/minecraft_map_controls.test.ts",
       "source": "solid-csr-spa-template/src/__tests__/minecraft_map_controls.test.ts",
-      "sha256": "8bf3a7cddce19547bf7bea9d8ad8fa135113115c7e7aecfe4742ef46861caf9c"
+      "sha256": "329219d212ab6116109d7768015669ed1ddedad4d3b6e82b0841506fc8383b87"
     },
     {
       "path": "frontend/src/__tests__/minecraft_metadata.test.ts",
@@ -490,7 +490,7 @@
     {
       "path": "frontend/src/components/minecraft/mapControls.ts",
       "source": "solid-csr-spa-template/src/components/minecraft/mapControls.ts",
-      "sha256": "5f66c4645ed9f95ddc186ad249095b7ab9e53b5e4c0b1cf44032dff582cf7342"
+      "sha256": "3b8d3ba69e848cbd6c085d90fbaca8e9709561297d283e1f5a83c429ee6a557b"
     },
     {
       "path": "frontend/src/components/minecraft/MapInspection.tsx",
@@ -695,7 +695,7 @@
     {
       "path": "frontend/src/styles/minecraft.css",
       "source": "solid-csr-spa-template/src/styles/minecraft.css",
-      "sha256": "01793e8206378358292df435d836f47baee306ce7f9b67607269139b4644f7a3"
+      "sha256": "a75cd55f85cfcddeb5a9798b5fea4eedf53e37e2f8500b6febb052c4e8a2ec35"
     },
     {
       "path": "frontend/e2e/minecraft-surface.spec.ts",
@@ -711,7 +711,7 @@
       "sha256": "ec95d1ca4c8af27b1c1648befe672543e5bc8c0b493e52ff8d79b8fabdbf7386"
     }
   ],
-  "sourceCommit": "e95b5a08f11639f09c8636def11ddc62c351e851",
+  "sourceCommit": "555a948391b4b28ffc1f89ee5940d0e117a28e21",
   "documentation": [
     {
       "path": "docs/architecture/be/minecraft-explorer.md",
@@ -730,8 +730,8 @@
     {
       "path": "docs/design/fe/minecraft.md",
       "source": "docs/design/fe/minecraft.md",
-      "source_sha256": "79a1f72ff39dd0f9730322d46776866abeaf21ba2c1e6b750050facdcf0b73ba",
-      "sha256": "72e5c27769858f4993fce84de693128d84a31524c13df1ca7c781066a7ce9227",
+      "source_sha256": "f301809ccbb6992048513268c348dd650367eec943c4a7152f1257b9f6f65d80",
+      "sha256": "3d23b26b5f9509dc35556073489f0e21f4fc7c3f556ad5c53479761f7b9e96a8",
       "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
     }
   ]

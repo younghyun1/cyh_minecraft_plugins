@@ -61,9 +61,19 @@
 .minecraft-atlas-canvas .leaflet-control-zoom a { background: var(--mc-panel); color: var(--mc-ink); border-radius: 0 !important; text-decoration: none; }
 .minecraft-atlas-canvas .minecraft-home-control { border: 2px solid #15160e; border-radius: 0; box-shadow: none; }
 .minecraft-atlas-canvas .minecraft-map-home { display: block; width: 30px; height: 30px; min-height: 30px; padding: 0; border: 0; font-size: 22px; line-height: 30px; box-shadow: none; }
-.minecraft-atlas-canvas .minecraft-map-scale { color: #f5f0df; font-family: monospace; font-size: 10px; line-height: 16px; pointer-events: none; }
-.minecraft-map-scale-label { display: block; width: max-content; padding: 0 3px; background: #151b16d9; white-space: nowrap; text-shadow: 0 1px #151b16; font-variant-numeric: tabular-nums; }
-.minecraft-map-scale-line { box-sizing: border-box; height: 7px; border: 2px solid #f5f0df; border-top: 0; background: #151b16d9; }
+.minecraft-atlas-canvas .leaflet-top.leaflet-left { top: 12px; left: 12px; }
+.minecraft-atlas-canvas .leaflet-top.leaflet-left .leaflet-control { margin: 0 0 10px; }
+.minecraft-atlas-canvas .leaflet-bottom.leaflet-left { bottom: 14px; left: 50%; transform: translateX(-50%); }
+.minecraft-atlas-canvas .leaflet-bottom.leaflet-left .leaflet-control { margin: 0; }
+.minecraft-atlas-canvas .minecraft-map-scale { box-sizing: content-box; width: max-content; padding: 9px 14px 7px; border: 1px solid #b8ac7955; color: #f5f0df; background: #151b16e6; font-family: monospace; font-size: 10px; line-height: 14px; pointer-events: none; font-variant-numeric: tabular-nums; text-shadow: 0 1px #151b16; }
+.minecraft-map-scale-line { position: relative; box-sizing: border-box; height: 13px; border-bottom: 2px solid #f5f0df; }
+.minecraft-map-scale-mark { position: absolute; bottom: -2px; height: 7px; border-left: 2px solid #f5f0df; }
+.minecraft-map-scale-mark:first-child, .minecraft-map-scale-mark:last-child { height: 12px; }
+.minecraft-map-scale-mark:nth-child(3) { height: 9px; }
+.minecraft-map-scale-labels { position: relative; height: 15px; margin-top: 3px; }
+.minecraft-map-scale-label { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+.minecraft-map-scale-label:first-child { transform: none; }
+.minecraft-map-scale-label:last-child { transform: translateX(-100%); }
 .minecraft-map-controls { position: absolute; z-index: 500; left: 60px; top: 12px; right: 12px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; pointer-events: none; }
 .minecraft-map-controls > * { pointer-events: auto; }
 .minecraft-map-controls button { font-size: 10px; }
@@ -117,6 +127,10 @@
 .minecraft-distance, .minecraft-portal-coordinate { font-size: 18px; font-weight: 700; }
 
 @media (max-width: 767px) {
+  .minecraft-atlas-canvas .leaflet-top.leaflet-left { top: 8px; left: 8px; }
+  .minecraft-atlas-canvas .leaflet-bottom.leaflet-left { bottom: 10px; }
+  .minecraft-atlas-canvas .minecraft-map-scale { padding: 7px 10px 5px; font-size: 9px; }
+  .minecraft-map-scale-label:nth-child(even) { display: none; }
   .minecraft-atlas-stage { --mc-readout-space: 36px; }
   .minecraft-atlas-stage:has(.minecraft-selection-readout small) { --mc-readout-space: 54px; }
   .minecraft-atlas-stage:has(.minecraft-selection-readout small + small) { --mc-readout-space: 72px; }
@@ -127,7 +141,7 @@
   .minecraft-tool-tabs button { min-height: 44px; width: 44px; }
   .minecraft-map-menu { top: 62px; right: 59px; max-width: calc(100% - 67px); max-height: calc(100% - 110px); }
   .minecraft-tool-scroll { max-height: calc(100dvh - var(--site-header-height, 0px) - var(--site-footer-height, 0px) - 114px); padding: 38px 10px 10px; }
-  .minecraft-selection-readout { left: 8px; bottom: 8px; padding: 5px 7px; }
+  .minecraft-selection-readout { left: 8px; bottom: 60px; padding: 5px 7px; }
   .minecraft-selection-readout > span { display: none; }
   .minecraft-selection-readout strong { font-size: 9px; }
   .minecraft-selection-readout small { margin: 0; }
@@ -139,7 +153,7 @@
   .minecraft-inspection { left: 8px; max-width: calc(100% - 16px); max-height: calc(100% - 84px); padding: 5px 8px; font-size: 9px; line-height: 1.5; }
   .minecraft-inspection > strong { font-size: 10px; }
   .minecraft-inspection-id { display: none; }
-  .minecraft-map-key { bottom: var(--mc-readout-space); right: 8px; gap: 8px; padding: 5px 7px; font-size: 8px; }
+  .minecraft-map-key { bottom: calc(var(--mc-readout-space) + 52px); right: 8px; gap: 8px; padding: 5px 7px; font-size: 8px; }
   .minecraft-player-warning { bottom: 35px; right: 8px; max-width: calc(100% - 16px); }
 }
 

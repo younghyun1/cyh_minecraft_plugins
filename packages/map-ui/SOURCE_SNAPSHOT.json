@@ -45,7 +45,7 @@
     },
     {
       "path": "src/styles/minecraft.css",
-      "sha256": "01793e8206378358292df435d836f47baee306ce7f9b67607269139b4644f7a3"
+      "sha256": "a75cd55f85cfcddeb5a9798b5fea4eedf53e37e2f8500b6febb052c4e8a2ec35"
     },
     {
       "path": "src/__tests__/minecraft_seed_tiles.test.ts",
@@ -145,12 +145,12 @@
     },
     {
       "path": "src/__tests__/minecraft_map_controls.test.ts",
-      "sha256": "8bf3a7cddce19547bf7bea9d8ad8fa135113115c7e7aecfe4742ef46861caf9c"
+      "sha256": "329219d212ab6116109d7768015669ed1ddedad4d3b6e82b0841506fc8383b87"
     },
     {
       "path": "src/components/minecraft/mapControls.ts",
-      "sha256": "5f66c4645ed9f95ddc186ad249095b7ab9e53b5e4c0b1cf44032dff582cf7342"
+      "sha256": "3b8d3ba69e848cbd6c085d90fbaca8e9709561297d283e1f5a83c429ee6a557b"
     }
   ],
-  "sourceCommit": "e95b5a08f11639f09c8636def11ddc62c351e851"
+  "sourceCommit": "555a948391b4b28ffc1f89ee5940d0e117a28e21"
 }
