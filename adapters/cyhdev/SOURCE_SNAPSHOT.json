@@ -375,7 +375,7 @@
     {
       "path": "frontend/e2e/minecraft-prediction.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-prediction.spec.ts",
-      "sha256": "dcfa974e6c9452266731880afe9b5c80bd61c664f42b948d5557dcb3f48075f1"
+      "sha256": "4980b311018e9e929041d7072cdac9b7d8ba8de890de448d95208fb7a408c050"
     },
     {
       "path": "frontend/e2e/minecraft-seed-benchmark.spec.ts",
@@ -726,7 +726,7 @@
       "sha256": "ec95d1ca4c8af27b1c1648befe672543e5bc8c0b493e52ff8d79b8fabdbf7386"
     }
   ],
-  "sourceCommit": "11189aa95a074a9f64e149dbb64432614e210609",
+  "sourceCommit": "8806665a669e751aafc8eac6e4b08ec3697033b8",
   "documentation": [
     {
       "path": "docs/architecture/be/minecraft-explorer.md",

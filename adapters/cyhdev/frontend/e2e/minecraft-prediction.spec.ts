@@ -53,12 +53,16 @@ test("browser zoom sized viewport keeps predicted tiles covered after resize", a
   await page.goto("/minecraft");
   await expect(page.locator('.minecraft-seed-tile[data-ready="true"]').first()).toBeVisible();
   await page.setViewportSize({ width: 7200, height: 4050 });
+  for (let zoom = 3; zoom >= 0; --zoom) {
+    await page.getByRole("button", { name: "Zoom out" }).click();
+    await expect(page.locator(".minecraft-atlas-canvas")).toHaveAttribute("data-zoom", String(zoom));
+  }
   const tiles = page.locator(".minecraft-seed-tile");
   await expect.poll(async () => tiles.first().evaluate(node => (node as HTMLElement).style.width)).toBe("1024px");
   await expect.poll(async () => tiles.count()).toBeGreaterThan(20);
   expect(await tiles.count()).toBeLessThan(96);
   await expect.poll(async () => page.locator('.minecraft-seed-tile[data-ready="true"]').count(), { timeout: 15_000 }).toBe(await tiles.count());
-  expect(fixture.predictions.some(query => query.level >= 1)).toBe(true);
+  expect(fixture.predictions.some(query => query.level === 5)).toBe(true);
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect.poll(async () => tiles.first().evaluate(node => (node as HTMLElement).style.width)).toBe("256px");
 });
