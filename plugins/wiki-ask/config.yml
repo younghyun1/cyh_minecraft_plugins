@@ -1,6 +1,7 @@
 # Absolute paths supplied by the server operator. Blank paths disable the plugin.
 bridge-binary: ''
 wiki-index: ''
+wiki-corpus: ''
 codex-binary: ''
 codex-home: ''
 work-directory: ''

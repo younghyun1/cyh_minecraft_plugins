@@ -24,6 +24,13 @@ enum Command {
         #[arg(long)]
         index: PathBuf,
     },
+    /// Measure complete wiki text, archive, and index sizes without inference.
+    Stats {
+        #[arg(long)]
+        corpus: PathBuf,
+        #[arg(long)]
+        index: PathBuf,
+    },
     /// Run one local lookup; no Codex process or network access.
     Search {
         #[arg(long)]
@@ -35,6 +42,8 @@ enum Command {
     },
     /// Serve sequential private chat requests on stdin/stdout.
     Serve {
+        #[arg(long)]
+        corpus: PathBuf,
         #[arg(long)]
         index: PathBuf,
         #[arg(long)]
@@ -52,6 +61,7 @@ impl Cli {
         match self.command {
             Command::Download { corpus } => crate::download::download(&corpus),
             Command::Index { corpus, index } => crate::index::build(&corpus, &index),
+            Command::Stats { corpus, index } => crate::corpus::stats(&corpus, &index),
             Command::Search {
                 index,
                 question,
@@ -76,17 +86,31 @@ impl Cli {
                 Ok(())
             }
             Command::Serve {
+                corpus,
                 index,
                 codex,
                 codex_home,
                 work_dir,
             } => {
                 let search = Search::open(&index)?;
+                search.verify_corpus(&corpus)?;
+                let pages = crate::memory::Pages::load(&corpus)?;
+                tracing::info!(
+                    pages = pages.pages.len(),
+                    text_bytes = pages.text_bytes,
+                    "Wiki loaded into RAM"
+                );
                 tokio::runtime::Builder::new_multi_thread()
                     .worker_threads(2)
                     .enable_all()
                     .build()?
-                    .block_on(crate::bridge::serve(search, &codex, &codex_home, &work_dir))
+                    .block_on(crate::bridge::serve(
+                        search,
+                        pages,
+                        &codex,
+                        &codex_home,
+                        &work_dir,
+                    ))
             }
         }
     }

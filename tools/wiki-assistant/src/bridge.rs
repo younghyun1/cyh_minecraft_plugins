@@ -1,10 +1,12 @@
 //! One in-flight request with bounded shared conversation state per Minecraft world.
 use crate::{
     error::{Error, Result},
+    memory::Pages,
     protocol,
     retrieval::Search,
     rpc::Codex,
     sessions::{self, Sessions},
+    wiki_tools::Lookup,
 };
 use serde::Deserialize;
 use serde_json::json;
@@ -26,7 +28,13 @@ struct Request {
 }
 
 /// Serve line-delimited requests from the Paper child-process pipe only.
-pub async fn serve(search: Search, binary: &Path, home: &Path, cwd: &Path) -> Result<()> {
+pub async fn serve(
+    search: Search,
+    pages: Pages,
+    binary: &Path,
+    home: &Path,
+    cwd: &Path,
+) -> Result<()> {
     let mut input = BufReader::new(tokio::io::stdin());
     let mut output = tokio::io::stdout();
     let mut codex = tokio::time::timeout(Duration::from_secs(20), Codex::start(binary, home, cwd))
@@ -73,9 +81,15 @@ pub async fn serve(search: Search, binary: &Path, home: &Path, cwd: &Path) -> Re
         let prompt = serde_json::to_string(
             &json!({"world":{"uuid":request.world_uuid,"name":request.world_name},"sender":{"uuid":request.player_uuid,"username":request.username},"question":request.question,"wiki_passages":results.hits}),
         )?;
+        let mut lookup = Lookup {
+            search: &search,
+            pages: &pages,
+            calls: 0,
+            sources: Vec::new(),
+        };
         let answer = match tokio::time::timeout(
             Duration::from_secs(15),
-            codex.answer(&session.thread, prompt),
+            crate::turn::run(&mut codex, &session.thread, prompt, Some(&mut lookup)),
         )
         .await
         {
@@ -85,8 +99,14 @@ pub async fn serve(search: Search, binary: &Path, home: &Path, cwd: &Path) -> Re
         let failed = answer.is_err();
         session.previous_question = request.question;
         let response = match answer {
-            Ok(text) => {
-                json!({"id":request.id,"answer":text,"sources":results.hits.iter().map(|hit| &hit.url).take(2).collect::<Vec<_>>(),
+            Ok(mut answer) => {
+                for hit in &results.hits {
+                    if !answer.sources.contains(&hit.url) {
+                        answer.sources.push(hit.url.clone());
+                    }
+                }
+                answer.sources.truncate(8);
+                json!({"id":request.id,"answer":answer.text,"sources":answer.sources,"tool_calls":answer.tool_calls,
                 "retrieval_micros":results.retrieval_micros,"elapsed_ms":started.elapsed().as_millis()})
             }
             Err(error) => {

@@ -6,3 +6,5 @@ These receipts use synthetic seed 1 and contain no live world data or private pa
 - `browser-benchmark.json` contains 72 Chromium runs across four presets, three repetitions, three transports and two network settings. The corpus field uses a portable synthetic identifier. The measurements exclude backend sampling and encoding; they compare the production browser renderer, decoder and bounded cache against exported fixtures.
 
 The Rust exporter and the browser harness are independently runnable from this repository. Export to `target/browser-tiles`, then follow the [map package benchmark instructions](../../packages/map-ui/README.md#browser-transport-benchmark). The package also retains an aggregated copy of the complete browser receipt; its smoke mode writes a separate result. Timings are observations on the recorded platform, not a universal performance guarantee.
+
+[WikiAsk measurements](wiki-ask.md) record the separate wiki snapshot size, resident memory, local retrieval timings, Codex IPC checks, and short-answer validation.

@@ -2,7 +2,7 @@
 
 Paper plugin exposing `/ask <question>`. Answers are private, one terse paragraph, at most 60 words and 360 Unicode characters. Only the final answer appears in chat, followed by clickable wiki attribution. A temporary action-bar indicator shows that the request is running. Reasoning, tool events, partial text, and process output are never sent to chat.
 
-Each Bukkit world UUID owns one shared conversation. Every message includes the world UUID/name and the sender's player UUID/current username. Players in that world share prior questions and answers with distinct speaker annotations; other worlds use separate conversations. The local Rust companion keeps the wiki index and one Codex app-server process warm, communicating over inherited pipes. There is one ranked local search and one model turn per question, using GPT-6 Luna, low reasoning, and fast service tier. See the [companion README](../../tools/wiki-assistant/README.md) for corpus coverage, protocol, retention, and resource bounds.
+Each Bukkit world UUID owns one shared conversation. Every message includes the world UUID/name and the sender's player UUID/current username. Players in that world share prior questions and answers with distinct speaker annotations; other worlds use separate conversations. The local Rust companion loads all wiki text and the index into RAM during startup and keeps one Codex app-server process warm, communicating over inherited pipes. There is one ranked local search before each model turn, using GPT-6 Luna, low reasoning, and fast service tier. Up to three literal/regex/ranked lookups or full-page windows are available when more evidence is needed. See the [companion README](../../tools/wiki-assistant/README.md) for corpus coverage, protocol, retention, and resource bounds.
 
 Targets Paper 26.2+ and Java 25 using public Bukkit/Adventure APIs. Compiled locally against Paper 26.2 build 123; Folia is unsupported. This plugin does not depend on squaremap or the website adapter.
 
@@ -26,17 +26,18 @@ Paper supplies Adventure and Gson; neither is bundled. Java 25 or newer must be 
 
 Build the companion and acquire a complete wiki snapshot/index using its README. On the server machine, prepare a dedicated directory for Codex authentication and a separate empty working directory, owned by the Minecraft OS user with mode `0700`. Authenticate the dedicated home interactively with `CODEX_HOME=/absolute/ask-codex-home /absolute/codex login`. Use Codex CLI 0.159.0 or a version verified against the documented protocol. Do not add personal config, MCP servers, plugins, skills, hooks, or repository files to that home or work directory.
 
-Set the five absolute paths in `plugins/WikiAsk/config.yml`:
+Set the six absolute paths in `plugins/WikiAsk/config.yml`:
 
 ```yaml
 bridge-binary: '/absolute/bin/minecraft-wiki-assistant'
 wiki-index: '/absolute/wiki/index-2026-09-29'
+wiki-corpus: '/absolute/wiki/corpus-2026-09-29'
 codex-binary: '/absolute/bin/codex'
 codex-home: '/absolute/ask-codex-home'
 work-directory: '/absolute/ask-work'
 ```
 
-Blank or invalid paths disable the plugin. The index must already be complete; no downloader runs on the game server's tick thread. The dedicated Codex login must have access to the requested model and fast tier; a rejected model request fails visibly without switching models. Actual model latency depends on account/service availability.
+Blank or invalid paths disable the plugin. The corpus and index must already be complete and have matching manifests. Startup decompresses and retains all text and index data on the background worker; commands receive a short busy response until initialization finishes. The September 29 snapshot contains 152 MiB of text plus an 88 MiB index, before runtime overhead; see [memory measurements](../../docs/benchmarks/wiki-ask.md). No downloader runs on the game server's tick thread. The dedicated Codex login must have access to the requested model and fast tier; a rejected model request fails visibly without switching models. Actual model latency depends on account/service availability.
 
 Copying the reviewed jar and configuring/activating it are separate deployment actions requiring explicit scope. Building this project does not install the plugin, change a live server, or authorize a restart. No live server was used by the synthetic tests.
 

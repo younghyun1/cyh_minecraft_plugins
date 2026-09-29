@@ -16,7 +16,7 @@ pub struct Page {
     pub text: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Manifest {
     pub format: u32,
     pub source: String,
@@ -61,4 +61,36 @@ pub fn read_batch(root: &Path, batch: u64) -> Result<Vec<Page>> {
         return Err(Error::Invalid("wiki batch exceeds 32 MiB".into()));
     }
     Ok(serde_json::from_slice(&bytes)?)
+}
+
+/// Report actual UTF-8 content bytes separately from serialization and search structures.
+pub fn stats(root: &Path, index: &Path) -> Result<()> {
+    let manifest = load_manifest(root, true)?;
+    let mut text_bytes = 0u64;
+    let mut pages = 0u64;
+    let mut max_page_bytes = 0usize;
+    for batch in 0..manifest.batches {
+        for page in read_batch(root, batch)? {
+            pages += 1;
+            text_bytes += page.text.len() as u64;
+            max_page_bytes = max_page_bytes.max(page.text.len());
+        }
+    }
+    if pages != manifest.pages {
+        return Err(Error::Invalid("snapshot page count mismatch".into()));
+    }
+    let mut index_bytes = 0u64;
+    for entry in fs::read_dir(index)? {
+        let entry = entry?;
+        if entry.file_type()?.is_file() {
+            index_bytes += entry.metadata()?.len();
+        }
+    }
+    println!(
+        "{}",
+        serde_json::json!({"pages":pages,"text_bytes":text_bytes,"text_mib":text_bytes as f64 / 1048576.0,
+        "archive_bytes":manifest.compressed_bytes,"archive_mib":manifest.compressed_bytes as f64 / 1048576.0,
+        "index_bytes":index_bytes,"index_mib":index_bytes as f64 / 1048576.0,"max_page_bytes":max_page_bytes})
+    );
+    Ok(())
 }

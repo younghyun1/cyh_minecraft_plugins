@@ -45,16 +45,29 @@ public final class WikiAsk extends JavaPlugin implements Listener {
             List<String> command = new ArrayList<>();
             command.add(path("bridge-binary", true));
             command.add("serve");
-            command.addAll(List.of("--index", path("wiki-index", false), "--codex", path("codex-binary", true),
+            command.addAll(List.of("--index", path("wiki-index", false), "--corpus", path("wiki-corpus", false), "--codex", path("codex-binary", true),
                     "--codex-home", path("codex-home", false), "--work-dir", path("work-directory", false)));
             bridge = new BridgeClient(command);
         } catch (IllegalArgumentException exception) {
-            getLogger().severe("Configure existing absolute bridge, index, Codex home, and work paths before enabling WikiAsk.");
+            getLogger().severe("Configure existing absolute bridge, corpus, index, Codex home, and work paths before enabling WikiAsk.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
         running = true;
         getServer().getPluginManager().registerEvents(this, this);
+        busy.set(true);
+        worker.execute(() -> {
+            var deadline = deadlines.schedule(bridge::close, 43, TimeUnit.SECONDS);
+            try {
+                bridge.prepare();
+            } catch (IOException | RuntimeException exception) {
+                bridge.close();
+                getLogger().warning("WikiAsk startup failed; check the dedicated bridge configuration and Codex login.");
+            } finally {
+                deadline.cancel(false);
+                busy.set(false);
+            }
+        });
     }
 
     private String path(String key, boolean executable) {
@@ -162,7 +175,7 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         running = false;
         deadlines.shutdownNow();
         worker.shutdownNow();
-        if (bridge != null) bridge.close();
+        if (bridge != null) bridge.shutdown();
         cooldowns.clear();
     }
 }

@@ -15,6 +15,7 @@ import java.util.List;
 final class BridgeClient implements AutoCloseable {
     private final List<String> command;
     private volatile Process process;
+    private boolean stopped;
     private BufferedReader reader;
     private BufferedWriter writer;
     private long sequence;
@@ -25,6 +26,7 @@ final class BridgeClient implements AutoCloseable {
 
     /** No shell interpolation; questions only enter a bounded JSON stdin frame. */
     synchronized void start() throws IOException {
+        if (stopped) throw new IOException("Bridge is stopped");
         if (process != null && process.isAlive()) return;
         ProcessBuilder builder = new ProcessBuilder(command);
         builder.directory(Path.of(command.get(command.size() - 1)).toFile());
@@ -42,12 +44,16 @@ final class BridgeClient implements AutoCloseable {
                 || value.get("protocol").getAsInt() != 1) throw new IOException("Bridge handshake failed");
     }
 
-    String[] ask(String uuid, String username, String worldUuid, String worldName, String question) throws IOException {
-        boolean restart = process == null || !process.isAlive();
-        if (restart) {
+    /** Load the corpus and establish IPC during plugin startup, away from the tick thread. */
+    void prepare() throws IOException {
+        if (process == null || !process.isAlive()) {
             start();
             ready();
         }
+    }
+
+    String[] ask(String uuid, String username, String worldUuid, String worldName, String question) throws IOException {
+        prepare();
         long id = ++sequence;
         JsonObject request = new JsonObject();
         request.addProperty("id", id);
@@ -112,5 +118,11 @@ final class BridgeClient implements AutoCloseable {
         active.descendants().forEach(ProcessHandle::destroyForcibly);
         active.destroyForcibly();
         process = null;
+    }
+
+    /** Prevent a startup racing plugin disable from leaving an orphaned child. */
+    synchronized void shutdown() {
+        stopped = true;
+        close();
     }
 }

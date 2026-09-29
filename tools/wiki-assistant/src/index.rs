@@ -1,6 +1,6 @@
 //! Immutable section index; archive remains the authoritative revision copy.
 use crate::{
-    corpus,
+    aliases, corpus,
     error::{Error, Result},
 };
 use std::{fs, path::Path};
@@ -11,6 +11,7 @@ use tantivy::{
 
 #[derive(Clone, Copy)]
 pub struct Fields {
+    pub page_key: Field,
     pub title: Field,
     pub body: Field,
     pub url: Field,
@@ -42,9 +43,18 @@ pub fn schema() -> (Schema, Fields) {
             .set_index_option(IndexRecordOption::WithFreqsAndPositions),
     );
     let title = builder.add_text_field("title", options.clone());
+    let page_key = builder.add_text_field("page_key", STRING);
     let body = builder.add_text_field("body", options);
     let url = builder.add_text_field("url", STRING | STORED);
-    (builder.build(), Fields { title, body, url })
+    (
+        builder.build(),
+        Fields {
+            page_key,
+            title,
+            body,
+            url,
+        },
+    )
 }
 
 /// Overlap preserves facts spanning chunk boundaries without retaining entire articles per hit.
@@ -67,6 +77,7 @@ pub fn chunks(text: &str) -> Vec<String> {
 pub fn build(corpus_path: &Path, output: &Path) -> Result<()> {
     let manifest = corpus::load_manifest(corpus_path, true)?;
     fs::create_dir(output)?;
+    let aliases = aliases::load(corpus_path, manifest.batches)?;
     let (schema, fields) = schema();
     let index = Index::create_in_dir(output, schema)?;
     index.tokenizers().register("wiki_en", analyzer());
@@ -98,8 +109,14 @@ pub fn build(corpus_path: &Path, output: &Path) -> Result<()> {
                 } else {
                     section
                 };
-                for chunk in chunks(text) {
-                    writer.add_document(doc!(fields.title => format!("{} {heading}", page.title), fields.body => chunk, fields.url => url.clone()))?;
+                for chunk in chunks(&crate::evidence::crafting(text)) {
+                    let mut document = doc!(fields.title => format!("{} {heading}", page.title), fields.body => chunk, fields.url => url.clone(), fields.page_key => aliases::key(&page.title));
+                    if let Some(names) = aliases.get(&page.title) {
+                        for name in names {
+                            document.add_text(fields.page_key, name);
+                        }
+                    }
+                    writer.add_document(document)?;
                     sections += 1;
                 }
             }

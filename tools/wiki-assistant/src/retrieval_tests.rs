@@ -57,6 +57,10 @@ fn snapshot_round_trip_ranks_recipe_and_rejects_incomplete() -> Result<()> {
     corpus::save_manifest(&corpus_path, &manifest)?;
     index::build(&corpus_path, &index_path)?;
     let search = Search::open(&index_path)?;
+    search.verify_corpus(&corpus_path)?;
+    manifest.started_unix_seconds += 1;
+    corpus::save_manifest(&corpus_path, &manifest)?;
+    assert!(search.verify_corpus(&corpus_path).is_err());
     let results = search.search("How do I craft a bucket?")?;
     assert!(!results.hits.is_empty());
     assert!(results.hits[0].title.starts_with("Bucket"));
