@@ -1,11 +1,11 @@
 {
   "origin": "https://github.com/younghyun1/cyhdev",
   "sourceRoot": "solid-csr-spa-template",
-  "description": "Source hashes before package-local transport and asset ports; renderer includes surface/slice predictions, browser-zoom tile sizing, versioned binary and native PNG tiles, zoom-only frontier hiding, and persistent waypoint names above player banners.",
+  "description": "Source hashes before package-local transport and asset ports; renderer includes surface/slice predictions, full-resolution browser-zoom coverage with bounded client admission, versioned binary and native PNG tiles, zoom-only frontier hiding, and persistent waypoint names above player banners.",
   "files": [
     {
       "path": "src/components/minecraft/MapCanvas.tsx",
-      "sha256": "43622f4739603ce328bd5823cf5eded02a2eaad3b7e7ff79dd8604a03d0da471"
+      "sha256": "e9ac2f690256f75e6148225d749fc3fc2af6c20ae7b355f61c51a0d779c99cbe"
     },
     {
       "path": "src/components/minecraft/MapInspection.tsx",
@@ -21,11 +21,11 @@
     },
     {
       "path": "src/components/minecraft/seedTileLayer.ts",
-      "sha256": "b8a77d01febef55e6bffafcadbacd2f32f5458dd5a95318e40617df568aa4645"
+      "sha256": "cbc8110acf4a462ded82fb2c811c6269afeba5cecb9d3a92a12a89874258f481"
     },
     {
       "path": "src/components/minecraft/seedTiles.ts",
-      "sha256": "d1434cc7457c3563b15c82ef77e0b16e457008a55d7e44a786ec5a1e7ecd9a2b"
+      "sha256": "b9d5fa939b153fad0d656e781eac0de4b935dc62f932505cbaee0bb2b1146a27"
     },
     {
       "path": "src/components/minecraft/terrainRefresh.ts",
@@ -49,7 +49,7 @@
     },
     {
       "path": "src/__tests__/minecraft_seed_tiles.test.ts",
-      "sha256": "d52e9f25e5a9f91c62269222415bf14c47897d2dd41509d25917a11b6c4ed924"
+      "sha256": "549aeefa1e1ed0ccd25d86bf7ac68f8d2e7adee041c7cb8e88cf52ac1adcf61a"
     },
     {
       "path": "src/__tests__/minecraft_seed_binary.test.ts",
@@ -160,5 +160,5 @@
       "sha256": "03ea24c70889b0a725b0cb7c02a5f52fec09d2489e451804446c2bf459282bda"
     }
   ],
-  "sourceCommit": "8806665a669e751aafc8eac6e4b08ec3697033b8"
+  "sourceCommit": "af591ae85e40a81473125943363890622e0aa067"
 }

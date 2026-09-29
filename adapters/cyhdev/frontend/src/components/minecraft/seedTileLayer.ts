@@ -5,13 +5,6 @@ import { SEED_MAX_LEVEL, SEED_MAX_TILES, type SeedTiles, type SeedTile } from ".
 
 type Options = { map: L.Map; maxZoom: number; tileSize?: number; store: SeedTiles; world: string; y: number | null; changed: () => void };
 export const MAX_TERRAIN_TILES = 256;
-const VISIBLE_SEED_TILE_BUDGET = 96;
-/** Browser zoom changes CSS viewport size; coarser seed tiles keep the visible set bounded. */
-export function seedGridTileSize(width: number, height: number): number {
-  let size = 256;
-  while ((Math.ceil(width / size) + 3) * (Math.ceil(height / size) + 3) > VISIBLE_SEED_TILE_BUDGET) size *= 2;
-  return size;
-}
 /** Native squaremap tiles stop at zero; bound the extra PNG fan-out at overview zooms. */
 export function minimumMapZoom(width: number, height: number, maxZoom: number): number {
   let zoom = Math.max(-2, maxZoom - SEED_MAX_LEVEL);
@@ -21,7 +14,7 @@ export function minimumMapZoom(width: number, height: number, maxZoom: number): 
 export const nativeTerrainZoom = (zoom: number, maxZoom: number) => Math.max(0, Math.min(maxZoom, Math.round(zoom)));
 
 /** Small backing canvases preserve a fixed sample budget while Leaflet handles smooth transforms. */
-export function createSeedTileLayer(options: Options) {
+export function createSeedTileLayer(options: Options): { layer: L.GridLayer; dispose: () => void } {
   const tileSize = options.tileSize ?? 256, offset = Math.log2(tileSize / 256);
   const releases = new Map<HTMLElement, () => void>();
   let neighbors: (() => void)[] = [];
@@ -67,6 +60,11 @@ export function createSeedTileLayer(options: Options) {
   const minZoom = options.maxZoom - SEED_MAX_LEVEL + offset;
   const layer = new SeedLayer({ pane: "minecraft-seeds", tileSize, minZoom, minNativeZoom: minZoom, maxNativeZoom: options.maxZoom + offset, noWrap: true, keepBuffer: 1, updateWhenIdle: false, updateInterval: 150 });
   layer.on("tileunload", (event: L.TileEvent) => { releases.get(event.tile)?.(); releases.delete(event.tile); });
+  // Large views can retain a full previous zoom alongside the new grid. Rebuild
+  // after movement settles to release obsolete subscriptions and retry admission.
+  // Warm tiles redraw synchronously from the cache, without changing their detail.
+  const settle = () => { if (releases.size >= SEED_MAX_TILES / 2) layer.redraw(); };
+  options.map.on("moveend", settle);
   const prefetch = () => {
     for (const release of neighbors) release(); neighbors = [];
     const zoom = Math.max(minZoom, Math.min(options.maxZoom + offset, Math.round(options.map.getZoom()))), level = options.maxZoom - zoom + offset;
@@ -78,7 +76,7 @@ export function createSeedTileLayer(options: Options) {
     }
   };
   options.map.on("moveend", prefetch); layer.on("add", prefetch);
-  return { layer, dispose: () => { options.map.off("moveend", prefetch); for (const release of neighbors) release(); neighbors = []; layer.remove(); for (const release of releases.values()) release(); releases.clear(); } };
+  return { layer, dispose: () => { options.map.off("moveend", settle).off("moveend", prefetch); for (const release of neighbors) release(); neighbors = []; layer.remove(); for (const release of releases.values()) release(); releases.clear(); } };
 }
 
 /** A 64-pixel overlay reuses the seed store's tile requests and exact biome indices. */
@@ -122,10 +120,12 @@ export function createBiomeHighlightLayer(options: Omit<Options, "changed">, bio
     if (!(event.tile instanceof HTMLCanvasElement)) return;
     active.get(event.tile)?.unsubscribe(); active.delete(event.tile);
   });
+  const settle = () => { if (active.size >= SEED_MAX_TILES / 2) layer.redraw(); };
+  options.map.on("moveend", settle);
   return {
     layer,
     setBiomes(values: readonly string[]) { selected = new Set(values); for (const tile of active.values()) tile.redraw(); },
-    dispose() { layer.remove(); for (const tile of active.values()) tile.unsubscribe(); active.clear(); },
+    dispose() { options.map.off("moveend", settle); layer.remove(); for (const tile of active.values()) tile.unsubscribe(); active.clear(); },
   };
 }
 

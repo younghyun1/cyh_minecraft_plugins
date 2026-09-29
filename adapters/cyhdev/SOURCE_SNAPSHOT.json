@@ -375,7 +375,7 @@
     {
       "path": "frontend/e2e/minecraft-prediction.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-prediction.spec.ts",
-      "sha256": "4980b311018e9e929041d7072cdac9b7d8ba8de890de448d95208fb7a408c050"
+      "sha256": "38ab968fe62821e2727e1d061769a25a33b22585aacad7cc4c386e672a3b7a8c"
     },
     {
       "path": "frontend/e2e/minecraft-seed-benchmark.spec.ts",
@@ -465,7 +465,7 @@
     {
       "path": "frontend/src/__tests__/minecraft_seed_tiles.test.ts",
       "source": "solid-csr-spa-template/src/__tests__/minecraft_seed_tiles.test.ts",
-      "sha256": "d52e9f25e5a9f91c62269222415bf14c47897d2dd41509d25917a11b6c4ed924"
+      "sha256": "549aeefa1e1ed0ccd25d86bf7ac68f8d2e7adee041c7cb8e88cf52ac1adcf61a"
     },
     {
       "path": "frontend/src/__tests__/minecraft_terrain_refresh.test.ts",
@@ -485,7 +485,7 @@
     {
       "path": "frontend/src/components/minecraft/MapCanvas.tsx",
       "source": "solid-csr-spa-template/src/components/minecraft/MapCanvas.tsx",
-      "sha256": "43622f4739603ce328bd5823cf5eded02a2eaad3b7e7ff79dd8604a03d0da471"
+      "sha256": "e9ac2f690256f75e6148225d749fc3fc2af6c20ae7b355f61c51a0d779c99cbe"
     },
     {
       "path": "frontend/src/components/minecraft/mapControls.ts",
@@ -535,7 +535,7 @@
     {
       "path": "frontend/src/components/minecraft/seedTileLayer.ts",
       "source": "solid-csr-spa-template/src/components/minecraft/seedTileLayer.ts",
-      "sha256": "b8a77d01febef55e6bffafcadbacd2f32f5458dd5a95318e40617df568aa4645"
+      "sha256": "cbc8110acf4a462ded82fb2c811c6269afeba5cecb9d3a92a12a89874258f481"
     },
     {
       "path": "frontend/src/components/minecraft/seedTilePng.ts",
@@ -545,7 +545,7 @@
     {
       "path": "frontend/src/components/minecraft/seedTiles.ts",
       "source": "solid-csr-spa-template/src/components/minecraft/seedTiles.ts",
-      "sha256": "d1434cc7457c3563b15c82ef77e0b16e457008a55d7e44a786ec5a1e7ecd9a2b"
+      "sha256": "b9d5fa939b153fad0d656e781eac0de4b935dc62f932505cbaee0bb2b1146a27"
     },
     {
       "path": "frontend/src/components/minecraft/terrainRefresh.ts",
@@ -726,7 +726,7 @@
       "sha256": "ec95d1ca4c8af27b1c1648befe672543e5bc8c0b493e52ff8d79b8fabdbf7386"
     }
   ],
-  "sourceCommit": "8806665a669e751aafc8eac6e4b08ec3697033b8",
+  "sourceCommit": "af591ae85e40a81473125943363890622e0aa067",
   "documentation": [
     {
       "path": "docs/architecture/be/minecraft-explorer.md",
@@ -738,15 +738,15 @@
     {
       "path": "docs/architecture/be/minecraft-tile-protocol.md",
       "source": "docs/architecture/be/minecraft-tile-protocol.md",
-      "source_sha256": "879c315c56db318d29d0eadeaf89379c67c130c89203f7c379f8e60d9de9504d",
-      "sha256": "4f78021f1d64ebe85b7631f03d6d5bd87d89b2e6558df85ee35ff19b19df562c",
+      "source_sha256": "70d110a79c1a2a9c05a3416a6a1e2e976e4332d11fbdae669407d5497cf3ff45",
+      "sha256": "de106d41011e5c60d8f880ec595ee79cf6a703516e85003fa0f1245d8d1d8659",
       "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
     },
     {
       "path": "docs/design/fe/minecraft.md",
       "source": "docs/design/fe/minecraft.md",
-      "source_sha256": "d375fb483fa42a0ca770128d81a861d92b1cef70a4f78017e46f581bae4ae1ef",
-      "sha256": "34483d75adc9c230f8615302cd37cbc98b6ee6409065394ba7e53c3d25ee51f0",
+      "source_sha256": "b09f2ef5465e97312bd7ae9b13099da2ac636f115006680ef1dde0d44212072b",
+      "sha256": "282b6c785c053cc897d9618c43ad0b12cfc1a1277f9310358d5ce4a28f67d0d4",
       "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
     }
   ]

@@ -46,26 +46,43 @@ for (const width of [1440, 390]) {
   });
 }
 
-test("browser zoom sized viewport keeps predicted tiles covered after resize", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await installApiMocks(page, "logged-out"); await setUiPreferences(page, "en-US", "light");
-  const fixture = await installMinecraftMapMocks(page);
-  await page.goto("/minecraft");
-  await expect(page.locator('.minecraft-seed-tile[data-ready="true"]').first()).toBeVisible();
-  await page.setViewportSize({ width: 7200, height: 4050 });
-  for (let zoom = 3; zoom >= 0; --zoom) {
-    await page.getByRole("button", { name: "Zoom out" }).click();
-    await expect(page.locator(".minecraft-atlas-canvas")).toHaveAttribute("data-zoom", String(zoom));
-  }
-  const tiles = page.locator(".minecraft-seed-tile");
-  await expect.poll(async () => tiles.first().evaluate(node => (node as HTMLElement).style.width)).toBe("1024px");
-  await expect.poll(async () => tiles.count()).toBeGreaterThan(20);
-  expect(await tiles.count()).toBeLessThan(96);
-  await expect.poll(async () => page.locator('.minecraft-seed-tile[data-ready="true"]').count(), { timeout: 15_000 }).toBe(await tiles.count());
-  expect(fixture.predictions.some(query => query.level === 5)).toBe(true);
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await expect.poll(async () => tiles.first().evaluate(node => (node as HTMLElement).style.width)).toBe("256px");
-});
+for (const viewport of [{ width: 7200, height: 4050 }, { width: 10800, height: 6085 }]) {
+  test(`browser zoom viewport preserves original detail and coverage at ${viewport.width}px`, async ({ page }) => {
+    test.setTimeout(90_000);
+    // Freeze permission timestamps while thousands of mocked requests cross Playwright IPC.
+    // Real permission expiry is exercised separately below. Browser timers still run.
+    await page.clock.setFixedTime(new Date());
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await installApiMocks(page, "logged-out"); await setUiPreferences(page, "en-US", "light");
+    const fixture = await installMinecraftMapMocks(page);
+    await page.goto("/minecraft");
+    await expect(page.locator('.minecraft-seed-tile[data-ready="true"]').first()).toBeVisible();
+    await page.setViewportSize(viewport);
+    for (let zoom = 3; zoom >= 0; --zoom) {
+      await page.getByRole("button", { name: "Zoom out" }).click();
+      await expect(page.locator(".minecraft-atlas-canvas")).toHaveAttribute("data-zoom", String(zoom));
+    }
+    const tiles = page.locator(".minecraft-seed-tile");
+    await expect.poll(async () => tiles.first().evaluate(node => (node as HTMLElement).style.width)).toBe("256px");
+    await expect.poll(async () => tiles.count()).toBeGreaterThan(400);
+    expect(await tiles.count()).toBeLessThan(2048);
+    await expect.poll(() => tiles.evaluateAll(nodes => nodes.length > 0 && nodes.every(node => (node as HTMLElement).dataset.ready === "true")), { timeout: 45_000 }).toBe(true);
+    expect(fixture.predictions.every(query => query.level <= 3)).toBe(true);
+    await page.getByRole("button", { name: "Layers", exact: true }).click();
+    await page.locator(".minecraft-biome-picker summary").click();
+    await page.getByRole("checkbox", { name: "forest", exact: true }).check();
+    await page.getByRole("button", { name: "Close map menu" }).click();
+    const highlights = page.locator(".minecraft-biome-highlight-tile");
+    await expect.poll(() => highlights.evaluateAll(nodes => nodes.length > 400 && nodes.every(node => (node as HTMLElement).dataset.ready === "true")), { timeout: 45_000 }).toBe(true);
+    await expect(highlights.first()).toHaveCSS("width", "256px");
+    await page.mouse.move(viewport.width / 2, viewport.height / 2);
+    await page.mouse.down(); await page.mouse.move(viewport.width / 2 - 140, viewport.height / 2, { steps: 8 }); await page.mouse.up();
+    await expect.poll(() => tiles.evaluateAll(nodes => nodes.length > 0 && nodes.every(node => (node as HTMLElement).dataset.ready === "true")), { timeout: 45_000 }).toBe(true);
+    await expect.poll(() => highlights.evaluateAll(nodes => nodes.length > 0 && nodes.every(node => (node as HTMLElement).dataset.ready === "true")), { timeout: 45_000 }).toBe(true);
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await expect.poll(async () => tiles.first().evaluate(node => (node as HTMLElement).style.width)).toBe("256px");
+  });
+}
 
 test("permission refresh retains valid imagery and removes it at expiry when renewal fails", async ({ page }) => {
   await page.clock.install();

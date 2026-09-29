@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MinecraftSeedTile, MinecraftSeedTileQuery } from "../contracts";
 import { ApiContractError } from "../contracts";
-import { createSeedTiles, decodeSeedTile, seedTileOrigin, type SeedTiles } from "../components/minecraft/seedTiles";
-import { alphaBoundary, decodeAlphaEdge, minimumMapZoom, nativeTerrainZoom, packedAlphaAt, seedGridTileSize } from "../components/minecraft/seedTileLayer";
+import { createSeedTiles, decodeSeedTile, seedTileOrigin, seedCacheBudget, SEED_MAX_TILES, type SeedTiles } from "../components/minecraft/seedTiles";
+import { alphaBoundary, decodeAlphaEdge, minimumMapZoom, nativeTerrainZoom, packedAlphaAt } from "../components/minecraft/seedTileLayer";
 
 const query: MinecraftSeedTileQuery = { world: "minecraft:overworld", tile_x: -1, tile_z: 0, level: 0, y: 64 };
 function reply(q = query, change: Partial<MinecraftSeedTile> = {}): MinecraftSeedTile {
@@ -76,8 +76,8 @@ describe("continuous seed tile cache", () => {
   it("limits requests to four and drops obsolete queued viewport work", async () => {
     const { store, read } = setup(); const held = deferred<MinecraftSeedTile>(); read.mockReturnValue(held.promise);
     const release: (() => void)[] = [];
-    for (let i = 0; i < 300; ++i) release.push(store.subscribe({ ...query, tile_x: i }, () => undefined, () => i));
-    expect(read).toHaveBeenCalledTimes(4); expect(store.stats().active).toBe(256);
+    for (let i = 0; i < SEED_MAX_TILES + 1; ++i) release.push(store.subscribe({ ...query, tile_x: i }, () => undefined, () => i));
+    expect(read).toHaveBeenCalledTimes(4); expect(store.stats().active).toBe(SEED_MAX_TILES);
     for (const unsubscribe of release) unsubscribe();
     expect(read.mock.calls.every(([, signal]) => signal.aborted)).toBe(true);
     held.resolve(reply({ ...query, tile_x: 0 })); await tick();
@@ -172,6 +172,18 @@ describe("continuous seed tile cache", () => {
     expect(store.stats().entries).toBeLessThan(420);
   });
 
+  it("retains a wide viewport of worst-case palette and native bitmap tiles without eviction churn", async () => {
+    const { store, read } = setup(), loaded = new Set<number>();
+    const palette = Array.from({ length: 256 }, (_, i) => `minecraft:${String(i).padStart(118, "a")}`);
+    read.mockImplementation(async q => ({ ...reply(q, { palette }), image: { close: vi.fn() } as unknown as ImageBitmap }));
+    for (let i = 0; i < 500; ++i) store.subscribe({ ...query, tile_x: i }, tile => { if (tile) loaded.add(i); else loaded.delete(i); }, () => i);
+    await tick();
+    expect(loaded.size).toBe(500); expect(read).toHaveBeenCalledTimes(500);
+    expect(store.stats().bytes).toBeGreaterThan(16 * 1024 * 1024);
+    expect(store.stats().bytes).toBeLessThanOrEqual(seedCacheBudget(500));
+    expect(store.stats().running).toBe(0);
+  });
+
   it("accounts native bitmap memory and closes resources after expiry and stale completion", async () => {
     const { store, read } = setup(), close = vi.fn(), image = { width: 64, height: 64, close } as unknown as ImageBitmap;
     read.mockImplementation(async q => ({ ...reply(q), image }));
@@ -198,10 +210,14 @@ describe("continuous seed tile cache", () => {
 });
 
 describe("rendered terrain frontier", () => {
-  it("reduces seed tile fan-out for browser-zoomed viewports", () => {
-    expect(seedGridTileSize(1440, 1000)).toBe(256);
-    expect(seedGridTileSize(4800, 3000)).toBe(1024);
-    expect(seedGridTileSize(10800, 6085)).toBe(2048);
+  it("reserves enough cache for full-detail wide viewports without unbounded growth", () => {
+    expect(seedCacheBudget(64)).toBe(16 * 1024 * 1024);
+    expect(seedCacheBudget(1400)).toBe(175 * 1024 * 1024);
+    expect(seedCacheBudget(SEED_MAX_TILES + 100)).toBe(256 * 1024 * 1024);
+    const palette = Array.from({ length: 256 }, (_, i) => `minecraft:${String(i).padStart(118, "a")}`);
+    const tile = decodeSeedTile({ ...reply(query, { palette }), image: { close: vi.fn() } as unknown as ImageBitmap }, query);
+    expect(tile).not.toBeNull();
+    expect(tile!.cost).toBeLessThanOrEqual(128 * 1024);
   });
   it("bounds negative-zoom PNG fan-out for wide viewports and keeps native lookup at zero", () => {
     expect(minimumMapZoom(1440, 1000, 3)).toBe(-2);

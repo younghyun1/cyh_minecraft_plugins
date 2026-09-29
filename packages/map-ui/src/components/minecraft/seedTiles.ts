@@ -2,8 +2,11 @@ import type { MinecraftSeedTile, MinecraftSeedTileQuery } from "../../contracts"
 import { ApiContractError } from "../../contracts";
 import type { MapPoint } from "./mapMath";
 
-export const SEED_TILE_SIZE = 64, SEED_MAX_LEVEL = 12, SEED_MAX_TILES = 256;
-const CACHE_BYTES = 16 * 1024 * 1024, CACHE_ENTRIES = 1024, MAX_REQUESTS = 4, EMPTY = 65535;
+export const SEED_TILE_SIZE = 64, SEED_MAX_LEVEL = 12, SEED_MAX_TILES = 2048;
+const BASE_CACHE_BYTES = 16 * 1024 * 1024, CACHE_ENTRIES = SEED_MAX_TILES, MAX_REQUESTS = 4, EMPTY = 65535;
+// A validated tile costs at most 116,736 bytes including native bitmap storage.
+// Reserve 128 KiB per active target, capped at 256 MiB, without allocating upfront.
+export const seedCacheBudget = (active: number) => Math.max(BASE_CACHE_BYTES, Math.min(SEED_MAX_TILES, active) * 128 * 1024);
 export type SeedSample = { name: string; sample: MapPoint; y: number | null; step: number; expires: number };
 export type SeedTileResponse = MinecraftSeedTile & { readonly image?: ImageBitmap };
 export type SeedTile = Omit<SeedTileResponse, "indices"> & { readonly indices: Uint16Array; readonly cost: number };
@@ -58,7 +61,7 @@ export function createSeedTiles(options: Options) {
   };
   const remember = (key: string, tile: SeedTile) => {
     drop(key);
-    while (cache.size >= CACHE_ENTRIES || bytes + tile.cost > CACHE_BYTES) {
+    while (cache.size >= CACHE_ENTRIES || bytes + tile.cost > seedCacheBudget(targets.size)) {
       const oldest = cache.keys().next(); if (oldest.done) break;
       notify(oldest.value, null); drop(oldest.value);
     }
@@ -75,9 +78,11 @@ export function createSeedTiles(options: Options) {
     const now = Date.now();
     for (const [key, tile] of cache) if (tile.expires_at_ms <= now) { drop(key); notify(key, null); options.updated(); }
     scheduleExpiry();
+    if (running.size >= MAX_REQUESTS) return;
     const queue = [...targets.entries()].filter(([key, target]) => `${target.query.world}:${target.query.y}` === context && target.listeners.size > 0 && !running.has(key) && target.retryAt <= now && (cache.get(key)?.expires_at_ms ?? 0) - now <= 3000)
-      .sort((a, b) => Math.min(...[...a[1].listeners.values()].map(listener => listener.priority())) - Math.min(...[...b[1].listeners.values()].map(listener => listener.priority()))).slice(0, 128);
-    for (const [key, target] of queue) {
+      .map(([key, target]) => ({ key, target, priority: Math.min(...[...target.listeners.values()].map(listener => listener.priority())) }))
+      .sort((a, b) => a.priority - b.priority).slice(0, 128);
+    for (const { key, target } of queue) {
       if (running.size >= MAX_REQUESTS) break;
       const request = new AbortController(), revision = generation;
       const deadline = window.setTimeout(() => request.abort(), 10_000);
