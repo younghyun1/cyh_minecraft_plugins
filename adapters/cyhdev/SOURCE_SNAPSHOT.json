@@ -703,8 +703,8 @@
     {
       "path": "docs/architecture/be/minecraft-tile-protocol.md",
       "source": "docs/architecture/be/minecraft-tile-protocol.md",
-      "source_sha256": "4db2c3ff39a6de8568e43f35c71fdb3a57515562a03e893e19cae834f78bb2e5",
-      "sha256": "e3fd8d9a5710a6418fe75d2b3773eb6dadf86ee5d5961f6d09e5c42716134a6e",
+      "source_sha256": "9e96f768b619c15300838455fd3186829132677580b2efb3696b367217b9be63",
+      "sha256": "d174a97ad089daf198bd0f73f90ddc6e6c69769a769b870088a2c41e61c0ca7d",
       "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
     },
     {

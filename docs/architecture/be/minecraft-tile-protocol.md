@@ -43,13 +43,13 @@ Reproduce the comparison with `cargo run --locked --package minecraft-tile-bench
 
 | Transport | Total bytes | Median encode / decode, microseconds |
 | --- | ---: | ---: |
-| Palette JSON with gzip | 70,804 | 616 / 379 |
+| Palette JSON with gzip | 70,804 | 612 / 526 |
 | CYBM with gzip | 53,031 | 128 / 63 |
 | CYBM with Zstandard | 53,373 | 84 / 42 |
-| Native PNG with hover data, balanced | 124,424 | 470 / 97 |
-| Native PNG with hover data and HTTP gzip | 108,551 | 548 / 132 |
+| Native PNG with hover data, balanced | 124,424 | 476 / 97 |
+| Native PNG with hover data and HTTP gzip | 108,551 | 555 / 132 |
 
-Balanced PNG reduces bytes by 9.9% versus the fast encoder for roughly 179 additional microseconds of median encoding time. High compression saves only another 0.2% while increasing median time to 581 microseconds, so balanced is the chosen image setting. Native PNG duplicates the identity grid because the browser exposes decoded RGBA rather than indexed PNG symbols and several biomes share display colors. The earlier 73,005-byte PNG prototype recovered palette indices by decoding `IDAT` in Rust and used synthetic colors; it was not equivalent to the browser-native image path. Its result must not be used to claim the current PNG endpoint is smaller or faster.
+Balanced PNG reduces bytes by 9.9% versus the fast encoder for roughly 184 additional microseconds of median encoding time. High compression saves only another 0.2% while increasing median time to 596 microseconds, so balanced is the chosen image setting. Native PNG duplicates the identity grid because the browser exposes decoded RGBA rather than indexed PNG symbols and several biomes share display colors. The earlier 73,005-byte PNG prototype recovered palette indices by decoding `IDAT` in Rust and used synthetic colors; it was not equivalent to the browser-native image path. Its result must not be used to claim the current PNG endpoint is smaller or faster.
 
 ## Browser comparison
 
