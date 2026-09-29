@@ -46,6 +46,23 @@ for (const width of [1440, 390]) {
   });
 }
 
+test("browser zoom sized viewport keeps predicted tiles covered after resize", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await installApiMocks(page, "logged-out"); await setUiPreferences(page, "en-US", "light");
+  const fixture = await installMinecraftMapMocks(page);
+  await page.goto("/minecraft");
+  await expect(page.locator('.minecraft-seed-tile[data-ready="true"]').first()).toBeVisible();
+  await page.setViewportSize({ width: 7200, height: 4050 });
+  const tiles = page.locator(".minecraft-seed-tile");
+  await expect.poll(async () => tiles.first().evaluate(node => (node as HTMLElement).style.width)).toBe("1024px");
+  await expect.poll(async () => tiles.count()).toBeGreaterThan(20);
+  expect(await tiles.count()).toBeLessThan(96);
+  await expect.poll(async () => page.locator('.minecraft-seed-tile[data-ready="true"]').count(), { timeout: 15_000 }).toBe(await tiles.count());
+  expect(fixture.predictions.some(query => query.level >= 1)).toBe(true);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect.poll(async () => tiles.first().evaluate(node => (node as HTMLElement).style.width)).toBe("256px");
+});
+
 test("permission refresh retains valid imagery and removes it at expiry when renewal fails", async ({ page }) => {
   await page.clock.install();
   await installApiMocks(page, "logged-out"); await setUiPreferences(page, "en-US", "light");

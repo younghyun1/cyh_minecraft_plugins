@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MinecraftSeedTile, MinecraftSeedTileQuery } from "../contracts";
 import { ApiContractError } from "../contracts";
 import { createSeedTiles, decodeSeedTile, seedTileOrigin, type SeedTiles } from "../components/minecraft/seedTiles";
-import { alphaBoundary, decodeAlphaEdge, minimumMapZoom, nativeTerrainZoom, packedAlphaAt } from "../components/minecraft/seedTileLayer";
+import { alphaBoundary, decodeAlphaEdge, minimumMapZoom, nativeTerrainZoom, packedAlphaAt, seedGridTileSize } from "../components/minecraft/seedTileLayer";
 
 const query: MinecraftSeedTileQuery = { world: "minecraft:overworld", tile_x: -1, tile_z: 0, level: 0, y: 64 };
 function reply(q = query, change: Partial<MinecraftSeedTile> = {}): MinecraftSeedTile {
@@ -198,6 +198,11 @@ describe("continuous seed tile cache", () => {
 });
 
 describe("rendered terrain frontier", () => {
+  it("reduces seed tile fan-out for browser-zoomed viewports", () => {
+    expect(seedGridTileSize(1440, 1000)).toBe(256);
+    expect(seedGridTileSize(4800, 3000)).toBe(1024);
+    expect(seedGridTileSize(10800, 6085)).toBe(2048);
+  });
   it("bounds negative-zoom PNG fan-out for wide viewports and keeps native lookup at zero", () => {
     expect(minimumMapZoom(1440, 1000, 3)).toBe(-2);
     expect(minimumMapZoom(3840, 2160, 3)).toBe(-1);

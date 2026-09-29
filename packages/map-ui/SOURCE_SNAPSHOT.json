@@ -1,11 +1,11 @@
 {
   "origin": "https://github.com/younghyun1/cyhdev",
   "sourceRoot": "solid-csr-spa-template",
-  "description": "Source hashes before package-local transport and asset ports; renderer includes surface/slice predictions, versioned binary and native PNG tiles, zoom-only frontier hiding, and persistent waypoint names above player banners.",
+  "description": "Source hashes before package-local transport and asset ports; renderer includes surface/slice predictions, browser-zoom tile sizing, versioned binary and native PNG tiles, zoom-only frontier hiding, and persistent waypoint names above player banners.",
   "files": [
     {
       "path": "src/components/minecraft/MapCanvas.tsx",
-      "sha256": "e9ac2f690256f75e6148225d749fc3fc2af6c20ae7b355f61c51a0d779c99cbe"
+      "sha256": "43622f4739603ce328bd5823cf5eded02a2eaad3b7e7ff79dd8604a03d0da471"
     },
     {
       "path": "src/components/minecraft/MapInspection.tsx",
@@ -21,7 +21,7 @@
     },
     {
       "path": "src/components/minecraft/seedTileLayer.ts",
-      "sha256": "22c1d4e0d2653c7717dac1c721851b9044298a6f6b9ec14561d9fcca254e8ebc"
+      "sha256": "b8a77d01febef55e6bffafcadbacd2f32f5458dd5a95318e40617df568aa4645"
     },
     {
       "path": "src/components/minecraft/seedTiles.ts",
@@ -49,7 +49,7 @@
     },
     {
       "path": "src/__tests__/minecraft_seed_tiles.test.ts",
-      "sha256": "173d49cee0c71fd3268f587b1e30ca52ed8a8bdbd83ce2b8b18f95f8c584056d"
+      "sha256": "d52e9f25e5a9f91c62269222415bf14c47897d2dd41509d25917a11b6c4ed924"
     },
     {
       "path": "src/__tests__/minecraft_seed_binary.test.ts",
@@ -160,5 +160,5 @@
       "sha256": "03ea24c70889b0a725b0cb7c02a5f52fec09d2489e451804446c2bf459282bda"
     }
   ],
-  "sourceCommit": "88a332c8495e31831195650a416e37f4eaef74cc"
+  "sourceCommit": "11189aa95a074a9f64e149dbb64432614e210609"
 }

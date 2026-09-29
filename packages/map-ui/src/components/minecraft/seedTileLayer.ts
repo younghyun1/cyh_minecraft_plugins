@@ -3,8 +3,15 @@ import type { MinecraftSeedTileQuery } from "../../contracts";
 import { biomeColor, WORLD_LIMIT, type MapPoint } from "./mapMath";
 import { SEED_MAX_LEVEL, SEED_MAX_TILES, type SeedTiles, type SeedTile } from "./seedTiles";
 
-type Options = { map: L.Map; maxZoom: number; store: SeedTiles; world: string; y: number | null; changed: () => void };
+type Options = { map: L.Map; maxZoom: number; tileSize?: number; store: SeedTiles; world: string; y: number | null; changed: () => void };
 export const MAX_TERRAIN_TILES = 256;
+const VISIBLE_SEED_TILE_BUDGET = 96;
+/** Browser zoom changes CSS viewport size; coarser seed tiles keep the visible set bounded. */
+export function seedGridTileSize(width: number, height: number): number {
+  let size = 256;
+  while ((Math.ceil(width / size) + 3) * (Math.ceil(height / size) + 3) > VISIBLE_SEED_TILE_BUDGET) size *= 2;
+  return size;
+}
 /** Native squaremap tiles stop at zero; bound the extra PNG fan-out at overview zooms. */
 export function minimumMapZoom(width: number, height: number, maxZoom: number): number {
   let zoom = Math.max(-2, maxZoom - SEED_MAX_LEVEL);
@@ -15,12 +22,13 @@ export const nativeTerrainZoom = (zoom: number, maxZoom: number) => Math.max(0, 
 
 /** Small backing canvases preserve a fixed sample budget while Leaflet handles smooth transforms. */
 export function createSeedTileLayer(options: Options): { layer: L.GridLayer; dispose: () => void } {
+  const tileSize = options.tileSize ?? 256, offset = Math.log2(tileSize / 256);
   const releases = new Map<HTMLElement, () => void>();
   let neighbors: (() => void)[] = [];
   class SeedLayer extends L.GridLayer {
     override createTile(coords: L.Coords, done: L.DoneCallback): HTMLElement {
       const canvas = document.createElement("canvas"); canvas.width = 64; canvas.height = 64; canvas.className = "minecraft-seed-tile";
-      const level = options.maxZoom - coords.z;
+      const level = options.maxZoom - coords.z + offset;
       const query: MinecraftSeedTileQuery = { world: options.world, y: options.y, tile_x: coords.x, tile_z: coords.y, level };
       const span = 256 * 2 ** level;
       if (releases.size >= SEED_MAX_TILES || coords.x * span >= WORLD_LIMIT || (coords.x + 1) * span <= -WORLD_LIMIT || coords.y * span >= WORLD_LIMIT || (coords.y + 1) * span <= -WORLD_LIMIT) {
@@ -49,20 +57,21 @@ export function createSeedTileLayer(options: Options): { layer: L.GridLayer; dis
         options.changed();
       };
       const unsubscribe = options.store.subscribe(query, draw, () => {
-        const center = options.map.project(options.map.getCenter(), coords.z).divideBy(256);
+        const center = options.map.project(options.map.getCenter(), coords.z).divideBy(tileSize);
         return Math.hypot(coords.x + 0.5 - center.x, coords.y + 0.5 - center.y);
       });
       releases.set(canvas, () => { window.clearTimeout(deadline); unsubscribe(); });
       return canvas;
     }
   }
-  const layer = new SeedLayer({ pane: "minecraft-seeds", tileSize: 256, minZoom: options.maxZoom - SEED_MAX_LEVEL, minNativeZoom: options.maxZoom - SEED_MAX_LEVEL, maxNativeZoom: options.maxZoom, noWrap: true, keepBuffer: 1, updateWhenIdle: false, updateInterval: 150 });
+  const minZoom = options.maxZoom - SEED_MAX_LEVEL + offset;
+  const layer = new SeedLayer({ pane: "minecraft-seeds", tileSize, minZoom, minNativeZoom: minZoom, maxNativeZoom: options.maxZoom + offset, noWrap: true, keepBuffer: 1, updateWhenIdle: false, updateInterval: 150 });
   layer.on("tileunload", (event: L.TileEvent) => { releases.get(event.tile)?.(); releases.delete(event.tile); });
   const prefetch = () => {
     for (const release of neighbors) release(); neighbors = [];
-    const zoom = Math.max(options.maxZoom - SEED_MAX_LEVEL, Math.min(options.maxZoom, Math.round(options.map.getZoom()))), level = options.maxZoom - zoom;
+    const zoom = Math.max(minZoom, Math.min(options.maxZoom + offset, Math.round(options.map.getZoom()))), level = options.maxZoom - zoom + offset;
     const bounds = options.map.getBounds(), min = options.map.project(bounds.getNorthWest(), zoom), max = options.map.project(bounds.getSouthEast(), zoom);
-    const left = Math.floor(min.x / 256), top = Math.floor(min.y / 256), right = Math.floor((max.x - 1) / 256), bottom = Math.floor((max.y - 1) / 256), span = 256 * 2 ** level;
+    const left = Math.floor(min.x / tileSize), top = Math.floor(min.y / tileSize), right = Math.floor((max.x - 1) / tileSize), bottom = Math.floor((max.y - 1) / tileSize), span = 256 * 2 ** level;
     for (let y = top - 1; y <= bottom + 1; ++y) for (let x = left - 1; x <= right + 1; ++x) {
       if (neighbors.length >= 64 || x >= left && x <= right && y >= top && y <= bottom || x * span >= WORLD_LIMIT || (x + 1) * span <= -WORLD_LIMIT || y * span >= WORLD_LIMIT || (y + 1) * span <= -WORLD_LIMIT) continue;
       neighbors.push(options.store.subscribe({ world: options.world, y: options.y, level, tile_x: x, tile_z: y }, () => undefined, () => 1_000_000 + Math.hypot(x - (left + right) / 2, y - (top + bottom) / 2)));
@@ -74,13 +83,14 @@ export function createSeedTileLayer(options: Options): { layer: L.GridLayer; dis
 
 /** A 64-pixel overlay reuses the seed store's tile requests and exact biome indices. */
 export function createBiomeHighlightLayer(options: Omit<Options, "changed">, biomes: readonly string[]): { layer: L.GridLayer; setBiomes: (values: readonly string[]) => void; dispose: () => void } {
+  const tileSize = options.tileSize ?? 256, offset = Math.log2(tileSize / 256);
   const active = new Map<HTMLCanvasElement, { redraw: () => void; unsubscribe: () => void }>();
   let selected = new Set(biomes);
   class HighlightLayer extends L.GridLayer {
     override createTile(coords: L.Coords): HTMLElement {
       const canvas = document.createElement("canvas"); canvas.width = 64; canvas.height = 64; canvas.className = "minecraft-biome-highlight-tile";
-      canvas.dataset.tileX = String(coords.x); canvas.dataset.tileZ = String(coords.y); canvas.dataset.level = String(options.maxZoom - coords.z);
-      const level = options.maxZoom - coords.z, span = 256 * 2 ** level;
+      canvas.dataset.tileX = String(coords.x); canvas.dataset.tileZ = String(coords.y); canvas.dataset.level = String(options.maxZoom - coords.z + offset);
+      const level = options.maxZoom - coords.z + offset, span = 256 * 2 ** level;
       if (active.size >= SEED_MAX_TILES || coords.x * span >= WORLD_LIMIT || (coords.x + 1) * span <= -WORLD_LIMIT || coords.y * span >= WORLD_LIMIT || (coords.y + 1) * span <= -WORLD_LIMIT) return canvas;
       const context = canvas.getContext("2d");
       let lastTile: SeedTile | null = null;
@@ -99,14 +109,15 @@ export function createBiomeHighlightLayer(options: Omit<Options, "changed">, bio
       };
       const query: MinecraftSeedTileQuery = { world: options.world, y: options.y, tile_x: coords.x, tile_z: coords.y, level };
       const unsubscribe = options.store.subscribe(query, tile => { lastTile = tile; canvas.dataset.ready = tile ? "true" : "false"; redraw(); }, () => {
-        const center = options.map.project(options.map.getCenter(), coords.z).divideBy(256);
+        const center = options.map.project(options.map.getCenter(), coords.z).divideBy(tileSize);
         return Math.hypot(coords.x + 0.5 - center.x, coords.y + 0.5 - center.y);
       });
       active.set(canvas, { redraw, unsubscribe });
       return canvas;
     }
   }
-  const layer = new HighlightLayer({ pane: "minecraft-biome-highlights", tileSize: 256, minZoom: options.maxZoom - SEED_MAX_LEVEL, minNativeZoom: options.maxZoom - SEED_MAX_LEVEL, maxNativeZoom: options.maxZoom, noWrap: true, keepBuffer: 1, updateWhenIdle: false, updateInterval: 150 });
+  const minZoom = options.maxZoom - SEED_MAX_LEVEL + offset;
+  const layer = new HighlightLayer({ pane: "minecraft-biome-highlights", tileSize, minZoom, minNativeZoom: minZoom, maxNativeZoom: options.maxZoom + offset, noWrap: true, keepBuffer: 1, updateWhenIdle: false, updateInterval: 150 });
   layer.on("tileunload", (event: L.TileEvent) => {
     if (!(event.tile instanceof HTMLCanvasElement)) return;
     active.get(event.tile)?.unsubscribe(); active.delete(event.tile);
