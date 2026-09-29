@@ -1,0 +1,28 @@
+import { ApiContractError, type ApiTransport, type MinecraftSeedTileQuery } from "../contracts";
+import { decodeSeedTileBinary, SEED_TILE_CONTENT_TYPE, SEED_TILE_MAX_BYTES } from "../components/minecraft/seedTileBinary";
+import { decodeSeedTilePng, SEED_PNG_MAX_BYTES } from "../components/minecraft/seedTilePng";
+
+/** Binary success has a bounded decoder; errors retain the ordinary HTTP status contract. */
+export function createSeedTileReader(transport: ApiTransport, endpoint: string) {
+  return async (query: MinecraftSeedTileQuery, signal: AbortSignal) => decodeSeedTileBinary(await readSeedBytes(transport, query, signal, endpoint, SEED_TILE_CONTENT_TYPE, SEED_TILE_MAX_BYTES));
+}
+
+export function createSeedTilePngReader(transport: ApiTransport, endpoint: string) {
+  return async (query: MinecraftSeedTileQuery, signal: AbortSignal) => decodeSeedTilePng(await readSeedBytes(transport, query, signal, endpoint, "image/png", SEED_PNG_MAX_BYTES), signal);
+}
+
+async function readSeedBytes(transport: ApiTransport, query: MinecraftSeedTileQuery, signal: AbortSignal, endpoint: string, contentType: string, limit: number) {
+  const response = await transport(endpoint, { method: "POST", headers: { "Content-Type": "application/json", Accept: contentType }, body: JSON.stringify(query), signal });
+  if (!response.ok) { await response.body?.cancel(); throw new ApiContractError(response.status, "Seed map is temporarily unavailable."); }
+  if (response.headers.get("content-type")?.split(";")[0]?.trim() !== contentType || !response.body) { await response.body?.cancel(); throw new Error("Invalid seed tile response."); }
+  // Fetch already decoded HTTP content encoding; this fixed buffer bounds decompressed bytes and chunk overhead.
+  const reader = response.body.getReader(), bytes = new Uint8Array(limit); let size = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read(); if (done) break;
+      if (value.length > bytes.length - size) { await reader.cancel(); throw new Error("Seed tile response is too large."); }
+      bytes.set(value, size); size += value.length;
+    }
+  } finally { reader.releaseLock(); }
+  return bytes.buffer.slice(0, size);
+}

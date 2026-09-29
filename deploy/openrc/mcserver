@@ -1,0 +1,24 @@
+#!/sbin/openrc-run
+description="Minecraft Paper server (supervised)"
+supervisor=supervise-daemon
+depend() {
+  need net
+}
+start_pre() {
+  checkpath -d -m 0755 -o "${MC_USER}:${MC_GROUP}" "${MC_DIR}" || return 1
+  checkpath -f -m 0644 -o "${MC_USER}:${MC_GROUP}" "${MC_DIR}/${MC_JAR}" || return 1
+  if [ -n "${MC_LOG_DIR:-}" ]; then
+    checkpath -d -m 0755 -o "${MC_USER}:${MC_GROUP}" "${MC_LOG_DIR}" || return 1
+  fi
+}
+command="${JAVA_BIN}"
+command_user="${MC_USER}:${MC_GROUP}"
+directory="${MC_DIR}"
+pidfile="/run/${RC_SVCNAME}.pid"
+required_files="${MC_DIR}/${MC_JAR}"
+command_args="${JAVA_OPTS} -jar ${MC_DIR}/${MC_JAR} ${MC_ARGS}"
+respawn_delay="${RESPAWN_DELAY:-5}"
+respawn_max="${RESPAWN_MAX:-0}"
+output_log="${MC_STDOUT_LOG:-}"
+error_log="${MC_STDERR_LOG:-}"
+retry="SIGTERM/30/SIGKILL/5"

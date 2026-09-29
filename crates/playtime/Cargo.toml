@@ -1,0 +1,24 @@
+[package]
+name = "parse_logs"
+version = "0.1.0"
+edition = "2024"
+autotests = false
+description = "Streaming PaperMC player playtime reports"
+
+[[test]]
+name = "cli"
+path = "tests/main.rs"
+
+[dependencies]
+chrono = { version = "0.4.45", default-features = false, features = ["std", "clock", "serde"] }
+clap = { version = "4.6.7", default-features = false, features = ["std", "derive", "help", "usage", "error-context"] }
+flate2 = { version = "1.1.10", default-features = false, features = ["rust_backend"] }
+serde = { version = "1", default-features = false, features = ["std", "derive"] }
+serde_json = { version = "1", default-features = false, features = ["std"] }
+thiserror = { version = "2", default-features = false, features = ["std"] }
+tikv-jemallocator = { version = "0.7", default-features = false, features = ["background_threads", "unprefixed_malloc_on_supported_platforms"] }
+tracing = { version = "0.1", default-features = false, features = ["std", "release_max_level_info"] }
+tracing-subscriber = { version = "0.3", default-features = false, features = ["std", "fmt", "json", "env-filter", "time", "parking_lot"] }
+
+[lints]
+workspace = true

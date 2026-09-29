@@ -1,0 +1,213 @@
+[package]
+name = "rust-be-template"
+version.workspace = true
+edition.workspace = true
+default-run = "rust-be-template"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "process_ip2location_dbs"
+path = "src/bin/process-ip2location.rs"
+
+[[bin]]
+name = "openapi-contracts"
+path = "src/openapi_contracts_main.rs"
+
+[dependencies]
+minecraft-seed = { path = "../tools/minecraft-seed" }
+# web framework
+axum = { version = "0.8.9", features = [
+    "http2",
+    "multipart",
+    "ws",
+    "macros",
+] }
+axum-extra = { version = "0.12.6", features = ["cookie", "attachment", "form"] }
+axum-server = { version = "0.8.0", features = ["tls-rustls", "tokio-rustls"] }
+# Already in the tree through axum-server; named directly to configure its HTTP/1 and
+# HTTP/2 builders with a Tokio timer, which hyper's header-read timeout requires.
+hyper-util = { version = "0.1.21", default-features = false, features = ["server-auto", "tokio"] }
+tower-http = { version = "0.7.1", features = [
+    "compression-gzip",
+    "compression-zstd",
+    "trace",
+    "cors",
+    "fs",
+    "timeout",
+] }
+
+# OpenAPI
+utoipa = { version = "6.0.0", features = ["axum_extras", "uuid", "chrono", "repr"] }
+utoipa-swagger-ui = { version = "10.0.1", features = ["axum", "vendored"] }
+
+# parallelism
+# rayon = "1.10.0"
+
+# ORM
+diesel = { version = "2.3.13", features = [
+    "postgres",
+    "chrono",
+    "serde_json",
+    "uuid",
+    "ipnet-address",
+] }
+diesel-async = { version = "0.9.2", features = ["bb8", "postgres"] }
+# embedded migrations, run in-process at startup
+diesel_migrations = "2.3.2"
+
+# .env loading
+dotenvy.workspace = true
+
+# async runtime
+tokio = { workspace = true, features = ["full"] }
+async-trait = "0.1.92"
+# The management client is loopback-only, so it needs handshake support but no TLS.
+# Axum 0.8.9 still resolves 0.29 separately until its upstream dependency is updated.
+tokio-tungstenite = { version = "0.30.0", default-features = false, features = ["handshake"] }
+# Stream/Sink combinators (WebSocket split for the live-chat writer task)
+futures-util = { version = "0.3.34", default-features = false, features = [
+    "std",
+    "sink",
+] }
+
+# loggers
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tracing-appender.workspace = true
+
+# error
+anyhow.workspace = true
+thiserror = "2.0.21"
+
+# system information
+num_cpus = "1.17.0"
+walkdir = "2.5.0"
+# sysinfo = "0.37.2"
+
+# serialization/deserialization
+serde = "1.0.229"
+serde_derive = "1.0.229"
+serde_json.workspace = true
+bitcode = "0.6.9"
+flate2 = "1.1.10"
+
+# types
+chrono.workspace = true
+chrono-tz = { version = "0.10.4", features = ["serde"] }
+scc = "3.8.8"
+uuid = { version = "1.26.1", features = [
+    "v4",
+    "v7",
+    "serde",
+    "zerocopy",
+    "fast-rng",
+] }
+ipnet = "2.12.2"
+
+# regex/verification
+# regex = { version = "1.11.1", features = ["perf-dfa-full"] }
+email_address = "0.2.9"
+
+# crypto/rand
+argon2 = "0.6.0"
+base64 = "0.23.1"
+getrandom = "0.4.3"
+rand = "0.10"
+rustls = { version = "0.23.45", features = [] }
+sha2 = "0.11.0"
+time = "0.3.55"
+zeroize = { version = "1.9.0", features = ["derive"] }
+
+# memory allocator
+mimalloc.workspace = true
+
+# email
+lettre = { version = "0.11.23", default-features = false, features = [
+    "builder",
+    "hostname",
+    "pool",
+    "smtp-transport",
+    "tokio1",
+    "tokio1-rustls-tls",
+    "tracing",
+    "serde",
+] }
+
+# numeric
+bigdecimal = { version = "0.4.11", features = ["serde"] }
+
+# image processing
+png = "0.18.1"
+# Only decoders for the upload allowlist in util/media/image_upload.rs, plus the
+# AVIF encoder. rayon keeps the encoder multi-threaded under its explicit cap.
+image = { version = "0.25.10", default-features = false, features = [
+    "avif",
+    "bmp",
+    "gif",
+    "jpeg",
+    "png",
+    "rayon",
+    "tiff",
+    "webp",
+] }
+fast_image_resize = { version = "6.1.0", features = ["image"]}
+kamadak-exif = "0.6.1"
+tempfile = "3.27.0"
+
+# markdown
+# Only the library renderer is used; CLI and syntax-highlighter defaults add unused parsers.
+comrak = { version = "0.55.0", default-features = false, features = ["emojis", "shortcodes"] }
+ansi-to-html = "0.2.4"
+
+# full-text search
+tantivy = "0.26"
+
+# request to external
+reqwest = { version = "0.13.5", features = ["gzip", "query"] }
+openidconnect = { version = "4.0.1", default-features = false }
+
+# embed assets into binary
+rust-embed = "8.12.0"
+mime_guess = "2.0.5"
+
+# internment
+internment = "0.8.6"
+memmap2 = "0.9.11"
+
+# aws
+# Preserve S3 defaults except its legacy rustls feature, which pulls Hyper 0.14/Rustls 0.21.
+aws-sdk-s3 = { version = "1.150.0", default-features = false, features = [
+    "behavior-version-latest",
+    "default-https-client",
+    "http-1x",
+    "rt-tokio",
+    "sigv4a",
+] }
+aws-config = { version = "1.12.0", features = [
+    "default-https-client",
+    "behavior-version-latest",
+] }
+aws-types = "1.6.0"
+rtc = "0.21.0"
+webrtc = "0.21.0"
+nutype = "0.8.0"
+
+# enable for dockerization?
+# encryption
+# openssl = { version = "0.10.74", features = ["vendored"] }
+
+[build-dependencies]
+chrono.workspace = true
+serde_json.workspace = true
+
+[target.'cfg(any(target_os = "linux", target_os = "macos"))'.dependencies]
+libc = { version = "0.2.189", features = [] }
+
+[target.'cfg(all(target_os = "linux", target_env = "gnu"))'.dependencies]
+zstd = { version = "0.14.0", features = ["fat-lto", "zstdmt", "pkg-config"] }
+
+[target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
+zstd = { version = "0.14.0", features = ["zstdmt"] }
+pq-sys = { version = "0.7.6", default-features = false, features = ["bundled_without_openssl"] }

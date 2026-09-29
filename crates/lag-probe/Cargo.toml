@@ -1,0 +1,9 @@
+[package]
+name = "mc-lag-probe"
+version = "0.1.0"
+edition = "2024"
+
+description = "Bounded Minecraft status and ping timing probe"
+
+[lints]
+workspace = true

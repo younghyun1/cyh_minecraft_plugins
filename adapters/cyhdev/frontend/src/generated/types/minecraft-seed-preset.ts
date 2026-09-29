@@ -1,0 +1,4 @@
+// Generated from rust-be-template OpenAPI. Do not edit by hand.
+
+
+export type MinecraftSeedPreset = "default" | "large_biomes" | "nether" | "end";

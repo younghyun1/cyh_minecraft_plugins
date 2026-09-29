@@ -1,0 +1,30 @@
+.minecraft-admin {
+  width: min(100%, 48rem);
+  margin-inline: auto;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  padding: clamp(1rem, 3vw, 2.5rem);
+}
+
+.minecraft-controls {
+  padding-top: 0.5rem;
+}
+
+.minecraft-controls form { display: grid; gap: 0.4rem; margin-block: 0.75rem; }
+.minecraft-controls ul { list-style: none; margin: 0.5rem 0; padding: 0; }
+.minecraft-controls li, .minecraft-server-actions { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-block: 0.4rem; }
+.minecraft-admin button, .minecraft-admin input { border: 1px solid var(--line); border-radius: 0.25rem; padding: 0.4rem 0.65rem; }
+.minecraft-admin button:disabled { opacity: 0.5; cursor: wait; }
+.minecraft-controls h3 { margin-top: 0.8rem; font-weight: 600; }
+.minecraft-controls [role="alert"] { color: var(--danger, #b42318); }
+
+
+.minecraft-admin header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+.minecraft-admin h1 { font-size: 1.75rem; font-weight: 600; }
+.minecraft-controls input { min-width: 0; width: 100%; }
+.minecraft-admin button { min-height: 44px; }
+.minecraft-controls li { flex-wrap: wrap; }
+.minecraft-controls li > span { flex: 1 1 100%; }
+.minecraft-visibility { display: block; color: var(--ink-muted); }

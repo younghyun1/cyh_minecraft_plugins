@@ -1,0 +1,14 @@
+# Example only. Keep the real /etc/conf.d/mcserver private.
+MC_USER=minecraft
+MC_GROUP=minecraft
+MC_DIR=/srv/minecraft
+MC_JAR=paper.jar
+JAVA_BIN=/usr/bin/java
+JAVA_OPTS=""
+MC_ARGS=nogui
+# Optional log paths and supervisor settings belong to the deployment.
+# MC_LOG_DIR=/var/log/minecraft
+# MC_STDOUT_LOG=/var/log/minecraft/stdout.log
+# MC_STDERR_LOG=/var/log/minecraft/stderr.log
+# RESPAWN_DELAY=5
+# RESPAWN_MAX=0

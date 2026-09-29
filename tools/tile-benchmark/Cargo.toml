@@ -1,0 +1,20 @@
+[package]
+name = "minecraft-tile-benchmark"
+version.workspace = true
+edition.workspace = true
+license = "GPL-3.0-only"
+publish = false
+description = "Development comparison of biome JSON, binary and PNG transports"
+
+[dependencies]
+minecraft-seed = { path = "../../crates/seed" }
+minecraft-tile-codec = { path = "../../crates/tile-codec" }
+flate2 = "1.1.10"
+png = "0.18.1"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json.workspace = true
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+zstd = { version = "0.14.0", features = ["zstdmt"] }
+
+[lints]
+workspace = true

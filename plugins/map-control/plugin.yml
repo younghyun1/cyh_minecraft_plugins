@@ -1,0 +1,6 @@
+name: CyhdevMapControl
+version: '1.4.0'
+main: com.cyhdev.minecraft.MapControl
+api-version: '26.3'
+depend: [squaremap]
+description: Local, bounded access to squaremap visibility, world data, and private prediction context

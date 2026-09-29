@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", "module": "ESNext", "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true, "esModuleInterop": true,
+    "jsx": "preserve", "jsxImportSource": "@solidjs/web", "types": ["vite/client"],
+    "noEmit": true, "isolatedModules": true, "strict": true,
+    "noUncheckedIndexedAccess": true, "noUnusedLocals": true, "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true, "forceConsistentCasingInFileNames": true, "skipLibCheck": true
+  },
+  "include": ["src"]
+}

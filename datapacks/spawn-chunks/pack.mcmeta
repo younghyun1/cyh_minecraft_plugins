@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "Persistent 32-chunk radius around Overworld spawn (0, 0)",
+    "min_format": 121,
+    "max_format": 121
+  }
+}

@@ -1,0 +1,6 @@
+name: StartingEquipment
+version: "1.0.2"
+main: dev.startingequipment.StartingEquipment
+api-version: "1.21.11"
+description: Gives a full set of enchanted netherite gear to first-time players.
+author: cyh

@@ -1,0 +1,4525 @@
+{
+  "profile": "development",
+  "arch": "x86_64",
+  "generator": "pumpkin-4426d1113a211e6018a2db416e33b6b8a7802614-java26.3",
+  "samples": 72,
+  "repetitions": 7,
+  "description": "Synthetic seed 1, all four presets, levels 0/3/8, origin and negative terrain; full, masked and empty tiles. NativePng calls the production endpoint codec: balanced PNG with actual biome colors and an uncompressed cyBM chunk preserving exact hover indices. Generation, HTTP framing/network and browser rendering excluded. JSON uses DTO without its response envelope. gzip level 6; zstd level 3. HTTP image responses ordinarily use PNG native compression only.",
+  "results": [
+    {
+      "format": "Json",
+      "transport": "Identity",
+      "total_bytes": 1097579,
+      "median_bytes": 15057,
+      "p95_bytes": 20859,
+      "encode_median_us": 279.95,
+      "encode_p95_us": 352.227,
+      "decode_median_us": 458.18699999999995,
+      "decode_p95_us": 627.207,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 8673
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 15057
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 20842
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 8682
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 15041
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 20851
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 9575
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 15693
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 20843
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 11246
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 16399
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 20854
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 12011
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 17232
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 20845
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 12314
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 17433
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 20859
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 8586
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 14970
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 20847
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 8664
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 15048
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 20856
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 8670
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 15054
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 20848
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 8717
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 15101
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 20859
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 12149
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 17252
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 20850
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 12053
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 17069
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 20864
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 8635
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 15019
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 20842
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 8641
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 15025
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 20851
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 8688
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 15072
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 20843
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 8699
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 15083
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 20854
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 8690
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 15074
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 20845
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 8704
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 15088
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 20859
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 8567
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 14951
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 20836
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 8661
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 15045
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 20845
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 8673
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 15057
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 20837
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 8664
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 15048
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 20848
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 8675
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 15039
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 20839
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 8669
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 15053
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 20853
+        }
+      ]
+    },
+    {
+      "format": "Json",
+      "transport": "Gzip",
+      "total_bytes": 70804,
+      "median_bytes": 530,
+      "p95_bytes": 3660,
+      "encode_median_us": 611.808,
+      "encode_p95_us": 2367.962,
+      "decode_median_us": 525.945,
+      "decode_p95_us": 742.455,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 652
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 592
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 320
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 657
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 567
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 333
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 1561
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1085
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 323
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 1941
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 1300
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 335
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 4165
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 2658
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 325
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 4231
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 2697
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 337
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 304
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 358
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 325
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 665
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 612
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 338
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 484
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 552
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 328
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 509
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 539
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 339
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 3670
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 2313
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 329
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 3660
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 2319
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 342
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 482
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 410
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 317
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 530
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 498
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 329
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 926
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 747
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 320
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1004
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 785
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 330
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 2130
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 1447
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 321
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 2143
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 1474
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 335
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 286
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 342
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 315
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 443
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 442
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 327
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 1382
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1048
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 318
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 1490
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1055
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 330
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 1690
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 1175
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 319
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 1693
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 1223
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 333
+        }
+      ]
+    },
+    {
+      "format": "Json",
+      "transport": "Zstd",
+      "total_bytes": 73388,
+      "median_bytes": 540,
+      "p95_bytes": 3882,
+      "encode_median_us": 292.022,
+      "encode_p95_us": 386.452,
+      "decode_median_us": 452.406,
+      "decode_p95_us": 620.0640000000001,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 718
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 617
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 267
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 783
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 545
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 277
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 1779
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1191
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 269
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 2274
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 1497
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 279
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 4307
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 2721
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 270
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 4404
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 2748
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 282
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 281
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 307
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 271
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 761
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 579
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 280
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 508
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 608
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 272
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 540
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 522
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 282
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 3902
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 2408
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 273
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 3882
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 2436
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 285
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 533
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 371
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 267
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 523
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 478
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1073
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 778
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1203
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 875
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 278
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 2169
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 1461
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 267
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 2192
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 1493
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 281
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 265
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 291
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 264
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 747
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 454
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 273
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 1543
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1112
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 264
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 1691
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1145
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 275
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 1795
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 1258
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 264
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 1786
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 1275
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 279
+        }
+      ]
+    },
+    {
+      "format": "Binary",
+      "transport": "Identity",
+      "total_bytes": 72207,
+      "median_bytes": 542,
+      "p95_bytes": 4416,
+      "encode_median_us": 74.871,
+      "encode_p95_us": 146.217,
+      "decode_median_us": 40.226,
+      "decode_p95_us": 61.036,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 619
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 562
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 646
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 542
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 1968
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1309
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 2318
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 1480
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 4484
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 3274
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 4464
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 3283
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 154
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 250
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 588
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 554
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 421
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 524
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 450
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 552
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 4416
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 2860
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 4462
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 2932
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 375
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 359
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 411
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 393
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 811
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 649
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 893
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 695
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 1786
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 1786
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 1786
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 1786
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 146
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 242
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 619
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 553
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 1777
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1211
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 1759
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1179
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 1777
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 1665
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 1759
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 1654
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 126
+        }
+      ]
+    },
+    {
+      "format": "Binary",
+      "transport": "Gzip",
+      "total_bytes": 53031,
+      "median_bytes": 365,
+      "p95_bytes": 3383,
+      "encode_median_us": 127.80199999999999,
+      "encode_p95_us": 421.878,
+      "decode_median_us": 62.969,
+      "decode_p95_us": 133.703,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 524
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 434
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 127
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 522
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 379
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 133
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 1342
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 879
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 128
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 1653
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 1030
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 135
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 3553
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 2034
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 129
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 3560
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 2033
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 135
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 153
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 161
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 128
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 506
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 413
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 134
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 342
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 371
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 129
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 378
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 365
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 135
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 3383
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 1864
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 129
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 3416
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 1855
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 136
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 355
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 128
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 363
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 297
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 135
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 679
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 506
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 129
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 758
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 545
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 136
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 1669
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 1040
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 130
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 1670
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 1041
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 137
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 150
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 157
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 129
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 284
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 254
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 136
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 1166
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 734
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 129
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 1309
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 730
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 137
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 1552
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 850
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 130
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 1493
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 857
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 137
+        }
+      ]
+    },
+    {
+      "format": "Binary",
+      "transport": "Zstd",
+      "total_bytes": 53373,
+      "median_bytes": 384,
+      "p95_bytes": 3433,
+      "encode_median_us": 83.739,
+      "encode_p95_us": 159.872,
+      "decode_median_us": 41.558,
+      "decode_p95_us": 64.643,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 525
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 439
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 116
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 544
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 409
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 124
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 1382
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 896
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 116
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 1700
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 1065
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 124
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 3539
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 2039
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 116
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 3546
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 2049
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 124
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 150
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 154
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 116
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 511
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 438
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 124
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 346
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 392
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 117
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 391
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 384
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 125
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 3433
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 1878
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 117
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 3467
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 1871
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 125
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 359
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 238
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 117
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 375
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 305
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 125
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 689
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 518
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 118
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 765
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 558
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 1652
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 1038
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 118
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 1657
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 1041
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 143
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 148
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 118
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 286
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 258
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 1196
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 776
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 118
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 1353
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 758
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 126
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 1565
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 866
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 118
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 1515
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 859
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 127
+        }
+      ]
+    },
+    {
+      "format": "NativePng",
+      "transport": "Identity",
+      "total_bytes": 124424,
+      "median_bytes": 857,
+      "p95_bytes": 7583,
+      "encode_median_us": 475.93,
+      "encode_p95_us": 1037.2230000000002,
+      "decode_median_us": 96.964,
+      "decode_p95_us": 202.904,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1118
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 953
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1149
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 892
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 3251
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 2105
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 3990
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2499
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 7859
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 5167
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 7849
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 5187
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 283
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 386
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1110
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 937
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 762
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 876
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 791
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 877
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 7590
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 4575
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 7583
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 4672
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 671
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 537
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 756
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 664
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1576
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1145
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1737
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1241
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 3704
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 2869
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 3677
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 2903
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 275
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 378
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 857
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 778
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 2893
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1953
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 3199
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1975
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3435
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 2635
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3401
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 2680
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 251
+        }
+      ]
+    },
+    {
+      "format": "NativePng",
+      "transport": "Gzip",
+      "total_bytes": 108551,
+      "median_bytes": 728,
+      "p95_bytes": 6599,
+      "encode_median_us": 555.121,
+      "encode_p95_us": 1479.56,
+      "decode_median_us": 132.29999999999998,
+      "decode_p95_us": 313.563,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1037
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 831
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 264
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1046
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 759
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 2722
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1723
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 265
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 3418
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2112
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 6995
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 4096
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 7027
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 4096
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 306
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 316
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 263
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1053
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 819
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 697
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 743
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 264
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 728
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 703
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 268
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 6617
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 3675
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 267
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 6599
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 3689
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 660
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 446
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 728
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 600
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1508
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1055
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1680
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1148
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 267
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 3685
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 2163
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 267
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 3645
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 2202
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 298
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 313
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 267
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 554
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 508
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 2389
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1580
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 2889
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1635
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3331
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 1967
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3269
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 2029
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 274
+        }
+      ]
+    },
+    {
+      "format": "NativePng",
+      "transport": "Zstd",
+      "total_bytes": 109250,
+      "median_bytes": 720,
+      "p95_bytes": 6696,
+      "encode_median_us": 490.448,
+      "encode_p95_us": 1055.5269999999998,
+      "decode_median_us": 98.246,
+      "decode_p95_us": 207.483,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1047
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 842
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 245
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1061
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 789
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 250
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 2782
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1737
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 244
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 3490
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2169
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 249
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 7105
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 4143
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 245
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 7120
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 4162
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 249
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 292
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 302
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 246
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1067
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 845
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 248
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 691
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 759
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 244
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 728
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 716
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 249
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 6723
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 3733
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 246
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 6696
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 3747
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 248
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 654
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 427
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 247
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 720
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 587
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 249
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1506
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1046
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 247
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1668
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1142
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 248
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 3713
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 2138
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 247
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 3686
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 2185
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 284
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 294
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 248
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 545
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 493
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 250
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 2428
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1628
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 246
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 2956
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1673
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 249
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3444
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 1998
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 246
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3294
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 2054
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 250
+        }
+      ]
+    },
+    {
+      "format": "PngFast",
+      "transport": "Identity",
+      "total_bytes": 138026,
+      "median_bytes": 1015,
+      "p95_bytes": 7600,
+      "encode_median_us": 291.843,
+      "encode_p95_us": 755.85,
+      "decode_median_us": 91.98400000000001,
+      "decode_p95_us": 185.62099999999998,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1273
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 1102
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1317
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 1052
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 3345
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 2197
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 4074
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2562
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 8315
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 5415
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 8344
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 5492
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 458
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 554
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1257
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 1083
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 914
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 1022
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 937
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 1015
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 7684
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 4634
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 7600
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 4730
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 804
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 707
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 872
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 797
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1719
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1265
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1875
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1368
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 4021
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 3141
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 4021
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 3171
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 450
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 546
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 1052
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 950
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 3164
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 2144
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 3431
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 2128
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 427
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3918
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 2923
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 427
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3928
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 3007
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 427
+        }
+      ]
+    },
+    {
+      "format": "PngFast",
+      "transport": "Gzip",
+      "total_bytes": 115824,
+      "median_bytes": 808,
+      "p95_bytes": 6603,
+      "encode_median_us": 378.677,
+      "encode_p95_us": 1230.288,
+      "decode_median_us": 133.823,
+      "decode_p95_us": 297.754,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1185
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 950
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 317
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1201
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 871
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 323
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 2744
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1736
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 318
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 3429
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2092
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 323
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 7488
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 4315
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 319
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 7546
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 4381
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 322
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 350
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 364
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 317
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1183
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 937
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 322
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 803
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 845
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 318
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 808
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 774
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 323
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 6727
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 3687
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 319
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 6603
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 3713
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 323
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 774
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 516
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 320
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 825
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 682
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 324
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1641
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1131
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 320
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1788
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1229
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 323
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 3352
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 2390
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 320
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 3340
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 2443
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 324
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 343
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 360
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 320
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 642
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 566
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 324
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 2636
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1738
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 320
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 3128
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1748
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 323
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3784
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 2219
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 320
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3806
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 2305
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 324
+        }
+      ]
+    },
+    {
+      "format": "PngFast",
+      "transport": "Zstd",
+      "total_bytes": 116806,
+      "median_bytes": 825,
+      "p95_bytes": 6708,
+      "encode_median_us": 302.622,
+      "encode_p95_us": 774.055,
+      "decode_median_us": 92.265,
+      "decode_p95_us": 193.386,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1180
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 954
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 297
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1217
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 909
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 304
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 2794
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1758
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 300
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 3498
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2149
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 7561
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 4391
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 300
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 7615
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 4485
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 331
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 348
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 299
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1210
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 971
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 810
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 867
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 300
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 825
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 789
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 6839
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 3800
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 300
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 6708
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 3822
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 781
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 490
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 299
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 832
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 683
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1633
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1138
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 300
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1780
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1241
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 3306
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 2405
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 300
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 3301
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 2448
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 323
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 340
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 299
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 642
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 559
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 2691
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1794
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 300
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 3207
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1779
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 306
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3809
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 2302
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 300
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3847
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 2380
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 306
+        }
+      ]
+    },
+    {
+      "format": "PngHigh",
+      "transport": "Identity",
+      "total_bytes": 124152,
+      "median_bytes": 851,
+      "p95_bytes": 7583,
+      "encode_median_us": 596.429,
+      "encode_p95_us": 1680.581,
+      "decode_median_us": 96.994,
+      "decode_p95_us": 203.134,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1114
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 954
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1125
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 883
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 3237
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 2080
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 3966
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2479
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 7859
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 5163
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 7849
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 5183
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 283
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 386
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1102
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 928
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 749
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 859
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 787
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 870
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 7590
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 4567
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 7583
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 4667
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 666
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 536
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 748
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 659
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1567
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1138
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1725
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1233
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 3704
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 2868
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 3677
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 2902
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 275
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 378
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 851
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 771
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 2892
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1952
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 3199
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1973
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3435
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 2635
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 251
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3401
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 2680
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 251
+        }
+      ]
+    },
+    {
+      "format": "PngHigh",
+      "transport": "Gzip",
+      "total_bytes": 108236,
+      "median_bytes": 719,
+      "p95_bytes": 6599,
+      "encode_median_us": 773.4639999999999,
+      "encode_p95_us": 1857.355,
+      "decode_median_us": 132.561,
+      "decode_p95_us": 313.683,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1036
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 832
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 262
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1025
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 748
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 268
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 2702
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1695
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 263
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 3395
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2094
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 6996
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 4089
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 265
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 7027
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 4089
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 306
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 317
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 262
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1048
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 811
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 268
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 681
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 727
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 263
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 723
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 697
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 267
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 6616
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 3671
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 6599
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 3695
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 268
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 654
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 435
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 265
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 719
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 591
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1500
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1053
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 265
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1666
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1136
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 267
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 3686
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 2162
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 3645
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 2206
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 298
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 315
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 265
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 553
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 503
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 274
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 2380
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1580
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 266
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 2889
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1634
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 267
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3331
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 1961
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 265
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3269
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 2029
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 274
+        }
+      ]
+    },
+    {
+      "format": "PngHigh",
+      "transport": "Zstd",
+      "total_bytes": 109008,
+      "median_bytes": 712,
+      "p95_bytes": 6697,
+      "encode_median_us": 612.119,
+      "encode_p95_us": 1702.302,
+      "decode_median_us": 97.815,
+      "decode_p95_us": 207.422,
+      "tiles": [
+        {
+          "name": "default/level0/0,0/full",
+          "bytes": 1043
+        },
+        {
+          "name": "default/level0/0,0/masked",
+          "bytes": 840
+        },
+        {
+          "name": "default/level0/0,0/empty",
+          "bytes": 245
+        },
+        {
+          "name": "default/level0/-3,-7/full",
+          "bytes": 1039
+        },
+        {
+          "name": "default/level0/-3,-7/masked",
+          "bytes": 780
+        },
+        {
+          "name": "default/level0/-3,-7/empty",
+          "bytes": 250
+        },
+        {
+          "name": "default/level3/0,0/full",
+          "bytes": 2754
+        },
+        {
+          "name": "default/level3/0,0/masked",
+          "bytes": 1707
+        },
+        {
+          "name": "default/level3/0,0/empty",
+          "bytes": 246
+        },
+        {
+          "name": "default/level3/-3,-7/full",
+          "bytes": 3469
+        },
+        {
+          "name": "default/level3/-3,-7/masked",
+          "bytes": 2146
+        },
+        {
+          "name": "default/level3/-3,-7/empty",
+          "bytes": 252
+        },
+        {
+          "name": "default/level8/0,0/full",
+          "bytes": 7105
+        },
+        {
+          "name": "default/level8/0,0/masked",
+          "bytes": 4139
+        },
+        {
+          "name": "default/level8/0,0/empty",
+          "bytes": 246
+        },
+        {
+          "name": "default/level8/-3,-7/full",
+          "bytes": 7120
+        },
+        {
+          "name": "default/level8/-3,-7/masked",
+          "bytes": 4156
+        },
+        {
+          "name": "default/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level0/0,0/full",
+          "bytes": 292
+        },
+        {
+          "name": "large_biomes/level0/0,0/masked",
+          "bytes": 302
+        },
+        {
+          "name": "large_biomes/level0/0,0/empty",
+          "bytes": 246
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/full",
+          "bytes": 1059
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/masked",
+          "bytes": 835
+        },
+        {
+          "name": "large_biomes/level0/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "large_biomes/level3/0,0/full",
+          "bytes": 678
+        },
+        {
+          "name": "large_biomes/level3/0,0/masked",
+          "bytes": 744
+        },
+        {
+          "name": "large_biomes/level3/0,0/empty",
+          "bytes": 245
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/full",
+          "bytes": 724
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/masked",
+          "bytes": 709
+        },
+        {
+          "name": "large_biomes/level3/-3,-7/empty",
+          "bytes": 252
+        },
+        {
+          "name": "large_biomes/level8/0,0/full",
+          "bytes": 6723
+        },
+        {
+          "name": "large_biomes/level8/0,0/masked",
+          "bytes": 3726
+        },
+        {
+          "name": "large_biomes/level8/0,0/empty",
+          "bytes": 247
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/full",
+          "bytes": 6697
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/masked",
+          "bytes": 3748
+        },
+        {
+          "name": "large_biomes/level8/-3,-7/empty",
+          "bytes": 251
+        },
+        {
+          "name": "nether/level0/0,0/full",
+          "bytes": 649
+        },
+        {
+          "name": "nether/level0/0,0/masked",
+          "bytes": 426
+        },
+        {
+          "name": "nether/level0/0,0/empty",
+          "bytes": 247
+        },
+        {
+          "name": "nether/level0/-3,-7/full",
+          "bytes": 712
+        },
+        {
+          "name": "nether/level0/-3,-7/masked",
+          "bytes": 582
+        },
+        {
+          "name": "nether/level0/-3,-7/empty",
+          "bytes": 253
+        },
+        {
+          "name": "nether/level3/0,0/full",
+          "bytes": 1497
+        },
+        {
+          "name": "nether/level3/0,0/masked",
+          "bytes": 1061
+        },
+        {
+          "name": "nether/level3/0,0/empty",
+          "bytes": 248
+        },
+        {
+          "name": "nether/level3/-3,-7/full",
+          "bytes": 1656
+        },
+        {
+          "name": "nether/level3/-3,-7/masked",
+          "bytes": 1129
+        },
+        {
+          "name": "nether/level3/-3,-7/empty",
+          "bytes": 252
+        },
+        {
+          "name": "nether/level8/0,0/full",
+          "bytes": 3713
+        },
+        {
+          "name": "nether/level8/0,0/masked",
+          "bytes": 2137
+        },
+        {
+          "name": "nether/level8/0,0/empty",
+          "bytes": 248
+        },
+        {
+          "name": "nether/level8/-3,-7/full",
+          "bytes": 3686
+        },
+        {
+          "name": "nether/level8/-3,-7/masked",
+          "bytes": 2184
+        },
+        {
+          "name": "nether/level8/-3,-7/empty",
+          "bytes": 254
+        },
+        {
+          "name": "end/level0/0,0/full",
+          "bytes": 284
+        },
+        {
+          "name": "end/level0/0,0/masked",
+          "bytes": 294
+        },
+        {
+          "name": "end/level0/0,0/empty",
+          "bytes": 247
+        },
+        {
+          "name": "end/level0/-3,-7/full",
+          "bytes": 539
+        },
+        {
+          "name": "end/level0/-3,-7/masked",
+          "bytes": 486
+        },
+        {
+          "name": "end/level0/-3,-7/empty",
+          "bytes": 252
+        },
+        {
+          "name": "end/level3/0,0/full",
+          "bytes": 2422
+        },
+        {
+          "name": "end/level3/0,0/masked",
+          "bytes": 1630
+        },
+        {
+          "name": "end/level3/0,0/empty",
+          "bytes": 247
+        },
+        {
+          "name": "end/level3/-3,-7/full",
+          "bytes": 2956
+        },
+        {
+          "name": "end/level3/-3,-7/masked",
+          "bytes": 1669
+        },
+        {
+          "name": "end/level3/-3,-7/empty",
+          "bytes": 252
+        },
+        {
+          "name": "end/level8/0,0/full",
+          "bytes": 3444
+        },
+        {
+          "name": "end/level8/0,0/masked",
+          "bytes": 1986
+        },
+        {
+          "name": "end/level8/0,0/empty",
+          "bytes": 247
+        },
+        {
+          "name": "end/level8/-3,-7/full",
+          "bytes": 3295
+        },
+        {
+          "name": "end/level8/-3,-7/masked",
+          "bytes": 2054
+        },
+        {
+          "name": "end/level8/-3,-7/empty",
+          "bytes": 253
+        }
+      ]
+    }
+  ]
+}

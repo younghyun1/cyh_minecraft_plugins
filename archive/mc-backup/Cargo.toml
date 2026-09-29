@@ -1,0 +1,19 @@
+[package]
+name = "mc_bu"
+version = "0.1.0"
+edition = "2021"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+debug = false
+incremental = false
+strip = true
+panic = "abort"
+
+[dependencies]
+chrono = "0.4.38"
+dirs = "5.0.1"
+flate2 = "1.0.30"
+tar = "0.4.40"

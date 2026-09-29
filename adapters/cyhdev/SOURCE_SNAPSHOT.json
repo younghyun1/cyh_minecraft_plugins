@@ -1,0 +1,718 @@
+{
+  "repository": "https://github.com/younghyun1/cyhdev",
+  "description": "Exact source snapshots. Commit provenance is recorded in docs/source-origins.md. Build manifests are renamed reference files; source-only adapters retain their host dependencies.",
+  "files": [
+    {
+      "path": "backend/Cargo.reference.toml",
+      "source": "rust-be-template/Cargo.toml",
+      "sha256": "01d23a2cb5351b192ac48d401fae1ea3bc0bbc998480f1500a2b39579111cb3d"
+    },
+    {
+      "path": "backend/migrations/2026-09-28-000001_minecraft_waypoints/down.sql",
+      "source": "rust-be-template/migrations/2026-09-28-000001_minecraft_waypoints/down.sql",
+      "sha256": "a0acefa8384a46622206b468729a1d3dcb2480ea43d14f36e76dbe3af3497b3e"
+    },
+    {
+      "path": "backend/migrations/2026-09-28-000001_minecraft_waypoints/up.sql",
+      "source": "rust-be-template/migrations/2026-09-28-000001_minecraft_waypoints/up.sql",
+      "sha256": "4fa63cec9938a9bf232b2eed1718a75e0de0220f2ead675040bbdba89c06cd37"
+    },
+    {
+      "path": "backend/src/errors/code_error/minecraft.rs",
+      "source": "rust-be-template/src/errors/code_error/minecraft.rs",
+      "sha256": "720ae7c755f7fa0dcc49255811386dc212aca3f3111dc56712cc2e9afc172d01"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/controls_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/api/controls_tests.rs",
+      "sha256": "e78d9d9cfe9c7d3ebc1f1383ff8bbbd80e97582f3760ea0d77519cfbb46efe7b"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/controls.rs",
+      "source": "rust-be-template/src/features/minecraft/api/controls.rs",
+      "sha256": "ab87aa30f4d569366222c3a3f110cb4a00afe1c8a82b875f773d5e0069049ed8"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/dto.rs",
+      "source": "rust-be-template/src/features/minecraft/api/dto.rs",
+      "sha256": "62155894b36d5af78d08b791adfd75d707b591480b27ad1a7c7e1505dc3b8c13"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/map_dto.rs",
+      "source": "rust-be-template/src/features/minecraft/api/map_dto.rs",
+      "sha256": "a7a9a0b69cc6d8f0cdb67fb0c477957b92a23f3f4e8111122a05e7c7acdabf95"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/map_error.rs",
+      "source": "rust-be-template/src/features/minecraft/api/map_error.rs",
+      "sha256": "b9d16226c2054dc60f055061daaba7e1b2a0e26b5d7593303b1b7a18db610c20"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/map_response.rs",
+      "source": "rust-be-template/src/features/minecraft/api/map_response.rs",
+      "sha256": "e54c2117a4cccb9e1eef0b267ecdbb8b46c00f2775f7f6d1388c83234d3a7563"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/map_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/api/map_tests.rs",
+      "sha256": "fa7874244fe5ce0ca07c102e4a08e5dcda976bd92df34a5f229ba14887fbd4be"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/map.rs",
+      "source": "rust-be-template/src/features/minecraft/api/map.rs",
+      "sha256": "9e6de7d9f734426dbcea5462a300ab2d7de3c19dd796ebb92ad5aa23f0a51a78"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/mod.rs",
+      "source": "rust-be-template/src/features/minecraft/api/mod.rs",
+      "sha256": "e7f798fab67c6f42eaf2dee0ae1d0856885c2fa90a926c41a87355e0d794ebfd"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/prediction_dto.rs",
+      "source": "rust-be-template/src/features/minecraft/api/prediction_dto.rs",
+      "sha256": "e8beb5460ffa63381bf2346c3aa75607067996976de18813bd1c1abb28d00970"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/seed_tile_binary_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/api/seed_tile_binary_tests.rs",
+      "sha256": "4dfa70386a9f8f16f0faa0b242d28beba0c5ce0bf92bcdd4bab7db75678bca23"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/seed_tile_binary.rs",
+      "source": "rust-be-template/src/features/minecraft/api/seed_tile_binary.rs",
+      "sha256": "05cad7e1027617e196389295aa84b0662c3ad281a35103126f956656f913ecc5"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/seed_tile_colors.rs",
+      "source": "rust-be-template/src/features/minecraft/api/seed_tile_colors.rs",
+      "sha256": "b5e10fe12dbf8de8c016a781118bd4cb9b4cde5131e4aff75fd00391fc6b84b3"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/seed_tile_compression.rs",
+      "source": "rust-be-template/src/features/minecraft/api/seed_tile_compression.rs",
+      "sha256": "33bc1c90999355ef8d3d8c2eea2d621b468143a6601ea44c56548e705af52a04"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/seed_tile_dto.rs",
+      "source": "rust-be-template/src/features/minecraft/api/seed_tile_dto.rs",
+      "sha256": "e310e031caea4f309dc5f6033b0995cf5067a640d0c0b87df67a790d1141327b"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/seed_tile_png_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/api/seed_tile_png_tests.rs",
+      "sha256": "d302b452d122936602c7e2d796242c695e0823530b047392a29f423dffbb116e"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/seed_tile_png.rs",
+      "source": "rust-be-template/src/features/minecraft/api/seed_tile_png.rs",
+      "sha256": "ddd38b1c2f836b41254dd8fa1fd212fd024c05b4e2e37ea366e8cd9a898af7b1"
+    },
+    {
+      "path": "backend/src/features/minecraft/api/seed_tile_render.rs",
+      "source": "rust-be-template/src/features/minecraft/api/seed_tile_render.rs",
+      "sha256": "6ccb87b83236f6935d50567a756e1831a54f9062318d23f9535d18a5f04c569c"
+    },
+    {
+      "path": "backend/src/features/minecraft/domain/command.rs",
+      "source": "rust-be-template/src/features/minecraft/domain/command.rs",
+      "sha256": "4b5fe17397f62ff5143d1a533443c70b172a9f0340e4288d23d64b4e8277b000"
+    },
+    {
+      "path": "backend/src/features/minecraft/domain/map_data.rs",
+      "source": "rust-be-template/src/features/minecraft/domain/map_data.rs",
+      "sha256": "9403d8a4a997c4619914c899a45b8a16da671d6b57cdfdc706f4e18952c52c3d"
+    },
+    {
+      "path": "backend/src/features/minecraft/domain/map_query.rs",
+      "source": "rust-be-template/src/features/minecraft/domain/map_query.rs",
+      "sha256": "20251d7b33fa84fd32e3504f3f95199037f9c3637b9e4b9a84e6f1ae5de1203d"
+    },
+    {
+      "path": "backend/src/features/minecraft/domain/mod.rs",
+      "source": "rust-be-template/src/features/minecraft/domain/mod.rs",
+      "sha256": "6f6e7a2945e9a52f044dbbdb9661ce90f80f082b179754b59959c9799528f159"
+    },
+    {
+      "path": "backend/src/features/minecraft/domain/prediction.rs",
+      "source": "rust-be-template/src/features/minecraft/domain/prediction.rs",
+      "sha256": "b0c21d11bd90c6820aa873a6c29883075e8866a6fd8356a789abe51e3ac74d4d"
+    },
+    {
+      "path": "backend/src/features/minecraft/domain/seed_tile.rs",
+      "source": "rust-be-template/src/features/minecraft/domain/seed_tile.rs",
+      "sha256": "4cc0a822687ccee84d02e77f38621ae08663f2138d29c4cacb90888762a6375b"
+    },
+    {
+      "path": "backend/src/features/minecraft/domain/waypoint.rs",
+      "source": "rust-be-template/src/features/minecraft/domain/waypoint.rs",
+      "sha256": "43cd8d13f8dc1078a3b18fede5edffb2ed9dabe71758d355d5b8a8c61137be98"
+    },
+    {
+      "path": "backend/src/features/minecraft/error.rs",
+      "source": "rust-be-template/src/features/minecraft/error.rs",
+      "sha256": "65cf979b85a9b5ee9992cc8557d52f231ee03108246f03a56b3ac0de1edb8abc"
+    },
+    {
+      "path": "backend/src/features/minecraft/mod.rs",
+      "source": "rust-be-template/src/features/minecraft/mod.rs",
+      "sha256": "55744997544c4f8248b56fd7d2fd7cd93bb1146a109548a18f16c9ec1b9b4339"
+    },
+    {
+      "path": "backend/src/features/minecraft/repository/mod.rs",
+      "source": "rust-be-template/src/features/minecraft/repository/mod.rs",
+      "sha256": "c043e2baa39fcc058b756f3611cc528adcec645bd472f47f7a7013e2afef5a55"
+    },
+    {
+      "path": "backend/src/features/minecraft/repository/waypoints.rs",
+      "source": "rust-be-template/src/features/minecraft/repository/waypoints.rs",
+      "sha256": "e4d6a300ce1fda31ca37e0570348c2214cfd894d0b4b478d3762d8b7dce5c950"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/management.rs",
+      "source": "rust-be-template/src/features/minecraft/service/management.rs",
+      "sha256": "1c8ded0774bbb3635f76727163df448825dc9ddfd434b53dabc0a5100bc82e4f"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/map_control_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/service/map_control_tests.rs",
+      "sha256": "c8c1f283c351a175774b6484dcb837d2f42e5643f8de3bc34ef26b1eba3d581e"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/map_control.rs",
+      "source": "rust-be-template/src/features/minecraft/service/map_control.rs",
+      "sha256": "3c646e6f54c1216c0714c70c5ce71295e3d7d412b7a726931029956c98b33db0"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/mod.rs",
+      "source": "rust-be-template/src/features/minecraft/service/mod.rs",
+      "sha256": "6409184684ef686c39e1caeb6ae4160df3a47cbf4d649b82ba8a9c873276b342"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/prediction_budget.rs",
+      "source": "rust-be-template/src/features/minecraft/service/prediction_budget.rs",
+      "sha256": "c0bdab0ffb9cc90087035d25dfab53edf9fde667d2219c21bcb1765b5813df7c"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/prediction_cache.rs",
+      "source": "rust-be-template/src/features/minecraft/service/prediction_cache.rs",
+      "sha256": "72ad157734b1108d7a37f7213db888df0709937f4310345a381d9daa77cc2701"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/prediction_integration_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/service/prediction_integration_tests.rs",
+      "sha256": "1ac7fe957f7ee582a0ce3aa6fca81ce655282afcd8fad24434bfaf1043a62fbb"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/prediction_process.rs",
+      "source": "rust-be-template/src/features/minecraft/service/prediction_process.rs",
+      "sha256": "b584a3df8b9402215d4dbd319fc679bc9ffb3a2be2c4e2664e66538ec0676c21"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/prediction_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/service/prediction_tests.rs",
+      "sha256": "2a8c9999d0f22a8b4b8e2724ec1686fec19e2b27e135436f6ce2d542847f4253"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/prediction_wire.rs",
+      "source": "rust-be-template/src/features/minecraft/service/prediction_wire.rs",
+      "sha256": "7ea82edfd8e37e978cf23d6ff16a31fff49b96abaeeac6fc9d2d1d45b40de0de"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/prediction.rs",
+      "source": "rust-be-template/src/features/minecraft/service/prediction.rs",
+      "sha256": "9c3999f43ab6292b1718bba41c4828f4bb5953365cd9f4f400258296472fa1c7"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/seed_dimension_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/service/seed_dimension_tests.rs",
+      "sha256": "082ff8185b50e9ed2560264ddf20c231fd14e201f170c21ddc0764a034e25722"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/seed_profile_refresh.rs",
+      "source": "rust-be-template/src/features/minecraft/service/seed_profile_refresh.rs",
+      "sha256": "5b4ce07fceab6e46f8dd9b4ac8e9de83b08f1be058126f8df85e54bd045fbb61"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/seed_profile.rs",
+      "source": "rust-be-template/src/features/minecraft/service/seed_profile.rs",
+      "sha256": "bbda0df4afc7e434a98f4be9563380bfbec0d63c3c8aa3c5e1438d8a84d3eccd"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/seed_tile_cache.rs",
+      "source": "rust-be-template/src/features/minecraft/service/seed_tile_cache.rs",
+      "sha256": "a765bd787f637052c198c4c8b089a608f9ce8d4bfcb442cac32e3f2db134884d"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/seed_tile_concurrency_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/service/seed_tile_concurrency_tests.rs",
+      "sha256": "d945758e42730da785cf8802bc9f69c2386e60712b234de6c4f7ba2011f8103e"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/seed_tile_generate.rs",
+      "source": "rust-be-template/src/features/minecraft/service/seed_tile_generate.rs",
+      "sha256": "266b238947fae1c1f857c2601507c434503b90c757f7821430fbd28494c274e4"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/seed_tile_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/service/seed_tile_tests.rs",
+      "sha256": "87049c07b447744d97d677e569970258985d401f40951335cc8f539caec26f9e"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/seed_tile.rs",
+      "source": "rust-be-template/src/features/minecraft/service/seed_tile.rs",
+      "sha256": "8dcacd53478d66b9d2818dfa1e6f634212be81589fdd15adb4c8e8e18c912b11"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/transport_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/service/transport_tests.rs",
+      "sha256": "2bdf198a023ede8863ac303b36d777f21b5e9fa66486d178f71e8da112e53100"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/transport.rs",
+      "source": "rust-be-template/src/features/minecraft/service/transport.rs",
+      "sha256": "80b6cec5f9b7e32ad535c98df6c89ff9f8b59e0e32677575012ea98417e05aa2"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/waypoints.rs",
+      "source": "rust-be-template/src/features/minecraft/service/waypoints.rs",
+      "sha256": "e1200c2393204f32752c3dc3b88066b6448300c39ce58dc190710a525b3522c0"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/world_query_tests.rs",
+      "source": "rust-be-template/src/features/minecraft/service/world_query_tests.rs",
+      "sha256": "54f49157ec5f942d54af70c4f0be024442a245561b745b143e33b3bb9ca9b136"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/world_query.rs",
+      "source": "rust-be-template/src/features/minecraft/service/world_query.rs",
+      "sha256": "5cc615f41587362b262f35928955e9f99d90e724bcdc41ae479a865a05a7bd72"
+    },
+    {
+      "path": "backend/src/features/minecraft/service/world_wire.rs",
+      "source": "rust-be-template/src/features/minecraft/service/world_wire.rs",
+      "sha256": "7aca6d58da42a76353bc7c7020e8174966d5ef7643e2748a16d5d1d531ae50a5"
+    },
+    {
+      "path": "backend/src/routers/main_router/compression_tests.rs",
+      "source": "rust-be-template/src/routers/main_router/compression_tests.rs",
+      "sha256": "e7ed3345800e4d994265ea85250061c39272516f5b9f206b6d78972e67bba4f1"
+    },
+    {
+      "path": "backend/src/routers/main_router/compression.rs",
+      "source": "rust-be-template/src/routers/main_router/compression.rs",
+      "sha256": "872fad317a3b49de31fbb09aec6f554b851983c9f6b87ef9510cffea1a045298"
+    },
+    {
+      "path": "backend/src/routers/main_router/squaremap_cache_http.rs",
+      "source": "rust-be-template/src/routers/main_router/squaremap_cache_http.rs",
+      "sha256": "04511724b5e1d69729f0f1edd04136c318dd58cb49bb3d50390d15ba8c9eb1ca"
+    },
+    {
+      "path": "backend/src/routers/main_router/squaremap_cache_tests.rs",
+      "source": "rust-be-template/src/routers/main_router/squaremap_cache_tests.rs",
+      "sha256": "f13abb6b1d1d6c0afc6dc641ff8671f7f01df0386f89de9a9842121dc90f9ae0"
+    },
+    {
+      "path": "backend/src/routers/main_router/squaremap_cache.rs",
+      "source": "rust-be-template/src/routers/main_router/squaremap_cache.rs",
+      "sha256": "185ac9daf66c3a1fa6c10350fc8b786e375d187ea8c2971e13f5b5c4d4422521"
+    },
+    {
+      "path": "backend/src/routers/main_router/squaremap_tests.rs",
+      "source": "rust-be-template/src/routers/main_router/squaremap_tests.rs",
+      "sha256": "ceb721b5e0746614f986ef462df0db93e30309f806b13f4703ab1ffe5c3fe783"
+    },
+    {
+      "path": "backend/src/routers/main_router/squaremap.rs",
+      "source": "rust-be-template/src/routers/main_router/squaremap.rs",
+      "sha256": "b94c2f0da9e0fa32047ab16e06e62802ae26c4f87269c001448953d4582eec25"
+    },
+    {
+      "path": "backend/src/routers/middleware/sensitive_response.rs",
+      "source": "rust-be-template/src/routers/middleware/sensitive_response.rs",
+      "sha256": "a428c3f58f491679c7124635e7eab8d9c37fcca86359c8235be1e075ef70dadc"
+    },
+    {
+      "path": "backend/tests/minecraft_waypoints/authority.rs",
+      "source": "rust-be-template/tests/minecraft_waypoints/authority.rs",
+      "sha256": "5588127243b914d79f2a22cae544a9bd68489db3a833c752462151f85ed2da85"
+    },
+    {
+      "path": "backend/tests/minecraft_waypoints/mod.rs",
+      "source": "rust-be-template/tests/minecraft_waypoints/mod.rs",
+      "sha256": "c770df556c344e98f5084d09861a49a07ec3795d25ce442f038c6d365731b60b"
+    },
+    {
+      "path": "backend/tests/postgres_minecraft_waypoints.rs",
+      "source": "rust-be-template/tests/postgres_minecraft_waypoints.rs",
+      "sha256": "18e4d2197536d3c92f7c48e9ecd45a5402949b00277615ea00c9a5cc71e395ca"
+    },
+    {
+      "path": "frontend/e2e/minecraft-explorer.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-explorer.spec.ts",
+      "sha256": "ab4aa1a99f8dee51382ef99871f6c65258e1c0fb6eb0e811e11efe9cb77dd752"
+    },
+    {
+      "path": "frontend/e2e/minecraft-fixtures.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-fixtures.ts",
+      "sha256": "266d6cfd7685fe044439de42a8846d688d03382a35a3469de66ae1c026e3c741"
+    },
+    {
+      "path": "frontend/e2e/minecraft-hover.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-hover.spec.ts",
+      "sha256": "e8fcd2485f60fce07606105ebfd20da18e20e977a52fb28a9de676bd8a862d35"
+    },
+    {
+      "path": "frontend/e2e/minecraft-live-regressions.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-live-regressions.spec.ts",
+      "sha256": "4c39773bb25369e2503416fe10b307295ef86722aa521908783743be0a2a0d52"
+    },
+    {
+      "path": "frontend/e2e/minecraft-prediction.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-prediction.spec.ts",
+      "sha256": "7ef5efa628d1e95c4de4a2edfc7be4e166ebfb2bc125047e6d15f62bc2ccb90c"
+    },
+    {
+      "path": "frontend/e2e/minecraft-seed-benchmark.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-seed-benchmark.spec.ts",
+      "sha256": "6c99851c6951bee44846a9433503c5dd191961538ec0b1481e8bbffef101c10d"
+    },
+    {
+      "path": "frontend/e2e/minecraft-selection.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-selection.spec.ts",
+      "sha256": "89f659bcfca32dc5cb17670ec612411e690d87dac95e4a947de92fc759f5d4e2"
+    },
+    {
+      "path": "frontend/e2e/minecraft.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft.spec.ts",
+      "sha256": "adae5d8a716f53544c6015f329730b0c1d6c1772ab1206f7716ea295fb18d367"
+    },
+    {
+      "path": "frontend/e2e/seed-benchmark-harness.ts",
+      "source": "solid-csr-spa-template/e2e/seed-benchmark-harness.ts",
+      "sha256": "df57fbe91912e403f026eada53ef9fd386caee9377e71e497369b070f862b81d"
+    },
+    {
+      "path": "frontend/e2e/seed-benchmark.html",
+      "source": "solid-csr-spa-template/e2e/seed-benchmark.html",
+      "sha256": "6c23cd84e7356dd2a664deaa6601aed7f84eefbdc89d3d191ae4f7dc57046f43"
+    },
+    {
+      "path": "frontend/e2e/seed-tile-fixture.ts",
+      "source": "solid-csr-spa-template/e2e/seed-tile-fixture.ts",
+      "sha256": "361180e488231f5e26d493f43825f93d4a01849c1a2899ad3b165f4032fc4bb7"
+    },
+    {
+      "path": "frontend/package.reference.json",
+      "source": "solid-csr-spa-template/package.json",
+      "sha256": "d0518458081c2186cc8d7e982b89686310e4a477332fbff61e9cfa53f2003871"
+    },
+    {
+      "path": "frontend/playwright.config.ts",
+      "source": "solid-csr-spa-template/playwright.config.ts",
+      "sha256": "a9fef4718c56bd3468f52d2ca75189da7e7b2920f13cec1b385dc86729f83cb6"
+    },
+    {
+      "path": "frontend/playwright.seed-benchmark.config.ts",
+      "source": "solid-csr-spa-template/playwright.seed-benchmark.config.ts",
+      "sha256": "34c8b2e17c85c79244fbf08562ed4c9c55b44032ce42c67be97cd41cda2c1990"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_controls.test.tsx",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_controls.test.tsx",
+      "sha256": "b4f6060f1023be774206453eb29e055de6f245fca29b91cd09b107c740807d71"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_inspection_panel.test.tsx",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_inspection_panel.test.tsx",
+      "sha256": "70c3aa4763046bf0ef1bac364d10409c48f05ee04ba05a359c4d63ebe2dc7da5"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_inspection.test.ts",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_inspection.test.ts",
+      "sha256": "36f20e6a30e0376d1c92cd576c978eefb8db38758e3b4d5ab1bc2874a7194e35"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_metadata.test.ts",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_metadata.test.ts",
+      "sha256": "72c3a38b01604db6c10df221f3c928a3856c5a98bd8a2dc1af1d9c3397c1fe73"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_page.test.tsx",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_page.test.tsx",
+      "sha256": "4a91eb9de3f4521a80d4c06fd53ddf3b6bafbb5b640b747fe4356e094ba61fa7"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_seed_binary.test.ts",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_seed_binary.test.ts",
+      "sha256": "132dcc3d1efe496d5205c6aa6a6f60cdea3c13c01d89aea43c9b2862a8f0a167"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_seed_png.test.ts",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_seed_png.test.ts",
+      "sha256": "12a913167dfa2235975dee97302b21b2c3a6f2fc6bceda772902e022abca3909"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_seed_tiles.test.ts",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_seed_tiles.test.ts",
+      "sha256": "73b4ab83e043039d6036249281c99b791cd751ffdcea0e6fc4971c5a8ff1173c"
+    },
+    {
+      "path": "frontend/src/__tests__/minecraft_terrain_refresh.test.ts",
+      "source": "solid-csr-spa-template/src/__tests__/minecraft_terrain_refresh.test.ts",
+      "sha256": "a6048220dc8c59b4c8584310a0b1e35926d9301ab88bd12284bfd43d44655db7"
+    },
+    {
+      "path": "frontend/src/components/minecraft/createMapExplorer.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/createMapExplorer.ts",
+      "sha256": "470116755ca584d4ebe83df99e591c3049f0087d00e4b2b770ff76fed6c65aff"
+    },
+    {
+      "path": "frontend/src/components/minecraft/MapAnalysis.tsx",
+      "source": "solid-csr-spa-template/src/components/minecraft/MapAnalysis.tsx",
+      "sha256": "35369491196729c331dc8703602e160b648a770726536426e0f1f890eb9a8c5e"
+    },
+    {
+      "path": "frontend/src/components/minecraft/MapCanvas.tsx",
+      "source": "solid-csr-spa-template/src/components/minecraft/MapCanvas.tsx",
+      "sha256": "9bee4292d6cf6a6332828c8b205c05c8820cf5a83472d8bb65387fdabc0e5464"
+    },
+    {
+      "path": "frontend/src/components/minecraft/MapInspection.tsx",
+      "source": "solid-csr-spa-template/src/components/minecraft/MapInspection.tsx",
+      "sha256": "4f4c823d737d280cacb0bcbd558f6b1b30ff2c9337161b8f4da8a4a8a125d3ed"
+    },
+    {
+      "path": "frontend/src/components/minecraft/mapInspectionState.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/mapInspectionState.ts",
+      "sha256": "22893caafd69f37347b3360b8e84a7b990a6a0e9ed60e02e0c78da07e4302cdb"
+    },
+    {
+      "path": "frontend/src/components/minecraft/mapMath.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/mapMath.ts",
+      "sha256": "f2f535462d514ea06eff2e7dda011f40bf5493cf6cc87d6ff00c658c5e8a72a0"
+    },
+    {
+      "path": "frontend/src/components/minecraft/MapPrediction.tsx",
+      "source": "solid-csr-spa-template/src/components/minecraft/MapPrediction.tsx",
+      "sha256": "b5d59b8627f084aba8e5e439a77b2532b085c0685fe2a543447393d686b420ba"
+    },
+    {
+      "path": "frontend/src/components/minecraft/MapTravel.tsx",
+      "source": "solid-csr-spa-template/src/components/minecraft/MapTravel.tsx",
+      "sha256": "32aa1fda3ba48df189b691d562c0ffd64d8ff1a99c8a61cacc7db05b0b2b96f0"
+    },
+    {
+      "path": "frontend/src/components/minecraft/MapWaypoints.tsx",
+      "source": "solid-csr-spa-template/src/components/minecraft/MapWaypoints.tsx",
+      "sha256": "7a00fb995bb6c8649059ed194de995db185397f0bb8a3612f61d580a4cf3b7e6"
+    },
+    {
+      "path": "frontend/src/components/minecraft/MinecraftControls.tsx",
+      "source": "solid-csr-spa-template/src/components/minecraft/MinecraftControls.tsx",
+      "sha256": "e97428b8df889f7c517286b18c62df4718dfc633af0601b0621206b461615891"
+    },
+    {
+      "path": "frontend/src/components/minecraft/seedTileBinary.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/seedTileBinary.ts",
+      "sha256": "6d05e85ce154f90560d13ecba720d0da7a31e28eb2f97c86818b57e48aacf73e"
+    },
+    {
+      "path": "frontend/src/components/minecraft/seedTileLayer.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/seedTileLayer.ts",
+      "sha256": "a630e64d77e6d3c970da122593fb7dd16e439a57da51f10702b357dd996db6d2"
+    },
+    {
+      "path": "frontend/src/components/minecraft/seedTilePng.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/seedTilePng.ts",
+      "sha256": "d4b1537db48aa18b9363fb2737c0284de10d6a1a313f390652ac2e6c63246c87"
+    },
+    {
+      "path": "frontend/src/components/minecraft/seedTiles.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/seedTiles.ts",
+      "sha256": "5bdb2f0be933833e3f2201630e87d7b83167e194926de39210db8ce4d7956f8c"
+    },
+    {
+      "path": "frontend/src/components/minecraft/terrainRefresh.ts",
+      "source": "solid-csr-spa-template/src/components/minecraft/terrainRefresh.ts",
+      "sha256": "5e03d27c3911f25e438a6ceeed7666b0984bb726f1c22c088a16fa75bd822c3b"
+    },
+    {
+      "path": "frontend/src/generated/clients/minecraft.ts",
+      "source": "solid-csr-spa-template/src/generated/clients/minecraft.ts",
+      "sha256": "2daf012758affbbac04a9528d3f2ed9301df965fd450e675bf5a39ae98acea17"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-action-result.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-action-result.ts",
+      "sha256": "6cb2c44a63e6719372795525c63c8cab3394efbc9fc4da8b2734e2eb702e63b6"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-action.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-action.ts",
+      "sha256": "19a616f2f167035a1310526c79faf3e087908e81462b52a5b59fd68bf2a6dfa6"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-map-cell.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-map-cell.ts",
+      "sha256": "6996105674c364e57285d1fce8852f7a49c0ef7e90ce919c71b4c67704160676"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-map-data.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-map-data.ts",
+      "sha256": "caade0608cd701c2dcf65f56702512347aaf2e159d57158cbca6b75151694dc9"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-map-kind.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-map-kind.ts",
+      "sha256": "0c66252680b629ab107240eb6092ea4a428d6b5e86294e959eb7f99f036ec8f5"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-map-match.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-map-match.ts",
+      "sha256": "21be3c76662fbf422c47e9b94e19a27dc4bb4fa9dcd446bcd36e9b468ad39e84"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-map-query.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-map-query.ts",
+      "sha256": "074de2136bfed09180b9dc744007df8e9e9ef29103f58c7f9fa7e5b9b3613d07"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-map-structure.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-map-structure.ts",
+      "sha256": "7b4cc586a5e9a2c6e2441eb88173bb6d31237c6ec52f3041255effed48568af9"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-map-world.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-map-world.ts",
+      "sha256": "0e361c32739603a7b2bb641ef83623d06638c44c3ffcebcce410d10d525028a3"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-player.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-player.ts",
+      "sha256": "1c5e6a058fad1da7550520f21145142804316e3483cd1c9f3c3eb397cf8ee7e8"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-predicted-biome.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-predicted-biome.ts",
+      "sha256": "942c11de473cb59efa6dc7206c2cab24fd91b8be30c334d716d11365fc2cf093"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-prediction-coverage-state.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-prediction-coverage-state.ts",
+      "sha256": "f2d3c90b0e0fc246f131de01ed2994607148dad4482128e2ab6ca47a7bef11c2"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-prediction-coverage.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-prediction-coverage.ts",
+      "sha256": "3463b8573c86fd289db4391d2a075d9d92db9f169777fec32e37baede9a209ae"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-prediction-preset.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-prediction-preset.ts",
+      "sha256": "2c2e77af7af4ee68f608973843233933e6c279d6dc5dbecf23d7dfc211c0702e"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-prediction-query.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-prediction-query.ts",
+      "sha256": "53c2d0ffdd7d9584f52e8bbf53e4150573a7f1dfadd9c58022745157dd323c34"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-prediction.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-prediction.ts",
+      "sha256": "e22403e3145a769cc063670af21ab98edcd52ce7b103c4953f3080e3c01d4083"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-seed-preset.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-seed-preset.ts",
+      "sha256": "5aa4a79bae1adb88acbeeb2507a60639ce9dff29be34798301c7353141a6488e"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-seed-tile-query.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-seed-tile-query.ts",
+      "sha256": "08d0c26ccf7892a73f1b9830bccae3b7deca5dff10016f1e835cdc7530ec2155"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-seed-tile.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-seed-tile.ts",
+      "sha256": "0c402abb075ce47cf0b4a4213b7ad39e367a6dcd9c55e28477b27d9095d09167"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-status.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-status.ts",
+      "sha256": "dce7a6e13ab5c91fec754579bdee3a28ed83e8898e76d8960028edbe7a2855b1"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-waypoint-input.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-waypoint-input.ts",
+      "sha256": "37815128471a555224eaa158bc0d426b4cf04bd5d632b92af059a4a16bf25cd2"
+    },
+    {
+      "path": "frontend/src/generated/types/minecraft-waypoint.ts",
+      "source": "solid-csr-spa-template/src/generated/types/minecraft-waypoint.ts",
+      "sha256": "27515baba79bc977371434f0e3478e30bd98f85864907d3c2385c27b4e477484"
+    },
+    {
+      "path": "frontend/src/pages/admin_minecraft.tsx",
+      "source": "solid-csr-spa-template/src/pages/admin_minecraft.tsx",
+      "sha256": "89e824da99b2d7fc1a7f385f88932ab6c6936d957aeaf31107c4e91b45282e43"
+    },
+    {
+      "path": "frontend/src/pages/minecraft.tsx",
+      "source": "solid-csr-spa-template/src/pages/minecraft.tsx",
+      "sha256": "b3e89d36a5400a5243c0a7638a20daa13062e7376db01b9e823e958a86b55a7d"
+    },
+    {
+      "path": "frontend/src/services/minecraft_seed_tile.ts",
+      "source": "solid-csr-spa-template/src/services/minecraft_seed_tile.ts",
+      "sha256": "bf6a1598c959b6d0fa0ba535f5c68869c449d46b4e585a86f9971f2abda096be"
+    },
+    {
+      "path": "frontend/src/services/squaremap.ts",
+      "source": "solid-csr-spa-template/src/services/squaremap.ts",
+      "sha256": "fef2ab294cb119ea4f4395c57c83f53a1714513b7b43dd17d67c1efa6b998528"
+    },
+    {
+      "path": "frontend/src/styles/minecraft-controls.css",
+      "source": "solid-csr-spa-template/src/styles/minecraft-controls.css",
+      "sha256": "deab402365a76a43a0bd2f471a0ddb0c1f4fb243302cd367a7f1affdbb36c2df"
+    },
+    {
+      "path": "frontend/src/styles/minecraft.css",
+      "source": "solid-csr-spa-template/src/styles/minecraft.css",
+      "sha256": "200e10b8f001396a8029cbc27f0d1bf4b915644dcfffb3454225ad4938d8c8ad"
+    }
+  ],
+  "extracted": [
+    {
+      "path": "backend/src/schema_minecraft.rs",
+      "source": "rust-be-template/src/schema.rs",
+      "description": "Minecraft table declarations only; unrelated host schema omitted.",
+      "sha256": "ec95d1ca4c8af27b1c1648befe672543e5bc8c0b493e52ff8d79b8fabdbf7386"
+    }
+  ],
+  "sourceCommit": "edcb4e8ae95593f28d12f4c44a456d7c3726e7d9",
+  "documentation": [
+    {
+      "path": "docs/architecture/be/minecraft-explorer.md",
+      "source": "docs/architecture/be/minecraft-explorer.md",
+      "source_sha256": "ea6ab9bbd79e17f2d1c715402f270254196e04360cd3ebcf2235aa546565a4cb",
+      "sha256": "16b3a92b6925e0e1f19e39ca4f81b0ea1d505d0a8b5040d10c46ea22a63a4b86",
+      "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
+    },
+    {
+      "path": "docs/architecture/be/minecraft-tile-protocol.md",
+      "source": "docs/architecture/be/minecraft-tile-protocol.md",
+      "source_sha256": "4db2c3ff39a6de8568e43f35c71fdb3a57515562a03e893e19cae834f78bb2e5",
+      "sha256": "e3fd8d9a5710a6418fe75d2b3773eb6dadf86ee5d5961f6d09e5c42716134a6e",
+      "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
+    },
+    {
+      "path": "docs/design/fe/minecraft.md",
+      "source": "docs/design/fe/minecraft.md",
+      "source_sha256": "b835ea5b4d4e41274ba1495f8e9f9d389a514397984f4d47913bbc8175faa440",
+      "sha256": "ef4225cc0f042a9644b3d83e46616bfd8ea5a0d6c42db70027b319310a68d21d",
+      "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
+    }
+  ]
+}

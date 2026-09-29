@@ -1,0 +1,148 @@
+{
+  "origin": "https://github.com/younghyun1/cyhdev",
+  "sourceRoot": "solid-csr-spa-template",
+  "description": "Source hashes before package-local transport and asset ports; renderer includes dimension, overview, binary, and optional native PNG tiles.",
+  "files": [
+    {
+      "path": "src/components/minecraft/MapCanvas.tsx",
+      "sha256": "9bee4292d6cf6a6332828c8b205c05c8820cf5a83472d8bb65387fdabc0e5464"
+    },
+    {
+      "path": "src/components/minecraft/MapInspection.tsx",
+      "sha256": "4f4c823d737d280cacb0bcbd558f6b1b30ff2c9337161b8f4da8a4a8a125d3ed"
+    },
+    {
+      "path": "src/components/minecraft/mapInspectionState.ts",
+      "sha256": "22893caafd69f37347b3360b8e84a7b990a6a0e9ed60e02e0c78da07e4302cdb"
+    },
+    {
+      "path": "src/components/minecraft/mapMath.ts",
+      "sha256": "f2f535462d514ea06eff2e7dda011f40bf5493cf6cc87d6ff00c658c5e8a72a0"
+    },
+    {
+      "path": "src/components/minecraft/seedTileLayer.ts",
+      "sha256": "a630e64d77e6d3c970da122593fb7dd16e439a57da51f10702b357dd996db6d2"
+    },
+    {
+      "path": "src/components/minecraft/seedTiles.ts",
+      "sha256": "5bdb2f0be933833e3f2201630e87d7b83167e194926de39210db8ce4d7956f8c"
+    },
+    {
+      "path": "src/components/minecraft/terrainRefresh.ts",
+      "sha256": "5e03d27c3911f25e438a6ceeed7666b0984bb726f1c22c088a16fa75bd822c3b"
+    },
+    {
+      "path": "src/components/minecraft/seedTileBinary.ts",
+      "sha256": "6d05e85ce154f90560d13ecba720d0da7a31e28eb2f97c86818b57e48aacf73e"
+    },
+    {
+      "path": "src/services/squaremap.ts",
+      "sha256": "fef2ab294cb119ea4f4395c57c83f53a1714513b7b43dd17d67c1efa6b998528"
+    },
+    {
+      "path": "src/services/minecraft_seed_tile.ts",
+      "sha256": "bf6a1598c959b6d0fa0ba535f5c68869c449d46b4e585a86f9971f2abda096be"
+    },
+    {
+      "path": "src/styles/minecraft.css",
+      "sha256": "200e10b8f001396a8029cbc27f0d1bf4b915644dcfffb3454225ad4938d8c8ad"
+    },
+    {
+      "path": "src/__tests__/minecraft_seed_tiles.test.ts",
+      "sha256": "73b4ab83e043039d6036249281c99b791cd751ffdcea0e6fc4971c5a8ff1173c"
+    },
+    {
+      "path": "src/__tests__/minecraft_seed_binary.test.ts",
+      "sha256": "132dcc3d1efe496d5205c6aa6a6f60cdea3c13c01d89aea43c9b2862a8f0a167"
+    },
+    {
+      "path": "src/__tests__/minecraft_metadata.test.ts",
+      "sha256": "72c3a38b01604db6c10df221f3c928a3856c5a98bd8a2dc1af1d9c3397c1fe73"
+    },
+    {
+      "path": "src/__tests__/minecraft_inspection.test.ts",
+      "sha256": "36f20e6a30e0376d1c92cd576c978eefb8db38758e3b4d5ab1bc2874a7194e35"
+    },
+    {
+      "path": "src/__tests__/minecraft_inspection_panel.test.tsx",
+      "sha256": "70c3aa4763046bf0ef1bac364d10409c48f05ee04ba05a359c4d63ebe2dc7da5"
+    },
+    {
+      "path": "src/__tests__/minecraft_terrain_refresh.test.ts",
+      "sha256": "a6048220dc8c59b4c8584310a0b1e35926d9301ab88bd12284bfd43d44655db7"
+    },
+    {
+      "path": "src/generated/types/minecraft-seed-tile.ts",
+      "sha256": "0c402abb075ce47cf0b4a4213b7ad39e367a6dcd9c55e28477b27d9095d09167"
+    },
+    {
+      "path": "src/generated/types/minecraft-seed-preset.ts",
+      "sha256": "5aa4a79bae1adb88acbeeb2507a60639ce9dff29be34798301c7353141a6488e"
+    },
+    {
+      "path": "src/generated/types/minecraft-seed-tile-query.ts",
+      "sha256": "08d0c26ccf7892a73f1b9830bccae3b7deca5dff10016f1e835cdc7530ec2155"
+    },
+    {
+      "path": "src/generated/types/minecraft-map-data.ts",
+      "sha256": "caade0608cd701c2dcf65f56702512347aaf2e159d57158cbca6b75151694dc9"
+    },
+    {
+      "path": "src/generated/types/minecraft-map-cell.ts",
+      "sha256": "6996105674c364e57285d1fce8852f7a49c0ef7e90ce919c71b4c67704160676"
+    },
+    {
+      "path": "src/generated/types/minecraft-map-kind.ts",
+      "sha256": "0c66252680b629ab107240eb6092ea4a428d6b5e86294e959eb7f99f036ec8f5"
+    },
+    {
+      "path": "src/generated/types/minecraft-map-match.ts",
+      "sha256": "21be3c76662fbf422c47e9b94e19a27dc4bb4fa9dcd446bcd36e9b468ad39e84"
+    },
+    {
+      "path": "src/generated/types/minecraft-map-structure.ts",
+      "sha256": "7b4cc586a5e9a2c6e2441eb88173bb6d31237c6ec52f3041255effed48568af9"
+    },
+    {
+      "path": "src/generated/types/minecraft-map-world.ts",
+      "sha256": "0e361c32739603a7b2bb641ef83623d06638c44c3ffcebcce410d10d525028a3"
+    },
+    {
+      "path": "src/generated/types/minecraft-map-query.ts",
+      "sha256": "074de2136bfed09180b9dc744007df8e9e9ef29103f58c7f9fa7e5b9b3613d07"
+    },
+    {
+      "path": "src/generated/types/minecraft-waypoint.ts",
+      "sha256": "27515baba79bc977371434f0e3478e30bd98f85864907d3c2385c27b4e477484"
+    },
+    {
+      "path": "src/generated/runtime.ts",
+      "sha256": "5f43fcb40af33442a5f300b343af3bba9c05b9f358d130e468fb7dcc0b4db37c"
+    },
+    {
+      "path": "src/components/minecraft/seedTilePng.ts",
+      "sha256": "d4b1537db48aa18b9363fb2737c0284de10d6a1a313f390652ac2e6c63246c87"
+    },
+    {
+      "path": "src/__tests__/minecraft_seed_png.test.ts",
+      "sha256": "12a913167dfa2235975dee97302b21b2c3a6f2fc6bceda772902e022abca3909"
+    },
+    {
+      "path": "e2e/seed-benchmark-harness.ts",
+      "sha256": "df57fbe91912e403f026eada53ef9fd386caee9377e71e497369b070f862b81d"
+    },
+    {
+      "path": "e2e/seed-benchmark.html",
+      "sha256": "6c23cd84e7356dd2a664deaa6601aed7f84eefbdc89d3d191ae4f7dc57046f43"
+    },
+    {
+      "path": "e2e/minecraft-seed-benchmark.spec.ts",
+      "sha256": "6c99851c6951bee44846a9433503c5dd191961538ec0b1481e8bbffef101c10d"
+    },
+    {
+      "path": "playwright.seed-benchmark.config.ts",
+      "sha256": "34c8b2e17c85c79244fbf08562ed4c9c55b44032ce42c67be97cd41cda2c1990"
+    }
+  ],
+  "sourceCommit": "edcb4e8ae95593f28d12f4c44a456d7c3726e7d9"
+}
