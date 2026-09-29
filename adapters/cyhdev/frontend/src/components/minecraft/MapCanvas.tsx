@@ -20,7 +20,7 @@ type Props = {
   readonly matches: MinecraftMapData | null;
   readonly seedTiles: SeedTiles;
   readonly seedWorld: string | null;
-  readonly predictionY: number;
+  readonly predictionY: number | null;
   readonly predictionsEnabled: boolean;
   readonly onRenderedLookup: (lookup: (point: MapPoint) => boolean) => void;
   readonly onInspectionRefresh: () => void;
@@ -65,6 +65,7 @@ export default function MapCanvas(props: Props) {
   let dragStart: MapPoint | null = null, dragEnd: MapPoint | null = null, dragPointer: number | null = null, suppressClickUntil = 0;
   const [ready, setReady] = createSignal(false);
   const sampled = L.layerGroup(), markers = L.layerGroup(), playersLayer = L.layerGroup(), selection = L.layerGroup(), grid = L.layerGroup();
+  const waypointRenderer = L.svg({ pane: "minecraft-waypoints" });
   const dragged = L.layerGroup();
   // The parent keys this component by its loaded world, so projection settings are immutable here.
   const settings = untrack(() => props.settings), worldMapId = untrack(() => props.mapId);
@@ -142,6 +143,7 @@ export default function MapCanvas(props: Props) {
     map.createPane("minecraft-seeds");
     map.createPane("minecraft-frontier");
     map.createPane("minecraft-player-nameplates");
+    map.createPane("minecraft-waypoints");
     boundary = createTerrainBoundary(map, tiles, settings.maxZoom, point => untrack(() => props.seedWorld ? props.seedTiles.sample(props.seedWorld, point, props.predictionY) !== null : false), () => untrack(props.onInspectionRefresh));
     untrack(() => props.onRenderedLookup(point => boundary?.rendered(point) ?? false));
     sampled.addTo(map); grid.addTo(map); markers.addTo(map); playersLayer.addTo(map); selection.addTo(map); dragged.addTo(map);
@@ -214,8 +216,9 @@ export default function MapCanvas(props: Props) {
     }
     for (const match of matches?.matches ?? []) L.circleMarker(position(match), { radius: 4, color: "#111111", weight: 1, fillColor: "#68e4ef", fillOpacity: 1 })
       .bindTooltip(label(`Block · ${match.x}, ${match.y}, ${match.z}`)).addTo(markers);
-    for (const waypoint of waypoints) L.circleMarker(position(waypoint), { radius: 7, color: "#20130d", weight: 2, fillColor: "#ffcd6e", fillOpacity: 1 })
-      .bindTooltip(label(`${waypoint.name} · ${waypoint.x}, ${waypoint.y}, ${waypoint.z}${waypoint.description ? ` · ${waypoint.description}` : ""}`)).addTo(markers);
+    for (const waypoint of waypoints) L.circleMarker(position(waypoint), { pane: "minecraft-waypoints", renderer: waypointRenderer, className: "minecraft-waypoint-marker", radius: 7, color: "#20130d", weight: 2, fillColor: "#ffcd6e", fillOpacity: 1 })
+      .bindTooltip(label(waypoint.name), { permanent: true, direction: "right", offset: [9, 0], pane: "minecraft-waypoints", className: "minecraft-waypoint-nameplate", opacity: 1 })
+      .bindPopup(label(`${waypoint.name} · ${waypoint.x}, ${waypoint.y}, ${waypoint.z}${waypoint.description ? ` · ${waypoint.description}` : ""}`), { className: "minecraft-waypoint-popup" }).addTo(markers);
   });
   createEffect(() => [ready(), props.players] as const, ([mounted, players]) => {
     if (!mounted) return;

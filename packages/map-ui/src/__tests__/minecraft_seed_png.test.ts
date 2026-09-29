@@ -14,9 +14,9 @@ function header(depth = 8, color = 3, width = 64) {
 }
 function png(...chunks: Uint8Array[]): ArrayBuffer { return Uint8Array.from([...SIGNATURE, ...chunks.flatMap(bytes => [...bytes])]).buffer; }
 const metadata = chunk("cyBM", Uint8Array.from([1, 2, 3])), pixels = chunk("IDAT", Uint8Array.from([0])), end = chunk("IEND", new Uint8Array());
-function validMetadata() {
+function validMetadata(surface = false) {
   const fields = new Uint8Array(31), view = new DataView(fields.buffer);
-  fields.set([67, 89, 66, 77, 1, 1, 0, 1, 0]); view.setInt16(9, 64, true); view.setBigUint64(19, 1_000_000n, true); view.setUint16(27, 15000, true); view.setUint16(29, 1, true);
+  fields.set([67, 89, 66, 77, surface ? 2 : 1, 1, 0, 1, 0]); view.setInt16(9, surface ? -32768 : 64, true); view.setBigUint64(19, 1_000_000n, true); view.setUint16(27, 15000, true); view.setUint16(29, 1, true);
   const strings = ["a".repeat(32), "fixture", "minecraft:plains"].flatMap(value => [value.length, ...new TextEncoder().encode(value)]);
   return chunk("cyBM", Uint8Array.from([...fields, ...strings, 255, 63]));
 }
@@ -44,6 +44,11 @@ describe("PNG seed tile metadata and native decoding", () => {
   it("closes a bitmap with inconsistent decoded dimensions", async () => {
     const image = { width: 32, height: 64, close: vi.fn() }; vi.stubGlobal("createImageBitmap", vi.fn(async () => image));
     await expect(decodeSeedTilePng(png(header(), validMetadata(), pixels, end))).rejects.toThrow("dimensions"); expect(image.close).toHaveBeenCalledOnce();
+  });
+  it("preserves surface mode in PNG metadata without inventing a fixed height", async () => {
+    const image = { width: 64, height: 64, close: vi.fn() }; vi.stubGlobal("createImageBitmap", vi.fn(async () => image));
+    const tile = await decodeSeedTilePng(png(header(), validMetadata(true), pixels, end));
+    expect(tile.y).toBeNull(); expect(tile.world).toBe("minecraft:overworld"); expect(tile.image).toBe(image);
   });
   it("avoids canceled decodes and closes native work canceled while decoding", async () => {
     let finish!: (image: ImageBitmap) => void;

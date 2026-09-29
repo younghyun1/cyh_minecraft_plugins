@@ -8,7 +8,7 @@ fn tile() -> MinecraftSeedTile {
         level: 0,
         min_x: -256,
         min_z: 512,
-        y: 64,
+        y: Some(64),
         step: 4,
         width: 64,
         height: 64,
@@ -109,7 +109,7 @@ fn public_metadata_must_match_the_canonical_tile() {
         |tile: &mut MinecraftSeedTile| tile.min_x += 1,
         |tile: &mut MinecraftSeedTile| tile.min_z += 1,
         |tile: &mut MinecraftSeedTile| tile.step *= 2,
-        |tile: &mut MinecraftSeedTile| tile.y = 320,
+        |tile: &mut MinecraftSeedTile| tile.y = Some(320),
         |tile: &mut MinecraftSeedTile| tile.world = "minecraft:the_nether".into(),
         |tile: &mut MinecraftSeedTile| tile.profile_epoch = "short".into(),
         |tile: &mut MinecraftSeedTile| tile.palette[0] = "minecraft:bad biome".into(),
@@ -119,4 +119,29 @@ fn public_metadata_must_match_the_canonical_tile() {
         mutate(&mut tile);
         assert!(encode(&tile).is_err());
     }
+}
+
+#[test]
+fn surface_tiles_have_versioned_metadata_without_an_invented_height() -> Result<(), MapError> {
+    let mut tile = tile();
+    tile.y = None;
+    let frame = encode(&tile)?;
+    assert_eq!(frame[4], 2);
+    assert_eq!(&frame[9..11], &i16::MIN.to_le_bytes());
+    assert_eq!(&frame[11..15], &(-1_i32).to_le_bytes());
+    assert_eq!(
+        serde_json::to_value(&tile)
+            .ok()
+            .map(|value| value["y"].clone()),
+        Some(serde_json::Value::Null)
+    );
+    for (world, preset) in [
+        ("minecraft:the_nether", MinecraftSeedPreset::Nether),
+        ("minecraft:the_end", MinecraftSeedPreset::End),
+    ] {
+        tile.world = world.into();
+        tile.preset = preset;
+        assert!(encode(&tile).is_err());
+    }
+    Ok(())
 }

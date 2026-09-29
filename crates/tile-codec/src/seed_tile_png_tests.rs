@@ -12,7 +12,7 @@ fn tile(palette: Vec<String>) -> MinecraftSeedTile {
         level: 0,
         min_x: -256,
         min_z: 512,
-        y: 64,
+        y: Some(64),
         step: 4,
         width: 64,
         height: 64,
@@ -99,12 +99,14 @@ fn transparent_pixels_and_hover_indices_match_for_every_palette_depth()
 #[test]
 fn identical_display_colors_retain_distinct_hover_names() -> Result<(), Box<dyn std::error::Error>>
 {
-    let tile = tile(vec!["minecraft:plains".into(), "minecraft:meadow".into()]);
+    let mut tile = tile(vec!["minecraft:plains".into(), "minecraft:meadow".into()]);
+    tile.y = None;
     assert_eq!(
         seed_tile_colors::color(&tile.palette[0]),
         seed_tile_colors::color(&tile.palette[1])
     );
     assert_eq!(metadata(&encode(&tile)?)?, seed_tile_binary::encode(&tile)?);
+    assert_eq!(metadata(&encode(&tile)?)?[4], 2);
     Ok(())
 }
 

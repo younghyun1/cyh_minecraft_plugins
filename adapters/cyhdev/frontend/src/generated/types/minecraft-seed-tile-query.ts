@@ -6,5 +6,5 @@ export type MinecraftSeedTileQuery = {
   readonly tile_x: number;
   readonly tile_z: number;
   readonly world: string;
-  readonly y: number;
+  readonly y: number | null;
 };

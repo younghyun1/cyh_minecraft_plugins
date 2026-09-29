@@ -3,7 +3,8 @@
 use pumpkin_data::{
     chunk::{NETHER_BIOME_SOURCE, OVERWORLD_BIOME_SOURCE},
     noise_router::{
-        END_BASE_NOISE_ROUTER, LARGE_BIOMES_BASE_NOISE_ROUTER, OVERWORLD_BASE_NOISE_ROUTER,
+        BaseNoiseFunctionComponent, END_BASE_NOISE_ROUTER, LARGE_BIOMES_BASE_NOISE_ROUTER,
+        OVERWORLD_BASE_NOISE_ROUTER,
     },
 };
 use pumpkin_world::generation::{
@@ -20,7 +21,8 @@ use crate::{
 };
 
 /// Exact source and generated-data revision used by this executable.
-pub const GENERATOR_REVISION: &str = "pumpkin-4426d1113a211e6018a2db416e33b6b8a7802614-java26.3";
+pub const GENERATOR_REVISION: &str =
+    "pumpkin-4426d1113a211e6018a2db416e33b6b8a7802614-java26.3-surface1";
 
 pub(crate) enum Sampler<'a> {
     MultiNoise(MultiNoiseSampler<'a>),
@@ -40,7 +42,12 @@ impl<'a> Sampler<'a> {
 }
 
 /// Construct only the selected dimension's seed-specific biome noise router.
-pub(crate) fn router(seed: i64, dimension: Dimension, large_biomes: bool) -> ProtoMultiNoiseRouter {
+pub(crate) fn router(
+    seed: i64,
+    dimension: Dimension,
+    large_biomes: bool,
+    surface: bool,
+) -> ProtoMultiNoiseRouter {
     let base = match (dimension, large_biomes) {
         (Dimension::Overworld, true) => &LARGE_BIOMES_BASE_NOISE_ROUTER.multi_noise,
         (Dimension::Overworld, false) => &OVERWORLD_BASE_NOISE_ROUTER.multi_noise,
@@ -48,24 +55,43 @@ pub(crate) fn router(seed: i64, dimension: Dimension, large_biomes: bool) -> Pro
         (Dimension::End, _) => &END_BASE_NOISE_ROUTER.multi_noise,
     };
     let random = GlobalRandomConfig::new(seed as u64, dimension != Dimension::Overworld);
+    let mut components =
+        ProtoNoiseRouters::generate_proto_stack(base.full_component_stack, &random).into_vec();
+    let depth = if surface {
+        // Cubiomes' SAMPLE_NO_DEPTH projects climate onto depth zero. A separate
+        // constant output skips the unused terrain-depth spline without changing
+        // any shared temperature, humidity, continentalness, erosion or ridges.
+        components.extend(
+            ProtoNoiseRouters::generate_proto_stack(
+                &[BaseNoiseFunctionComponent::Constant { value: 0.0 }],
+                &random,
+            )
+            .into_vec(),
+        );
+        components.len() - 1
+    } else {
+        base.depth
+    };
     ProtoMultiNoiseRouter {
-        full_component_stack: ProtoNoiseRouters::generate_proto_stack(
-            base.full_component_stack,
-            &random,
-        ),
+        full_component_stack: components.into_boxed_slice(),
         temperature: base.temperature,
         vegetation: base.vegetation,
         continents: base.continents,
         erosion: base.erosion,
-        depth: base.depth,
+        depth,
         ridges: base.ridges,
     }
 }
 
-/// Predict a bounded fixed-height grid, including the true large-biomes preset.
+/// Predict a bounded surface or fixed-height grid, including the large-biomes preset.
 pub fn predict(request: &PredictionRequest) -> Result<PredictionResponse, Error> {
     request.validate()?;
-    let router = router(request.seed, request.dimension, request.large_biomes);
+    let router = router(
+        request.seed,
+        request.dimension,
+        request.large_biomes,
+        request.y.is_none(),
+    );
     let mut sampler = Sampler::new(&router, request.dimension, request.seed);
     sample(request, &mut sampler, || false)
 }
@@ -80,6 +106,7 @@ pub(crate) fn sample(
     if cancelled() {
         return Err(Error::Cancelled);
     }
+    let y = request.y.unwrap_or(0);
 
     // Aligned quart grids can use Pumpkin's volume path. Other grids must round
     // each coordinate separately, since a block step need not be a quart step.
@@ -94,7 +121,7 @@ pub(crate) fn sample(
             1,
             request.height as usize,
             request.min_x,
-            (request.y >> 2) << 2,
+            (y >> 2) << 2,
             request.min_z,
             step,
             4,
@@ -115,14 +142,18 @@ pub(crate) fn sample(
             let biome = match sampler {
                 Sampler::End(sampler) => sampler.biome(x, z),
                 Sampler::MultiNoise(sampler) => {
-                    let point = sampler.sample(x >> 2, request.y >> 2, z >> 2);
+                    let point = sampler.sample(x >> 2, y >> 2, z >> 2);
                     let source = match request.dimension {
                         Dimension::Nether => &NETHER_BIOME_SOURCE,
                         Dimension::Overworld | Dimension::End => &OVERWORLD_BIOME_SOURCE,
                     };
                     // Clearing the previous leaf keeps equal-distance ties stable
                     // across overlapping viewports and request order.
-                    source.get(&point.convert_to_list(), &mut None)
+                    if request.y.is_none() {
+                        crate::surface_biome::get(&point.convert_to_list())?
+                    } else {
+                        source.get(&point.convert_to_list(), &mut None)
+                    }
                 }
             };
             cells.push(Cell {
@@ -142,3 +173,7 @@ pub(crate) fn sample(
 #[cfg(test)]
 #[path = "generator_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "surface_tests.rs"]
+mod surface_tests;

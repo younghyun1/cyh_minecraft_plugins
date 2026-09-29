@@ -1,6 +1,6 @@
 # Biome transport benchmark
 
-Development-only comparison of JSON, CYBM binary and native PNG with equivalent metadata and exact biome hover indices. Each representation is measured with identity, gzip and Zstandard transport. PNG calls the production codec, including actual biome colors and the complete identity metadata chunk; additional Fast and High compression variants measure the tradeoff against the default Balanced setting. The deterministic corpus uses synthetic seed 1, all four supported presets, three levels, two locations and full/masked/empty visibility, for 72 tiles.
+Development-only comparison of JSON, CYBM binary and native PNG with equivalent metadata and exact biome hover indices. Each representation is measured with identity, gzip and Zstandard transport. PNG calls the production codec, including actual biome colors and the complete identity metadata chunk; additional Fast and High compression variants measure the tradeoff against the default Balanced setting. The deterministic corpus uses synthetic seed 1, fixed Y=64, all four supported presets, three levels, two locations and full/masked/empty visibility, for 72 tiles. The checked-in transport receipts predate Surface mode and remain historical fixed-slice measurements, not a benchmark of the new default projection.
 
 ```sh
 cargo run --locked --package minecraft-tile-benchmark -- target/biome-transport.json

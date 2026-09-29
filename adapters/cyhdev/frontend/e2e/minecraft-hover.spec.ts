@@ -83,6 +83,7 @@ test("survey data remains inspectable with biome colors disabled", async ({ page
 test("prediction inspection preserves its fixed-Y provenance without a terrain read", async ({ page }) => {
   const fixture = await setup(page, true);
   await page.getByRole("button", { name: "Layers", exact: true }).click();
+  await page.getByRole("combobox", { name: "Biome view", exact: true }).selectOption("underground");
   await page.getByLabel("Prediction Y", { exact: true }).fill("-16");
   await page.clock.runFor(1700);
   await expect(page.locator(".minecraft-prediction-receipt")).toContainText("Predicted · Y -16 · Large biomes");

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { installApiMocks, setUiPreferences } from "./fixtures";
-import { installMinecraftMapMocks } from "./minecraft-fixtures";
+import { initialWaypoint, installMinecraftMapMocks } from "./minecraft-fixtures";
 
 for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
   test(`explorer surveys terrain, searches blocks, and fits ${viewport.width}px`, async ({ page }) => {
@@ -70,13 +70,47 @@ test("administrators create, edit, and delete public waypoints", async ({ page }
   await page.getByRole("button", { name: "Save waypoint" }).click();
   await expect.poll(() => fixture.writes.length).toBe(1);
   expect(fixture.writes[0]).toMatchObject({ method: "POST", body: { name: "South farm", world: "minecraft:overworld", x: 128, z: 128 } });
+  await expect(page.locator(".minecraft-waypoint-nameplate").filter({ hasText: "South farm" })).toBeVisible();
   await page.getByRole("button", { name: "Edit waypoint South farm" }).click();
   await page.getByLabel("Name", { exact: true }).fill("Village farm");
   await page.getByRole("button", { name: "Save waypoint" }).click();
   await expect.poll(() => fixture.writes.length).toBe(2);
   expect(fixture.writes[1]).toMatchObject({ method: "PATCH", body: { name: "Village farm" } });
+  await expect(page.locator(".minecraft-waypoint-nameplate").filter({ hasText: "South farm" })).toHaveCount(0);
+  await expect(page.locator(".minecraft-waypoint-nameplate").filter({ hasText: "Village farm" })).toBeVisible();
   page.once("dialog", dialog => dialog.accept());
   await page.getByRole("button", { name: "Delete waypoint Village farm" }).first().click();
   await expect.poll(() => fixture.writes.length).toBe(3);
   expect(fixture.writes[2]?.method).toBe("DELETE");
+  await expect(page.locator(".minecraft-waypoint-nameplate").filter({ hasText: "Village farm" })).toHaveCount(0);
+});
+
+test("public waypoint nameplates preserve literal text and follow their dimension", async ({ page }) => {
+  await installApiMocks(page, "logged-out"); await setUiPreferences(page, "en-US", "light");
+  const fixture = await installMinecraftMapMocks(page);
+  const waypoint = { ...initialWaypoint, name: '<b>Camp</b> & "Home"', description: '<img src="x" onerror="alert(1)"> supplies' };
+  await page.route("**/api/minecraft/map/waypoints?*", route => route.fulfill({ json: { data: new URL(route.request().url()).searchParams.get("world") === waypoint.world ? [waypoint] : [] } }));
+  await page.goto("/minecraft");
+  const nameplate = page.locator(".minecraft-waypoint-nameplate");
+  await expect(nameplate).toBeVisible();
+  await expect(nameplate).toHaveText(waypoint.name);
+  await expect(nameplate.locator("b, img")).toHaveCount(0);
+  await expect(nameplate).toHaveCSS("pointer-events", "none");
+  await expect(page.getByRole("region", { name: "Map menu" })).toHaveCount(0);
+
+  const canvas = page.locator(".minecraft-atlas-canvas"), box = await canvas.boundingBox();
+  if (!box) throw new Error("Minecraft map is missing");
+  await canvas.click({ position: { x: Math.floor(box.width / 2) + (waypoint.x - 128) * 2, y: Math.floor(box.height / 2) + (waypoint.z - 128) * 2 } });
+  const popup = page.locator(".minecraft-waypoint-popup .leaflet-popup-content");
+  await expect(popup).toHaveText(`${waypoint.name} · 146, 72, 116 · ${waypoint.description}`);
+  await expect(popup.locator("b, img")).toHaveCount(0);
+  await page.getByRole("button", { name: "Close popup" }).click();
+  await expect(nameplate).toBeVisible();
+
+  await page.getByLabel("Dimension", { exact: true }).selectOption("minecraft_the_nether");
+  await expect(nameplate).toHaveCount(0);
+  await page.getByLabel("Dimension", { exact: true }).selectOption("minecraft_overworld");
+  await expect(nameplate).toBeVisible();
+  await expect(nameplate).toHaveText(waypoint.name);
+  expect(fixture.writes).toEqual([]);
 });

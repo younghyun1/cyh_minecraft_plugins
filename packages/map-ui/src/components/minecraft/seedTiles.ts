@@ -4,7 +4,7 @@ import type { MapPoint } from "./mapMath";
 
 export const SEED_TILE_SIZE = 64, SEED_MAX_LEVEL = 12, SEED_MAX_TILES = 256;
 const CACHE_BYTES = 16 * 1024 * 1024, CACHE_ENTRIES = 1024, MAX_REQUESTS = 4, EMPTY = 65535;
-export type SeedSample = { name: string; sample: MapPoint; y: number; step: number; expires: number };
+export type SeedSample = { name: string; sample: MapPoint; y: number | null; step: number; expires: number };
 export type SeedTileResponse = MinecraftSeedTile & { readonly image?: ImageBitmap };
 export type SeedTile = Omit<SeedTileResponse, "indices"> & { readonly indices: Uint16Array; readonly cost: number };
 type Listener = { draw: (tile: SeedTile | null) => void; priority: () => number };
@@ -19,6 +19,7 @@ export function decodeSeedTile(data: SeedTileResponse, query: MinecraftSeedTileQ
   if (data.world !== query.world || data.tile_x !== query.tile_x || data.tile_z !== query.tile_z || data.level !== query.level || data.y !== query.y
     || data.min_x !== origin.x || data.min_z !== origin.z || data.step !== 4 * 2 ** query.level || data.width !== 64 || data.height !== 64
     || !Number.isInteger(query.level) || query.level < 0 || query.level > SEED_MAX_LEVEL || !Number.isInteger(query.tile_x) || !Number.isInteger(query.tile_z)
+    || (query.y === null ? query.world !== "minecraft:overworld" : !Number.isInteger(query.y) || query.y < (query.world === "minecraft:overworld" ? -64 : 0) || query.y > (query.world === "minecraft:overworld" ? 319 : 255))
     || !Number.isFinite(data.expires_at_ms) || data.expires_at_ms <= now || data.expires_at_ms > now + 15_000
     || !Number.isFinite(data.sampled_at_ms) || data.sampled_at_ms > now + 1000 || data.sampled_at_ms < now - 15_000 || data.sampled_at_ms >= data.expires_at_ms || data.expires_at_ms > data.sampled_at_ms + 15_000
     || !/^[a-zA-Z0-9_-]{16,128}$/.test(data.profile_epoch) || !["default", "large_biomes", "nether", "end"].includes(data.preset)
@@ -107,7 +108,7 @@ export function createSeedTiles(options: Options) {
   };
   const timer = window.setInterval(pump, 250);
   return {
-    configure(world: string | null, y: number, visible: boolean) {
+    configure(world: string | null, y: number | null, visible: boolean) {
       const next = `${world}:${y}`;
       if (context !== next || enabled !== visible) { context = next; enabled = visible && world !== null; clear(); }
       pump();
@@ -128,7 +129,7 @@ export function createSeedTiles(options: Options) {
         if (current?.listeners.size === 0) { targets.delete(key); running.get(key)?.abort(); }
       };
     },
-    sample(world: string, point: MapPoint, y: number): SeedSample | null {
+    sample(world: string, point: MapPoint, y: number | null): SeedSample | null {
       if (!enabled) return null;
       for (let level = 0; level <= SEED_MAX_LEVEL; ++level) {
         const span = 256 * 2 ** level;

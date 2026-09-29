@@ -41,6 +41,26 @@ describe("continuous seed tile cache", () => {
     expect(read).toHaveBeenCalledTimes(2); expect(reused.mock.lastCall?.[0]).not.toBeNull();
     hold.resolve(reply({ ...query, tile_x: 0 })); await tick();
   });
+  it.each([null, 64])("isolates surface and fixed-Y caches when switching from %s with a pending reply", async from => {
+    const { store, read } = setup(), hold = deferred<MinecraftSeedTile & { image: ImageBitmap }>(), close = vi.fn();
+    const oldQuery = { ...query, y: from }, next = { ...query, y: from === null ? 64 : null };
+    store.configure(query.world, from, true); read.mockReturnValueOnce(hold.promise);
+    const oldDraw = vi.fn(); store.subscribe(oldQuery, oldDraw, () => 0);
+    store.configure(query.world, next.y, true);
+    const nextDraw = vi.fn(); store.subscribe(next, nextDraw, () => 0); await tick();
+    expect(store.sample(query.world, { x: -1, z: 0 }, next.y)?.y).toBe(next.y);
+    expect(store.sample(query.world, { x: -1, z: 0 }, from)).toBeNull();
+    hold.resolve({ ...reply(oldQuery), image: { close } as unknown as ImageBitmap }); await tick();
+    expect(close).toHaveBeenCalledOnce(); expect(oldDraw.mock.lastCall?.[0]).toBeNull();
+    expect(store.stats().entries).toBe(1); expect(nextDraw.mock.lastCall?.[0]?.y).toBe(next.y);
+  });
+
+  it("rejects surface mode in dimensions whose contract requires an explicit Y", () => {
+    for (const world of ["minecraft:the_nether", "minecraft:the_end"]) {
+      const invalid = { ...query, world, y: null };
+      expect(decodeSeedTile(reply(invalid), invalid)).toBeNull();
+    }
+  });
 
   it.each(["nether", "end"] as const)("keeps %s dimension samples distinct from cached Overworld biomes", async preset => {
     const { store, read } = setup(); store.subscribe(query, () => undefined, () => 0); await tick();

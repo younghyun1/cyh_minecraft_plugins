@@ -10,19 +10,21 @@ PNG responses are capped at 65,536 bytes and always decode to 64 by 64 pixels. U
 
 The PNG browser adapter validates framing, checksums, dimensions and bounded identity metadata before native image decoding. It retains the resulting `ImageBitmap` alongside hover indices within the existing 16 MiB tile-data budget, reserving two RGBA buffers per bitmap for CPU/GPU storage. Eviction, expiry, profile replacement and disposal close retained bitmaps; stale or canceled responses close newly decoded bitmaps. The renderer draws each native bitmap directly into its existing small tile canvas. Permission lifetime and request/profile binding remain identical across transports; neither PNG format nor image caching extends visibility authority.
 
-## CYBM version 1
+## CYBM versions 1 and 2
+
+The logical request and response use `y: null` for the Overworld surface climate projection and an integer Y for a height slice. Surface requests are rejected for other dimensions, whose established sampling remains unchanged. Surface and slice cache entries are distinct. The encoder retains version 1 for numeric slices so existing clients and captured fixtures remain compatible; surface frames use version 2 with the reserved signed Y value `-32768`. Version 1 must reject that sentinel. Version 2 accepts it only for the Overworld. The byte layout and all size limits are unchanged. PNG embeds the same versioned metadata, so image pixels and hover provenance agree.
 
 The decoder accepts at most 40,000 decompressed bytes. All multibyte integers are little-endian. A tile always contains 4,096 row-major samples. Its step is `4 << level`, its span is `64 * step`, and its origin is the signed tile address multiplied by that span. Derived values are checked against the requested address and world bounds.
 
 | Offset | Field | Encoding |
 | --- | --- | --- |
 | 0 | Magic | Four ASCII bytes `CYBM` |
-| 4 | Version | `u8`, currently 1 |
+| 4 | Version | `u8`, 1 or 2 |
 | 5 | Pixel codec | `u8`: 0 for bit packing, 1 for runs |
 | 6 | Dimension | `u8`: Overworld 0, Nether 1, End 2 |
 | 7 | Preset | `u8`: default 0, large biomes 1, Nether 2, End 3 |
 | 8 | Level | `u8`, zero through twelve |
-| 9 | Y | `i16` |
+| 9 | Y | `i16`; version 2 reserves `-32768` for Overworld surface climate |
 | 11 | Tile X | `i32` |
 | 15 | Tile Z | `i32` |
 | 19 | Profile sample time | `u64` Unix milliseconds, within JavaScript's safe integer range |
@@ -38,6 +40,8 @@ Decoders reject unknown versions/codecs, inconsistent dimension/preset pairs, in
 The compatibility JSON DTO remains the generated logical browser type. The binary adapter uses the host `apiFetch` policy and a fixed input buffer; it does not duplicate session or origin handling. Rust and TypeScript are covered by explicit wire fixtures and malformed-frame tests.
 
 ## Transport measurements
+
+These recorded transport and browser results use the earlier numeric Y=64 corpus. They are fixed-slice measurements, not measurements of surface projection or its generation cost.
 
 Reproduce the comparison with `cargo run --locked --package minecraft-tile-benchmark -- target/minecraft-tile-benchmark.json`. The 72 synthetic tiles cover four presets, three zoom levels, negative/origin regions, and full/masked/empty coverage. Every codec roundtrip is checked for exact palette and index preservation. The following development-build measurements exclude generation, HTTP framing, network and browser rendering.
 

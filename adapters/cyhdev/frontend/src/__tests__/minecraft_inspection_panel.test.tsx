@@ -28,6 +28,12 @@ describe("terrain inspection panel", () => {
     expect(screen.getByText(/4 × 4 block sample/).textContent).toContain("biome Y 64");
     expect(screen.queryByText(/Surface Y/)).toBeNull();
   });
+  it("labels predicted surface biomes without claiming a terrain height", () => {
+    render(() => <MapInspection inspection={{ ...observation, biome: { name: "minecraft:forest", source: "predicted", sample: { x: -4, z: 16 }, y: null, surfaceY: null } }} />);
+    expect(screen.getByText(/Predicted biome:/).textContent).toContain("forest");
+    expect(screen.getByText(/4 × 4 block sample/).textContent).toContain("surface biome · approximate");
+    expect(screen.queryByText(/Surface Y|biome Y/)).toBeNull();
+  });
 
   it("bounds exact search-match heights in the compact readout", () => {
     render(() => <MapInspection inspection={{ ...observation, biome: null, block: { name: "minecraft:diamond_ore", ys: Array.from({ length: 20 }, (_, index) => index - 32) } }} />);

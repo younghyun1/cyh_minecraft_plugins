@@ -44,7 +44,7 @@ fn binary() -> TestResult<Vec<u8>> {
         level: 0,
         min_x: -256,
         min_z: 512,
-        y: 64,
+        y: Some(64),
         step: 4,
         width: 64,
         height: 64,

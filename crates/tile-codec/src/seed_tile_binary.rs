@@ -43,11 +43,15 @@ pub fn encode(tile: &MinecraftSeedTile) -> Result<Vec<u8>, MapError> {
         .checked_sub(tile.sampled_at_ms)
         .filter(|ttl| (1..=15_000).contains(ttl))
         .ok_or(MapError::Unavailable)? as u16;
-    let y = i16::try_from(tile.y).map_err(|_| MapError::Unavailable)?;
+    let (version, y) = match tile.y {
+        Some(y) => (1, i16::try_from(y).map_err(|_| MapError::Unavailable)?),
+        // Version 1 readers reject this frame instead of mistaking it for a height slice.
+        None => (2, i16::MIN),
+    };
     let sampled = u64::try_from(tile.sampled_at_ms).map_err(|_| MapError::Unavailable)?;
     let mut bytes = Vec::with_capacity(256 + payload.len());
     bytes.extend_from_slice(b"CYBM");
-    bytes.extend_from_slice(&[1, codec, world, preset, tile.level]);
+    bytes.extend_from_slice(&[version, codec, world, preset, tile.level]);
     bytes.extend_from_slice(&y.to_le_bytes());
     bytes.extend_from_slice(&tile.tile_x.to_le_bytes());
     bytes.extend_from_slice(&tile.tile_z.to_le_bytes());
@@ -89,10 +93,14 @@ pub(crate) fn validate(tile: &MinecraftSeedTile) -> Result<(), MapError> {
     let span = i64::from(step) * 64;
     let x = i64::from(tile.tile_x) * span;
     let z = i64::from(tile.tile_z) * span;
+    let valid_height = match tile.y {
+        Some(y) => (min_y..=max_y).contains(&y),
+        None => tile.world == "minecraft:overworld",
+    };
     if tile.step != step
         || i64::from(tile.min_x) != x
         || i64::from(tile.min_z) != z
-        || !(min_y..=max_y).contains(&tile.y)
+        || !valid_height
         || [x, z]
             .into_iter()
             .any(|origin| origin >= 30_000_000 || origin + span <= -30_000_000)

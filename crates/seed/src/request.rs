@@ -20,7 +20,7 @@ pub enum Dimension {
     End,
 }
 
-/// One fixed-height dimension grid; seed input stays inside the worker pipe.
+/// One dimension grid; seed input stays inside the worker pipe.
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct PredictionRequest {
@@ -31,8 +31,9 @@ pub struct PredictionRequest {
     pub dimension: Dimension,
     /// Selects vanilla's distinct large-biomes noise router.
     pub large_biomes: bool,
-    /// Block height: -64..=319 in the Overworld, 0..=255 elsewhere.
-    pub y: i32,
+    /// Fixed block height, or the Overworld surface climate projection when absent.
+    #[serde(default)]
+    pub y: Option<i32>,
     /// First sample's block X coordinate.
     pub min_x: i32,
     /// First sample's block Z coordinate.
@@ -57,9 +58,13 @@ impl PredictionRequest {
             Dimension::Overworld => 319,
             Dimension::Nether | Dimension::End => 255,
         };
+        let valid_y = match self.y {
+            Some(y) => (min_y..=max_y).contains(&y),
+            None => self.dimension == Dimension::Overworld,
+        };
         if !(1..=MAX_POINTS).contains(&count)
             || self.step == 0
-            || !(min_y..=max_y).contains(&self.y)
+            || !valid_y
             || (self.dimension != Dimension::Overworld && self.large_biomes)
         {
             return Err(Error::Bounds);
@@ -77,7 +82,7 @@ impl PredictionRequest {
     }
 }
 
-/// Raw quart-biome sample at the requested block coordinate, without Voronoi blending.
+/// Quart-climate biome at the requested coordinate, without Voronoi blending.
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Cell {
@@ -111,7 +116,7 @@ mod tests {
             seed: 1,
             dimension: Dimension::Overworld,
             large_biomes: false,
-            y: 64,
+            y: Some(64),
             min_x: 0,
             min_z: 0,
             width: 32,
@@ -144,11 +149,11 @@ mod tests {
         assert!(input.validate().is_err());
         input.height = 1;
         assert!(input.validate().is_ok());
-        input.y = 320;
+        input.y = Some(320);
         assert!(input.validate().is_err());
-        input.y = -65;
+        input.y = Some(-65);
         assert!(input.validate().is_err());
-        input.y = -64;
+        input.y = Some(-64);
         input.width = 0;
         assert!(input.validate().is_err());
         input.width = 1;
@@ -162,16 +167,45 @@ mod tests {
             let mut input = request();
             input.dimension = dimension;
             for y in [0, 255] {
-                input.y = y;
+                input.y = Some(y);
                 assert!(input.validate().is_ok());
             }
             for y in [-64, -1, 256, 319] {
-                input.y = y;
+                input.y = Some(y);
                 assert!(input.validate().is_err());
             }
-            input.y = 64;
+            input.y = Some(64);
             input.large_biomes = true;
             assert!(input.validate().is_err());
+            input.large_biomes = false;
+            input.y = None;
+            assert!(input.validate().is_err());
         }
+    }
+
+    #[test]
+    fn absent_or_null_y_selects_surface_but_numeric_zero_remains_a_slice()
+    -> Result<(), serde_json::Error> {
+        let base = serde_json::json!({
+            "seed": 1, "large_biomes": false, "min_x": 0, "min_z": 0,
+            "width": 1, "height": 1, "step": 4
+        });
+        for y in [
+            None,
+            Some(serde_json::Value::Null),
+            Some(serde_json::json!(0)),
+        ] {
+            let mut value = base.clone();
+            if let Some(y) = y {
+                value["y"] = y;
+            }
+            let input: PredictionRequest = serde_json::from_value(value.clone())?;
+            assert!(input.validate().is_ok());
+            assert_eq!(
+                input.y,
+                value.get("y").and_then(|y| y.as_i64()).map(|y| y as i32)
+            );
+        }
+        Ok(())
     }
 }

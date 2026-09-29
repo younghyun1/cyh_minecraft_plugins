@@ -19,5 +19,5 @@ export type MinecraftSeedTile = {
   readonly tile_z: number;
   readonly width: number;
   readonly world: string;
-  readonly y: number;
+  readonly y: number | null;
 };

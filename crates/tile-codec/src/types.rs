@@ -21,7 +21,8 @@ pub struct MinecraftSeedTile {
     pub level: u8,
     pub min_x: i32,
     pub min_z: i32,
-    pub y: i32,
+    /// None selects Overworld surface climate; a value selects a fixed-height slice.
+    pub y: Option<i32>,
     pub step: u32,
     pub width: u8,
     pub height: u8,

@@ -1,11 +1,11 @@
 {
   "origin": "https://github.com/younghyun1/cyhdev",
   "sourceRoot": "solid-csr-spa-template",
-  "description": "Source hashes before package-local transport and asset ports; renderer includes dimension, overview, binary, and optional native PNG tiles.",
+  "description": "Source hashes before package-local transport and asset ports; renderer includes surface/slice predictions, versioned binary and native PNG tiles, zoom-only frontier hiding, and persistent waypoint names above player banners.",
   "files": [
     {
       "path": "src/components/minecraft/MapCanvas.tsx",
-      "sha256": "71a60aee4c47ada468717aa33b7397a0374b45b2cb9e97d6e4e9c38e558d4401"
+      "sha256": "9277af695d92c2868038e99b8d6b74f18a2780f5595b2e221f4ecc01084a9562"
     },
     {
       "path": "src/components/minecraft/MapInspection.tsx",
@@ -21,11 +21,11 @@
     },
     {
       "path": "src/components/minecraft/seedTileLayer.ts",
-      "sha256": "a630e64d77e6d3c970da122593fb7dd16e439a57da51f10702b357dd996db6d2"
+      "sha256": "3c56a8ea522c7f153809238bd9ce56260bbbfb3b36d46f2e1bcad6b4df862eb5"
     },
     {
       "path": "src/components/minecraft/seedTiles.ts",
-      "sha256": "5bdb2f0be933833e3f2201630e87d7b83167e194926de39210db8ce4d7956f8c"
+      "sha256": "d1434cc7457c3563b15c82ef77e0b16e457008a55d7e44a786ec5a1e7ecd9a2b"
     },
     {
       "path": "src/components/minecraft/terrainRefresh.ts",
@@ -33,7 +33,7 @@
     },
     {
       "path": "src/components/minecraft/seedTileBinary.ts",
-      "sha256": "6d05e85ce154f90560d13ecba720d0da7a31e28eb2f97c86818b57e48aacf73e"
+      "sha256": "7be8ff2e196837ce271649194540cddd4168cbcfec98ce2b922d2a4ff249a86e"
     },
     {
       "path": "src/services/squaremap.ts",
@@ -45,15 +45,15 @@
     },
     {
       "path": "src/styles/minecraft.css",
-      "sha256": "43ca56f304d08f68c4fdabcdc2389a5781ef5514cb15652d0fbd13e19ce9dc69"
+      "sha256": "01793e8206378358292df435d836f47baee306ce7f9b67607269139b4644f7a3"
     },
     {
       "path": "src/__tests__/minecraft_seed_tiles.test.ts",
-      "sha256": "73b4ab83e043039d6036249281c99b791cd751ffdcea0e6fc4971c5a8ff1173c"
+      "sha256": "173d49cee0c71fd3268f587b1e30ca52ed8a8bdbd83ce2b8b18f95f8c584056d"
     },
     {
       "path": "src/__tests__/minecraft_seed_binary.test.ts",
-      "sha256": "132dcc3d1efe496d5205c6aa6a6f60cdea3c13c01d89aea43c9b2862a8f0a167"
+      "sha256": "1f3809b533aea513f6e27bdca265ada2efc27fc10cbca4e0c3190cfa27d396d0"
     },
     {
       "path": "src/__tests__/minecraft_metadata.test.ts",
@@ -65,7 +65,7 @@
     },
     {
       "path": "src/__tests__/minecraft_inspection_panel.test.tsx",
-      "sha256": "70c3aa4763046bf0ef1bac364d10409c48f05ee04ba05a359c4d63ebe2dc7da5"
+      "sha256": "b512dfd76e44b737fc64b91a6a768191e9d5fa93ce302007298bf79a09e158eb"
     },
     {
       "path": "src/__tests__/minecraft_terrain_refresh.test.ts",
@@ -73,7 +73,7 @@
     },
     {
       "path": "src/generated/types/minecraft-seed-tile.ts",
-      "sha256": "0c402abb075ce47cf0b4a4213b7ad39e367a6dcd9c55e28477b27d9095d09167"
+      "sha256": "8e0f63f90e04985d63d89356bbf96d3f868606dd201d604e51f2b35a5d5b1207"
     },
     {
       "path": "src/generated/types/minecraft-seed-preset.ts",
@@ -81,7 +81,7 @@
     },
     {
       "path": "src/generated/types/minecraft-seed-tile-query.ts",
-      "sha256": "08d0c26ccf7892a73f1b9830bccae3b7deca5dff10016f1e835cdc7530ec2155"
+      "sha256": "c0e1b8793ecba7e3d813bde46924657a7e127288e997d966074c8316db2eab24"
     },
     {
       "path": "src/generated/types/minecraft-map-data.ts",
@@ -125,7 +125,7 @@
     },
     {
       "path": "src/__tests__/minecraft_seed_png.test.ts",
-      "sha256": "12a913167dfa2235975dee97302b21b2c3a6f2fc6bceda772902e022abca3909"
+      "sha256": "381976ddfdc379980c1f1dd75a13e08d1fc96e6492c65526b691997902c54f95"
     },
     {
       "path": "e2e/seed-benchmark-harness.ts",
@@ -152,5 +152,5 @@
       "sha256": "5f66c4645ed9f95ddc186ad249095b7ab9e53b5e4c0b1cf44032dff582cf7342"
     }
   ],
-  "sourceCommit": "ef29ece5a2d049902aaa5a1cff5130a4b3b6804d"
+  "sourceCommit": "e95b5a08f11639f09c8636def11ddc62c351e851"
 }

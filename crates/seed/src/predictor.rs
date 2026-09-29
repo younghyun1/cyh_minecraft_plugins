@@ -65,7 +65,8 @@ fn run(receiver: Receiver<Job>) {
         let seed = job.request.seed;
         let dimension = job.request.dimension;
         let large_biomes = job.request.large_biomes;
-        let router = generator::router(seed, dimension, large_biomes);
+        let surface = job.request.y.is_none();
+        let router = generator::router(seed, dimension, large_biomes, surface);
         // The sampler borrows its router; this nested loop keeps both alive
         // without leaked allocations or self-referential ownership.
         let mut sampler = generator::Sampler::new(&router, dimension, seed);
@@ -77,6 +78,7 @@ fn run(receiver: Receiver<Job>) {
             if job.request.seed != seed
                 || job.request.dimension != dimension
                 || job.request.large_biomes != large_biomes
+                || job.request.y.is_none() != surface
             {
                 break;
             }

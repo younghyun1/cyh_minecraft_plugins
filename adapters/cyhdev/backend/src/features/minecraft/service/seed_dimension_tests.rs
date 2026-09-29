@@ -136,21 +136,67 @@ fn dimensions_reject_wrong_heights_and_accept_coarse_far_tiles() {
         SeedDimension::End,
     ] {
         request.world = dimension.world().into();
-        request.y = 64;
+        request.y = Some(64);
         assert!(request.geometry().is_some());
-        request.y = -64;
+        request.y = Some(-64);
         assert_eq!(
             request.geometry().is_some(),
             dimension == SeedDimension::Overworld
         );
-        request.y = 256;
+        request.y = Some(256);
         assert_eq!(
             request.geometry().is_some(),
             dimension == SeedDimension::Overworld
         );
-        request.y = 320;
+        request.y = Some(320);
         assert!(request.geometry().is_none());
+        request.y = None;
+        assert_eq!(
+            request.geometry().is_some(),
+            dimension == SeedDimension::Overworld
+        );
     }
+}
+
+#[tokio::test]
+async fn surface_and_height_slices_keep_separate_cache_entries() -> anyhow::Result<()> {
+    let backend = service(std::env::temp_dir().join("unused-surface-profile.sock"))?;
+    let now = now_ms()?;
+    let active = Profile::parse(
+        format!("{}\n", wire(now)).as_bytes(),
+        "minecraft:overworld",
+        now,
+    )?;
+    let slice = query();
+    let mut surface = slice.clone();
+    surface.y = None;
+    for (request, name) in [(&slice, "slice_fixture"), (&surface, "surface_fixture")] {
+        backend
+            .cache
+            .insert(
+                Key::new(&active, request),
+                Arc::new(super::super::seed_tile_cache::Tile {
+                    palette: vec![format!("minecraft:{name}")],
+                    indices: vec![Some(0); 4096],
+                }),
+            )
+            .await;
+    }
+    *backend.profile[0].write().await = Some(Arc::new(ActiveProfile {
+        profile: active,
+        epoch: "fixture".into(),
+    }));
+    let tile = backend.tile(surface).await?;
+    assert_eq!(tile.query.y, None);
+    assert_eq!(tile.palette, ["minecraft:surface_fixture"]);
+    let tile = backend.tile(slice).await?;
+    assert_eq!(tile.query.y, Some(64));
+    assert_eq!(tile.palette, ["minecraft:slice_fixture"]);
+    assert_eq!(
+        backend.generated.load(std::sync::atomic::Ordering::Relaxed),
+        0
+    );
+    Ok(())
 }
 
 #[tokio::test]

@@ -20,7 +20,9 @@ pub struct MinecraftSeedTileQuery {
     pub tile_x: i32,
     pub tile_z: i32,
     pub level: u8,
-    pub y: i32,
+    /// Null selects Overworld surface climate; a number selects a fixed-height slice.
+    #[schema(required = true)]
+    pub y: Option<i32>,
 }
 
 impl From<MinecraftSeedTileQuery> for SeedTileQuery {
@@ -43,7 +45,9 @@ pub struct MinecraftSeedTile {
     pub level: u8,
     pub min_x: i32,
     pub min_z: i32,
-    pub y: i32,
+    /// Null identifies surface climate, without claiming a generated terrain height.
+    #[schema(required = true)]
+    pub y: Option<i32>,
     pub step: u32,
     pub width: u8,
     pub height: u8,
@@ -83,5 +87,26 @@ impl From<crate::features::minecraft::domain::seed_tile::SeedTile> for Minecraft
             palette: tile.palette,
             indices: tile.indices,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn surface_and_legacy_numeric_requests_keep_distinct_domain_addresses() -> anyhow::Result<()> {
+        for (value, expected) in [
+            (serde_json::Value::Null, None),
+            (serde_json::json!(64), Some(64)),
+        ] {
+            let request: MinecraftSeedTileQuery = serde_json::from_value(serde_json::json!({
+                "world": "minecraft:overworld", "tile_x": 0, "tile_z": 0, "level": 0, "y": value,
+            }))?;
+            let query = SeedTileQuery::from(request);
+            assert_eq!(query.y, expected);
+            assert_eq!(query.geometry(), Some((0, 0, 4)));
+        }
+        Ok(())
     }
 }

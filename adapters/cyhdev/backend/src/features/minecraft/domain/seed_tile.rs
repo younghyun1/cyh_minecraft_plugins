@@ -70,14 +70,19 @@ pub struct SeedTileQuery {
     pub tile_x: i32,
     pub tile_z: i32,
     pub level: u8,
-    pub y: i32,
+    /// None projects Overworld surface climate; Some samples a fixed block height.
+    pub y: Option<i32>,
 }
 
 impl SeedTileQuery {
     /// Keep coordinate arithmetic widened until the complete tile is validated.
     pub fn geometry(&self) -> Option<(i32, i32, u32)> {
         let dimension = SeedDimension::from_world(&self.world)?;
-        if self.level > 12 || !dimension.contains_y(self.y) {
+        let valid_height = match self.y {
+            Some(y) => dimension.contains_y(y),
+            None => dimension == SeedDimension::Overworld,
+        };
+        if self.level > 12 || !valid_height {
             return None;
         }
         let step = 4_u32 << self.level;
@@ -105,7 +110,7 @@ mod tests {
             tile_x: -1,
             tile_z: 1,
             level: 0,
-            y: 64,
+            y: Some(64),
         };
         assert_eq!(query.geometry(), Some((-256, 256, 4)));
         query.level = 12;

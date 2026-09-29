@@ -8,12 +8,12 @@ const transport = vi.hoisted(() => ({ fetch: vi.fn<typeof fetch>() }));
 const readSeedTile = createSeedTileReader(transport.fetch, "/api/minecraft/map/seed-tile.bin");
 const query: MinecraftSeedTileQuery = { world: "minecraft:overworld", y: 64, tile_x: -1, tile_z: 2, level: 0 };
 const EPOCH = "a".repeat(32), REVISION = "fixture", SAMPLE_TIME = 1_000_000;
-type FrameOptions = { codec?: number; palette?: string[]; payload?: number[]; world?: number; preset?: number; level?: number; y?: number; tileX?: number; tileZ?: number; timestamp?: bigint; ttl?: number; epoch?: string };
+type FrameOptions = { version?: number; codec?: number; palette?: string[]; payload?: number[]; world?: number; preset?: number; level?: number; y?: number; tileX?: number; tileZ?: number; timestamp?: bigint; ttl?: number; epoch?: string };
 
 /** Deliberately explicit wire offsets make this independent of the production parser. */
 function frame(options: FrameOptions = {}): ArrayBuffer {
   const palette = options.palette ?? ["minecraft:plains"], header = new Uint8Array(31), view = new DataView(header.buffer);
-  header.set([67, 89, 66, 77, 1, options.codec ?? 1, options.world ?? 0, options.preset ?? 1, options.level ?? 0]);
+  header.set([67, 89, 66, 77, options.version ?? 1, options.codec ?? 1, options.world ?? 0, options.preset ?? 1, options.level ?? 0]);
   view.setInt16(9, options.y ?? 64, true); view.setInt32(11, options.tileX ?? -1, true); view.setInt32(15, options.tileZ ?? 2, true);
   view.setBigUint64(19, options.timestamp ?? BigInt(SAMPLE_TIME), true); view.setUint16(27, options.ttl ?? 15000, true); view.setUint16(29, palette.length, true);
   const fields: number[] = [...header];
@@ -31,6 +31,15 @@ function packed(symbols: readonly number[], bits: number): number[] {
 }
 
 describe("Minecraft binary biome tile decoder", () => {
+  it("decodes surface v2 separately from numeric v1 and v2 slices", () => {
+    const surface = decodeSeedTileBinary(frame({ version: 2, y: -32768 }));
+    expect(surface).toMatchObject({ world: "minecraft:overworld", y: null });
+    expect(decodeSeedTile(surface, { ...query, y: null }, SAMPLE_TIME)).not.toBeNull();
+    expect(decodeSeedTile(surface, query, SAMPLE_TIME)).toBeNull();
+    for (const version of [1, 2]) expect(decodeSeedTileBinary(frame({ version, y: -16 })).y).toBe(-16);
+    for (const options of [{ version: 1, y: -32768 }, { version: 2, y: -32767 }, { version: 2, y: -32768, world: 1, preset: 2 }, { version: 2, y: -32768, world: 2, preset: 3 }, { version: 3, y: 64 }]) expect(() => decodeSeedTileBinary(frame(options))).toThrow();
+  });
+
   it("decodes the Rust compact_runs_keep_exact_metadata_and_nulls frame", () => {
     // The Rust encoder test pins these two 2,048-cell runs to FE 1F FF 1F.
     const bytes = frame({ payload: [254, 31, 255, 31] }), tile = decodeSeedTileBinary(bytes);

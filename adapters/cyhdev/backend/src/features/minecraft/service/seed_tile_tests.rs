@@ -9,7 +9,7 @@ pub(super) fn query() -> SeedTileQuery {
         tile_x: -1,
         tile_z: 0,
         level: 0,
-        y: 64,
+        y: Some(64),
     }
 }
 

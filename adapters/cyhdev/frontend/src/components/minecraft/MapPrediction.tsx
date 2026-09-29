@@ -9,14 +9,15 @@ export default function MapPrediction(props: { readonly explorer: MapExplorer })
     <label class="minecraft-toggle"><input type="checkbox" checked={props.explorer.predictionsEnabled()} onChange={event => props.explorer.setPredictionsEnabled(event.currentTarget.checked)} /> Predicted biomes</label>
     <Show when={props.explorer.predictionsEnabled()}>
       <label>Tile format<select value={props.explorer.predictionFormat()} onChange={event => props.explorer.selectPredictionFormat(event.currentTarget.value === "png" ? "png" : "binary")}><option value="binary">Binary</option><option value="png">PNG</option></select></label>
-      <label>Prediction Y<input type="number" value={height()} min={props.explorer.currentWorld()?.min_y ?? -64} max={props.explorer.currentWorld()?.max_y ?? 319} step="1" onInput={event => {
+      <Show when={props.explorer.seedWorld() === "minecraft:overworld"}><label>Biome view<select aria-label="Biome view" value={props.explorer.surfacePrediction() ? "surface" : "underground"} onChange={event => props.explorer.setSurfacePrediction(event.currentTarget.value === "surface")}><option value="surface">Surface</option><option value="underground">Underground</option></select></label></Show>
+      <Show when={props.explorer.predictionSampleY() !== null}><label>Prediction Y<input type="number" value={height()} min={props.explorer.currentWorld()?.min_y ?? -64} max={props.explorer.currentWorld()?.max_y ?? 319} step="1" onInput={event => {
         setHeight(event.currentTarget.value);
         const y = coordinate(event.currentTarget.value), world = props.explorer.currentWorld();
         if (y !== null && world && y >= world.min_y && y <= world.max_y) props.explorer.setPredictionY(y);
-      }} /></label>
+      }} /></label></Show>
       <Show when={props.explorer.predicting()}><small role="status">Loading predictions…</small></Show>
       <Show when={props.explorer.predictionNotice()}><p class="minecraft-map-warning" role="status">{props.explorer.predictionNotice()}</p></Show>
-      <Show when={props.explorer.predictionPreset()}>{preset => <small class="minecraft-prediction-receipt">Predicted · Y {props.explorer.predictionY()} · {preset() === "large_biomes" ? "Large biomes" : preset() === "nether" ? "Nether" : preset() === "end" ? "The End" : "Default biomes"} · approximate</small>}</Show>
+      <Show when={props.explorer.predictionPreset()}>{preset => <small class="minecraft-prediction-receipt">Predicted · {props.explorer.predictionSampleY() === null ? "Surface" : `Y ${props.explorer.predictionSampleY()}`} · {preset() === "large_biomes" ? "Large biomes" : preset() === "nether" ? "Nether" : preset() === "end" ? "The End" : "Default biomes"} · approximate</small>}</Show>
     </Show>
   </div>;
 }

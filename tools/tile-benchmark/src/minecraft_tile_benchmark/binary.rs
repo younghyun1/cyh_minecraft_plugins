@@ -4,8 +4,12 @@ use super::formats::{Decoded, Result};
 
 /// Decode the complete header before reconstructing exact optional palette indices.
 pub fn decode(bytes: &[u8]) -> Result<Decoded> {
-    if bytes.len() < 33 || &bytes[..4] != b"CYBM" || bytes[4] != 1 {
+    if bytes.len() < 33 || &bytes[..4] != b"CYBM" || !matches!(bytes[4], 1 | 2) {
         return Err("invalid binary benchmark tile".into());
+    }
+    let y = i16::from_le_bytes([bytes[9], bytes[10]]);
+    if y == i16::MIN && (bytes[4] != 2 || bytes[6] != 0) {
+        return Err("invalid surface benchmark tile".into());
     }
     let codec = bytes[5];
     let count = u16::from_le_bytes([bytes[29], bytes[30]]) as usize;

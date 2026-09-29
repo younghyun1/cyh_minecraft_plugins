@@ -3,7 +3,7 @@ import type { MinecraftSeedTileQuery } from "../../generated";
 import { biomeColor, WORLD_LIMIT, type MapPoint } from "./mapMath";
 import { SEED_MAX_LEVEL, SEED_MAX_TILES, type SeedTiles, type SeedTile } from "./seedTiles";
 
-type Options = { map: L.Map; maxZoom: number; store: SeedTiles; world: string; y: number; changed: () => void };
+type Options = { map: L.Map; maxZoom: number; store: SeedTiles; world: string; y: number | null; changed: () => void };
 export const MAX_TERRAIN_TILES = 256;
 /** Native squaremap tiles stop at zero; bound the extra PNG fan-out at overview zooms. */
 export function minimumMapZoom(width: number, height: number, maxZoom: number): number {
@@ -106,7 +106,8 @@ export function alphaBoundary(alpha: Uint8Array, neighbor: (x: number, y: number
 export function createTerrainBoundary(map: L.Map, tiles: L.TileLayer, maxZoom: number, predicted: (point: MapPoint) => boolean, changed: () => void) {
   const alpha = new Map<string, AlphaTile>();
   const renderer = L.canvas({ pane: "minecraft-frontier", padding: 0.1 }), lines = L.layerGroup().addTo(map);
-  let enabled = false, frame: number | undefined;
+  const pane = map.getPane("minecraft-frontier");
+  let enabled = false, zooming = false, frame: number | undefined, revealFrame: number | undefined;
   const samplePoint = (coords: L.Coords, x: number, y: number): MapPoint => {
     const step = 2 ** (maxZoom - coords.z + 1);
     return { x: Math.floor((coords.x * ALPHA_SIDE + x + 0.5) * step), z: Math.floor((coords.y * ALPHA_SIDE + y + 0.5) * step) };
@@ -122,8 +123,16 @@ export function createTerrainBoundary(map: L.Map, tiles: L.TileLayer, maxZoom: n
     }
   };
   const draw = () => {
-    frame = undefined; lines.clearLayers();
-    if (!enabled) return;
+    frame = undefined;
+    if (zooming) return;
+    lines.clearLayers();
+    // Leaflet redraws the replacement canvas on its next frame; reveal after its redraw.
+    const reveal = () => {
+      if (pane?.classList.contains("minecraft-frontier-zooming") && revealFrame === undefined) revealFrame = requestAnimationFrame(() => {
+        revealFrame = undefined; if (!zooming) pane.classList.remove("minecraft-frontier-zooming");
+      });
+    };
+    if (!enabled) { reveal(); return; }
     const zoom = nativeTerrainZoom(map.getZoom(), maxZoom);
     let remaining = MAX_DRAW_EDGES;
     for (const tile of alpha.values()) {
@@ -140,8 +149,14 @@ export function createTerrainBoundary(map: L.Map, tiles: L.TileLayer, maxZoom: n
       }
       if (segments.length) L.polyline(segments, { renderer, pane: "minecraft-frontier", color: "#11150f", weight: 1, opacity: 1, interactive: false, lineCap: "square" }).addTo(lines);
     }
+    reveal();
   };
   const refresh = () => { if (frame === undefined) frame = requestAnimationFrame(draw); };
+  const zoomStart = () => {
+    zooming = true; pane?.classList.add("minecraft-frontier-zooming");
+    if (revealFrame !== undefined) { cancelAnimationFrame(revealFrame); revealFrame = undefined; }
+  };
+  const zoomEnd = () => { zooming = false; refresh(); };
   const loaded = (event: L.TileEvent) => {
     const key = terrainKey(event.coords.x, event.coords.y, event.coords.z);
     const canvas = document.createElement("canvas"); canvas.width = ALPHA_SIDE; canvas.height = ALPHA_SIDE;
@@ -159,7 +174,7 @@ export function createTerrainBoundary(map: L.Map, tiles: L.TileLayer, maxZoom: n
     } catch { /* Unreadable imagery cannot establish an observed/predicted boundary. */ }
   };
   const unloaded = (event: L.TileEvent) => { alpha.delete(terrainKey(event.coords.x, event.coords.y, event.coords.z)); rebuild(event.coords); refresh(); };
-  tiles.on("tileload", loaded).on("tileunload", unloaded); map.on("zoomend", refresh);
+  tiles.on("tileload", loaded).on("tileunload", unloaded); map.on("zoomstart", zoomStart).on("zoomend", zoomEnd);
   return {
     refresh,
     setEnabled(value: boolean) { enabled = value; refresh(); },
@@ -170,6 +185,6 @@ export function createTerrainBoundary(map: L.Map, tiles: L.TileLayer, maxZoom: n
       const px = Math.floor((point.x - x * span) / span * ALPHA_SIDE), py = Math.floor((point.z - y * span) / span * ALPHA_SIDE);
       return packedAlphaAt(tile.alpha, py * ALPHA_SIDE + px) >= 128;
     },
-    dispose() { if (frame !== undefined) cancelAnimationFrame(frame); tiles.off("tileload", loaded).off("tileunload", unloaded); map.off("zoomend", refresh); lines.remove(); renderer.remove(); alpha.clear(); },
+    dispose() { if (frame !== undefined) cancelAnimationFrame(frame); if (revealFrame !== undefined) cancelAnimationFrame(revealFrame); tiles.off("tileload", loaded).off("tileunload", unloaded); map.off("zoomstart", zoomStart).off("zoomend", zoomEnd); pane?.classList.remove("minecraft-frontier-zooming"); lines.remove(); renderer.remove(); alpha.clear(); },
   };
 }

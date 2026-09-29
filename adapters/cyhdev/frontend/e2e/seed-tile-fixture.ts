@@ -4,12 +4,12 @@ import { biomeColor } from "../src/components/minecraft/mapMath";
 
 /** Fixture writer intentionally uses literal runs; production may choose packed values. */
 export function encodeSeedTileFixture(tile: MinecraftSeedTile): Buffer {
-  const output: number[] = [67, 89, 66, 77, 1, 1];
+  const output: number[] = [67, 89, 66, 77, tile.y === null ? 2 : 1, 1];
   output.push(["minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"].indexOf(tile.world));
   output.push(["default", "large_biomes", "nether", "end"].indexOf(tile.preset), tile.level);
   const number = (value: number, size: number) => { const bytes = Buffer.alloc(size); if (size === 2) bytes.writeUInt16LE(value & 65535); else if (size === 4) bytes.writeInt32LE(value); else bytes.writeBigUInt64LE(BigInt(value)); output.push(...bytes); };
   const text = (value: string) => { const bytes = Buffer.from(value); output.push(bytes.length, ...bytes); };
-  number(tile.y, 2); number(tile.tile_x, 4); number(tile.tile_z, 4); number(tile.sampled_at_ms, 8); number(tile.expires_at_ms - tile.sampled_at_ms, 2); number(tile.palette.length, 2);
+  number(tile.y ?? -32768, 2); number(tile.tile_x, 4); number(tile.tile_z, 4); number(tile.sampled_at_ms, 8); number(tile.expires_at_ms - tile.sampled_at_ms, 2); number(tile.palette.length, 2);
   text(tile.profile_epoch); text(tile.generator_revision); for (const name of tile.palette) text(name);
   const bits = tile.palette.length === 0 ? 0 : 32 - Math.clz32(tile.palette.length);
   for (let offset = 0; offset < tile.indices.length;) {

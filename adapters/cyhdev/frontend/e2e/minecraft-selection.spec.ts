@@ -19,11 +19,11 @@ for (const width of [1440, 390]) {
     await page.goto("/minecraft");
     await expect(page.getByRole("region", { name: "Map menu" })).toHaveCount(0);
     await expect(page.locator(".leaflet-tile-loaded").first()).toBeVisible();
-    const waypoint = await screenPoint(page, 146, 116);
-    await page.mouse.move(waypoint.x, waypoint.y);
-    await expect(page.locator(".leaflet-tooltip").filter({ hasText: "Oakridge base" })).toBeVisible();
-    const labelBox = await page.locator(".leaflet-tooltip").filter({ hasText: "Oakridge base" }).boundingBox();
-    expect(labelBox).not.toBeNull(); expect(labelBox!.width).toBeGreaterThan(120); expect(labelBox!.height).toBeLessThan(100);
+    const nameplate = page.locator(".minecraft-waypoint-nameplate");
+    await expect(nameplate).toHaveText("Oakridge base");
+    await expect(nameplate).toBeVisible();
+    const labelBox = await nameplate.boundingBox();
+    expect(labelBox).not.toBeNull(); expect(labelBox!.width).toBeGreaterThan(80); expect(labelBox!.height).toBeLessThan(40);
     await expect(page.getByRole("button", { name: "Places", exact: true })).toHaveAttribute("aria-expanded", "false");
 
     const select = page.getByRole("button", { name: "Select area", exact: true });

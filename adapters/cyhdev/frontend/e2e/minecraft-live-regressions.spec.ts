@@ -102,6 +102,36 @@ for (const width of [1440, 390]) {
     await expect(plate).toHaveCount(0);
     expect(errors).toEqual([]);
   });
+
+  test(`waypoints draw above overlapping player banners and remain clickable at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
+    await setup(page);
+    await page.route("**/minecraft/map/tiles/players.json", route => route.fulfill({ json: { players: [{ name: "OverlapPlayerBanner", world: "minecraft_overworld", x: 128, z: 116 }] } }));
+    await page.goto("/minecraft");
+    const waypointPane = page.locator(".leaflet-minecraft-waypoints-pane");
+    const marker = waypointPane.locator(".minecraft-waypoint-marker");
+    const name = waypointPane.locator(".minecraft-waypoint-nameplate");
+    const banner = page.locator(".minecraft-player-nameplate");
+    await expect(name).toHaveText("Oakridge base");
+    await expect(marker).toBeVisible();
+    await expect(banner).toHaveText("OverlapPlayerBanner");
+    await expect(waypointPane).toHaveCSS("z-index", "660");
+    await expect(page.locator(".leaflet-minecraft-player-nameplates-pane")).toHaveCSS("z-index", "650");
+    await expect(page.locator(".leaflet-popup-pane")).toHaveCSS("z-index", "700");
+    const bannerBox = await banner.boundingBox();
+    if (!bannerBox) throw new Error("Player banner is missing");
+    for (const overlay of [marker, name]) {
+      const box = await overlay.boundingBox();
+      if (!box) throw new Error("Waypoint overlay is missing");
+      expect(Math.min(box.x + box.width, bannerBox.x + bannerBox.width) - Math.max(box.x, bannerBox.x)).toBeGreaterThan(0);
+      expect(Math.min(box.y + box.height, bannerBox.y + bannerBox.height) - Math.max(box.y, bannerBox.y)).toBeGreaterThan(0);
+    }
+    await page.screenshot({ path: `/tmp/minecraft-waypoint-overlap-${width}.png` });
+    await marker.click();
+    await expect(page.locator(".minecraft-waypoint-popup .leaflet-popup-content")).toHaveText("Oakridge base · 146, 72, 116 · Storage, beds, and the northern trail");
+    await expect(banner).toBeVisible();
+    await expect(name).toBeVisible();
+  });
 }
 
 test("player names remain text and unavailable head images fall back to the local marker", async ({ page }) => {

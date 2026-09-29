@@ -2,7 +2,7 @@
 
 use super::map_query::{Region, identifier};
 
-pub const GENERATOR_REVISION: &str = "pumpkin-4426d1113a211e6018a2db416e33b6b8a7802614-java26.3";
+pub const GENERATOR_REVISION: &str = minecraft_seed::GENERATOR_REVISION;
 pub const PREDICTION_TTL_MS: i64 = 15_000;
 
 pub struct PredictionQuery {

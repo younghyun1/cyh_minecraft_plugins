@@ -9,7 +9,7 @@ fn request(dimension: Dimension, x: i32, z: i32) -> PredictionRequest {
         seed: 1,
         dimension,
         large_biomes: false,
-        y: 64,
+        y: Some(64),
         min_x: x,
         min_z: z,
         width: 64,
@@ -75,7 +75,7 @@ fn dimension_samples_remain_stable_at_negative_coordinates_and_world_edge()
             for cell in batch.cells.into_iter().rev() {
                 input.min_x = cell.x;
                 input.min_z = cell.z;
-                input.y = 255;
+                input.y = Some(255);
                 assert_eq!(cell.biome, predict(&input)?.cells[0].biome);
             }
         }
@@ -133,7 +133,7 @@ fn compares_paper_dimension_noise_fixture() -> Result<(), Box<dyn Error>> {
             continue;
         }
         seed = Some(next_seed);
-        let nether = super::generator::router(next_seed, Dimension::Nether, false);
+        let nether = super::generator::router(next_seed, Dimension::Nether, false, false);
         let mut nether = MultiNoiseSampler::generate(&nether);
         let end = super::end_sampler::EndSampler::new(next_seed);
         for &(sample_seed, x, z, temperature, vegetation, erosion) in &fixtures {

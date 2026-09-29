@@ -16,7 +16,7 @@ Custom Paper plugins, Minecraft map integration and operational tools. The reusa
 | Persistent spawn-chunk datapack | `datapacks/spawn-chunks` | Source functions; no automatic installation |
 | Historical backup experiments | `archive` | Preserved source; excluded from maintained workspace checks |
 
-Binary tiles with browser-native gzip are the default; native PNG remains selectable. The [tile protocol](docs/architecture/be/minecraft-tile-protocol.md) records their bounds and measured tradeoffs, the [terrain explorer architecture](docs/architecture/be/minecraft-explorer.md) describes the host integration, and the [map design](docs/design/fe/minecraft.md) covers browser behavior.
+Overworld predictions default to Surface climate projection, with an explicit fixed-Y view for underground biomes. Nether and End retain their dimension-specific sampling. Binary tiles with browser-native gzip are the default; native PNG remains selectable. The [tile protocol](docs/architecture/be/minecraft-tile-protocol.md) records their bounds and measured tradeoffs, the [terrain explorer architecture](docs/architecture/be/minecraft-explorer.md) describes the host integration, and the [map design](docs/design/fe/minecraft.md) covers browser behavior.
 
 See [source origins](docs/source-origins.md), [integration boundaries](docs/integration-boundaries.md) and [deployment boundaries](deploy/README.md). The source adapters include the world-query/control protocols, four-GiB squaremap cache, 512-MiB prediction budget, public waypoints with administrator mutations, generated contracts and browser regression fixtures.
 

@@ -5,6 +5,7 @@ mod generator;
 mod nether_router;
 mod predictor;
 mod request;
+mod surface_biome;
 mod wire;
 
 #[cfg(test)]
@@ -47,4 +48,7 @@ pub enum Error {
     /// The response could not be encoded within its size limit.
     #[error("prediction encoding failed")]
     Encoding,
+    /// The pinned biome index contained no eligible surface candidate.
+    #[error("prediction biome lookup failed")]
+    BiomeLookup,
 }

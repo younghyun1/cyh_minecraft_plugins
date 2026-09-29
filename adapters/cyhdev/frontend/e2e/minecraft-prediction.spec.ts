@@ -14,7 +14,7 @@ for (const width of [1440, 390]) {
     const ready = page.locator('.minecraft-seed-tile[data-ready="true"]');
     await expect(ready.first()).toBeVisible();
     await expect.poll(() => fixture.predictions.length).toBeGreaterThan(4);
-    expect(fixture.predictions.every(query => query.world === "minecraft:overworld" && query.y === 64)).toBe(true);
+    expect(fixture.predictions.every(query => query.world === "minecraft:overworld" && query.y === null)).toBe(true);
     expect(fixture.predictions.some(query => query.tile_x < 0 || query.tile_z < 0)).toBe(true);
     await expect(page.locator(".minecraft-prediction-cell")).toHaveCount(0);
     await expect(page.locator(".leaflet-minecraft-seeds-pane")).toHaveCSS("z-index", "190");
@@ -32,6 +32,7 @@ for (const width of [1440, 390]) {
     await expect(ready.first()).toBeVisible();
     await page.getByRole("button", { name: "Layers", exact: true }).click();
     await expect(page.getByLabel("Predicted biomes", { exact: true })).toBeChecked();
+    await page.getByRole("combobox", { name: "Biome view", exact: true }).selectOption("underground");
     await page.getByLabel("Prediction Y", { exact: true }).fill("-16");
     await expect(page.locator(".minecraft-prediction-receipt")).toContainText("Predicted · Y -16 · Large biomes");
     await expect.poll(() => fixture.predictions.some(query => query.y === -16)).toBe(true);
@@ -137,7 +138,7 @@ test("actual terrain remains above seed colors and supplies observed hover data"
   expect(fixture.queries.some(query => query.kind === "area" && query.width === 1)).toBe(true);
 });
 
-test("frontier has one thin line across actual tiles and no internal tile seams", async ({ page }) => {
+test("frontier has no tile seams, hides while zooming, and stays visible while panning", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await installApiMocks(page, "logged-out"); await setUiPreferences(page, "en-US", "light");
   await installMinecraftMapMocks(page);
@@ -163,6 +164,31 @@ test("frontier has one thin line across actual tiles and no internal tile seams"
   await expect.poll(() => page.locator(".minecraft-seed-tile").evaluateAll(nodes => nodes.every(node => node.getAttribute("data-ready") === "true" && getComputedStyle(node).opacity === "1"))).toBe(true);
   await page.mouse.move(1, 1);
   await page.screenshot({ path: "../target/minecraft-tests/continuous-seed-frontier-1440.png" });
+  const pane = page.locator(".leaflet-minecraft-frontier-pane"), map = page.locator(".minecraft-atlas-canvas");
+  await page.getByRole("button", { name: "Zoom out" }).click();
+  await expect(pane).toHaveCSS("visibility", "hidden");
+  await expect(map).toHaveAttribute("data-zoom", "3");
+  await expect(pane).toHaveCSS("visibility", "visible");
+  await expect.poll(() => frontier.evaluate((node: HTMLCanvasElement) => node.getContext("2d")?.getImageData(0, 0, node.width, node.height).data.some((value, i) => i % 4 === 3 && value > 0))).toBe(true);
+  const box = await map.boundingBox(); if (!box) throw new Error("Missing map");
+  const frontierX = () => frontier.evaluate((node: HTMLCanvasElement) => {
+    const pixels = node.getContext("2d")?.getImageData(0, 0, node.width, node.height).data;
+    const first = pixels?.findIndex((value, i) => i % 4 === 3 && value > 0) ?? -1;
+    const rect = node.getBoundingClientRect();
+    return first < 0 ? -Infinity : rect.x + Math.floor(first / 4) % node.width * rect.width / node.width;
+  });
+  await expect.poll(async () => Math.abs(await frontierX() - (box.x + box.width / 2 + 64))).toBeLessThanOrEqual(2);
+  const mapPane = page.locator(".leaflet-map-pane");
+  const mapPaneX = () => mapPane.evaluate(node => node.getBoundingClientRect().x);
+  const beforePan = await mapPaneX();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 - 80, box.y + box.height / 2, { steps: 8 });
+  await expect(pane).toHaveCSS("visibility", "visible"); await expect(map).toHaveAttribute("data-zoom", "3");
+  await page.mouse.up(); await expect(pane).toHaveCSS("visibility", "visible");
+  // Leaflet's drag threshold and inertia alter pointer displacement; the frontier
+  // must track the actual map translation without disappearing at the same zoom.
+  await expect.poll(async () => await mapPaneX() - beforePan).toBeLessThan(-40);
+  await expect.poll(async () => Math.abs(await frontierX() - (box.x + box.width / 2 + 64 + await mapPaneX() - beforePan))).toBeLessThanOrEqual(2);
 });
 
 test("failed tiles finish their lifecycle so subsequent zooms can load", async ({ page }) => {

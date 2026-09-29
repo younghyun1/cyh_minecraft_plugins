@@ -71,9 +71,14 @@
 .minecraft-prediction-controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
 .minecraft-atlas .minecraft-toggle { display: flex; align-items: center; gap: 8px; }
 .minecraft-atlas-canvas .leaflet-minecraft-player-nameplates-pane { z-index: 650; pointer-events: none; }
+.minecraft-atlas-canvas .leaflet-minecraft-waypoints-pane { z-index: 660; pointer-events: none; }
 .minecraft-player-marker { background: transparent; border: 0; }
 .minecraft-player-head { width: 16px; height: 16px; image-rendering: pixelated; border: 1px solid #101510; box-shadow: 1px 1px 0 #0008; }
-.minecraft-atlas-canvas .minecraft-player-nameplate { width: max-content; max-width: 220px; padding: 3px 6px; border: 1px solid #a4b39088; background: #162013e6; color: #f5f0df; font-size: 11px; box-shadow: 1px 1px 0 #0008; }
+.minecraft-atlas-canvas :is(.minecraft-player-nameplate, .minecraft-waypoint-nameplate) { width: max-content; max-width: 220px; padding: 3px 6px; border: 1px solid #a4b39088; background: #162013e6; color: #f5f0df; font-size: 11px; box-shadow: 1px 1px 0 #0008; }
+.minecraft-atlas-canvas .minecraft-waypoint-nameplate { border-color: #ffcd6e88; color: #ffcd6e; font-weight: 600; pointer-events: none; }
+.minecraft-atlas-canvas .minecraft-waypoint-nameplate::before { border-right-color: #ffcd6e88; }
+.minecraft-waypoint-popup .leaflet-popup-content-wrapper, .minecraft-waypoint-popup .leaflet-popup-tip { border-radius: 0; color: var(--mc-ink); background: var(--mc-paper); }
+.minecraft-waypoint-popup .leaflet-popup-content { font-family: "IBM Plex Mono", monospace; overflow-wrap: anywhere; }
 .minecraft-player-details { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
 .minecraft-player-name { max-width: 204px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
 .minecraft-player-vital { height: 8px; width: 80px; image-rendering: pixelated; }
@@ -88,6 +93,7 @@
 .minecraft-key-prediction { color: #d7ccb2; }
 .minecraft-atlas-canvas .leaflet-minecraft-seeds-pane { z-index: 190; pointer-events: none; }
 .minecraft-atlas-canvas .leaflet-minecraft-frontier-pane { z-index: 350; pointer-events: none; }
+.minecraft-atlas-canvas .minecraft-frontier-zooming { visibility: hidden; }
 .minecraft-seed-tile { image-rendering: pixelated; filter: saturate(0.55); }
 .minecraft-prediction-receipt { display: flex; flex-direction: column; gap: 10px; padding: 10px; background: #d8d2c1; border: 1px dashed #716958; }
 .minecraft-map-notice { padding: 12px 18px; background: var(--mc-paper); color: var(--mc-ink); }

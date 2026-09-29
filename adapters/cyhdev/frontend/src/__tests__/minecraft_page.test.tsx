@@ -7,7 +7,7 @@ import { setSuperuser } from "../state/auth";
 const transport = vi.hoisted(() => ({ query: vi.fn(), waypoints: vi.fn(), create: vi.fn(), update: vi.fn(), remove: vi.fn(), worlds: vi.fn(), settings: vi.fn(), players: vi.fn() }));
 vi.mock("../services/account_api", () => ({ contractApi: { minecraftMapQuery: transport.query, minecraftMapWaypoints: transport.waypoints, createMinecraftMapWaypoint: transport.create, updateMinecraftMapWaypoint: transport.update, deleteMinecraftMapWaypoint: transport.remove } }));
 vi.mock("../services/squaremap", () => ({ squaremap: { worlds: transport.worlds, settings: transport.settings, players: transport.players } }));
-vi.mock("../components/minecraft/MapCanvas", () => ({ default: (props: { mapId: string; seedWorld: string | null; predictionY: number; area: MinecraftMapData | null; onPoint: (point: { x: number; z: number }) => void }) => <button data-testid="terrain" data-world={props.mapId} data-seed-world={props.seedWorld} data-seed-y={props.predictionY} data-cells={props.area?.cells.length ?? 0} onClick={() => props.onPoint({ x: -1, z: 32 })}>Terrain fixture</button> }));
+vi.mock("../components/minecraft/MapCanvas", () => ({ default: (props: { mapId: string; seedWorld: string | null; predictionY: number | null; area: MinecraftMapData | null; onPoint: (point: { x: number; z: number }) => void }) => <button data-testid="terrain" data-world={props.mapId} data-seed-world={props.seedWorld} data-seed-y={props.predictionY ?? "surface"} data-cells={props.area?.cells.length ?? 0} onClick={() => props.onPoint({ x: -1, z: 32 })}>Terrain fixture</button> }));
 
 const worlds = [{ id: "minecraft:overworld", name: "Overworld", map_id: "minecraft_overworld", min_y: -64, max_y: 319 }, { id: "minecraft:the_nether", name: "Nether", map_id: "minecraft_the_nether", min_y: 0, max_y: 255 }, { id: "minecraft:the_end", name: "The End", map_id: "minecraft_the_end", min_y: 0, max_y: 255 }];
 function data(kind: MinecraftMapData["kind"], overrides: Partial<MinecraftMapData> = {}): { data: MinecraftMapData } {
@@ -134,10 +134,14 @@ describe("Minecraft explorer", () => {
     expect(transport.query.mock.calls[1]?.[0]).toEqual({ body: { kind: "blocks", world: "minecraft:overworld", block: "minecraft:diamond_ore", min_y: -32, max_y: 0, chunk_x: -2, chunk_z: -2, width: 4, height: 4 } });
   });
 
-  it("enables the continuous seed layer by default and retains a compact Y selector", async () => {
+  it("defaults to surface predictions and reveals the retained underground Y on demand", async () => {
     render(() => <Minecraft />); await screen.findByTestId("terrain"); await openLayers();
     expect((screen.getByLabelText("Predicted biomes") as HTMLInputElement).checked).toBe(true);
-    expect(screen.getByLabelText("Prediction Y")).toBeTruthy();
+    expect(screen.getByTestId("terrain").getAttribute("data-seed-y")).toBe("surface");
+    expect(screen.queryByLabelText("Prediction Y")).toBeNull();
+    fireEvent.change(screen.getByLabelText("Biome view"), { target: { value: "underground" } });
+    await screen.findByLabelText("Prediction Y");
+    expect(screen.getByTestId("terrain").getAttribute("data-seed-y")).toBe("64");
     expect(screen.queryByText(/128.*128/)).toBeNull();
     fireEvent.click(screen.getByLabelText("Predicted biomes"));
     await waitFor(() => expect(screen.queryByLabelText("Prediction Y")).toBeNull());
@@ -145,13 +149,16 @@ describe("Minecraft explorer", () => {
 
   it("enables all canonical dimensions and clamps a retained height to the next world", async () => {
     render(() => <Minecraft />); await screen.findByTestId("terrain"); await openLayers();
-    fireEvent.input(screen.getByLabelText("Prediction Y"), { target: { value: "-16" } });
+    fireEvent.change(screen.getByLabelText("Biome view"), { target: { value: "underground" } });
+    fireEvent.input(await screen.findByLabelText("Prediction Y"), { target: { value: "-16" } });
     await waitFor(() => expect(screen.getByTestId("terrain").getAttribute("data-seed-y")).toBe("-16"));
     for (const name of ["the_nether", "the_end"]) {
       fireEvent.change(screen.getByLabelText("Dimension"), { target: { value: `minecraft_${name}` } });
       await waitFor(() => expect(screen.getByTestId("terrain").getAttribute("data-seed-world")).toBe(`minecraft:${name}`));
       expect(screen.getByTestId("terrain").getAttribute("data-seed-y")).toBe("0");
       await openLayers();
+      expect(screen.queryByLabelText("Biome view")).toBeNull();
+      expect(screen.getByLabelText("Prediction Y")).toBeTruthy();
       expect((screen.getByLabelText("Predicted biomes") as HTMLInputElement).checked).toBe(true);
     }
   });

@@ -75,12 +75,12 @@
     {
       "path": "backend/src/features/minecraft/api/seed_tile_binary_tests.rs",
       "source": "rust-be-template/src/features/minecraft/api/seed_tile_binary_tests.rs",
-      "sha256": "4dfa70386a9f8f16f0faa0b242d28beba0c5ce0bf92bcdd4bab7db75678bca23"
+      "sha256": "957fca284481a1e9169aa531a8a6b858d177fa5c5b9b6a1102f0c13d2a15429c"
     },
     {
       "path": "backend/src/features/minecraft/api/seed_tile_binary.rs",
       "source": "rust-be-template/src/features/minecraft/api/seed_tile_binary.rs",
-      "sha256": "05cad7e1027617e196389295aa84b0662c3ad281a35103126f956656f913ecc5"
+      "sha256": "cd6535d36d676c0bbe66eaba5816ba67192a171307519e37c7f30c63ea3ac2d2"
     },
     {
       "path": "backend/src/features/minecraft/api/seed_tile_colors.rs",
@@ -95,12 +95,12 @@
     {
       "path": "backend/src/features/minecraft/api/seed_tile_dto.rs",
       "source": "rust-be-template/src/features/minecraft/api/seed_tile_dto.rs",
-      "sha256": "e310e031caea4f309dc5f6033b0995cf5067a640d0c0b87df67a790d1141327b"
+      "sha256": "517b5618b6a7df81f6f7556cc6bdc3309f0621fac66720eda3de1abc92128e4b"
     },
     {
       "path": "backend/src/features/minecraft/api/seed_tile_png_tests.rs",
       "source": "rust-be-template/src/features/minecraft/api/seed_tile_png_tests.rs",
-      "sha256": "119c2547e6fa40a67c7408818d490a37fa7c01ec4444035263415f7eb4c2559f"
+      "sha256": "81c5511a1a51edcddcfd19959f6488c7a26e70d115458d1ebc0448614e2789ec"
     },
     {
       "path": "backend/src/features/minecraft/api/seed_tile_png.rs",
@@ -135,12 +135,12 @@
     {
       "path": "backend/src/features/minecraft/domain/prediction.rs",
       "source": "rust-be-template/src/features/minecraft/domain/prediction.rs",
-      "sha256": "b0c21d11bd90c6820aa873a6c29883075e8866a6fd8356a789abe51e3ac74d4d"
+      "sha256": "8772b4dfbde5bc270167ba9d51a5354d2c13d060ed2cf9e14ecbfbcc1cc6ee50"
     },
     {
       "path": "backend/src/features/minecraft/domain/seed_tile.rs",
       "source": "rust-be-template/src/features/minecraft/domain/seed_tile.rs",
-      "sha256": "4cc0a822687ccee84d02e77f38621ae08663f2138d29c4cacb90888762a6375b"
+      "sha256": "b6d385bec5de098c568d1acb94fa858f85f1dee6d350f280f75de56125d61bbd"
     },
     {
       "path": "backend/src/features/minecraft/domain/waypoint.rs",
@@ -225,7 +225,7 @@
     {
       "path": "backend/src/features/minecraft/service/seed_dimension_tests.rs",
       "source": "rust-be-template/src/features/minecraft/service/seed_dimension_tests.rs",
-      "sha256": "082ff8185b50e9ed2560264ddf20c231fd14e201f170c21ddc0764a034e25722"
+      "sha256": "323de0cf5f44944fc54335ae0810cb392ead6514d4c41ddf6f226d3c2d4f1acb"
     },
     {
       "path": "backend/src/features/minecraft/service/seed_profile_refresh.rs",
@@ -255,7 +255,7 @@
     {
       "path": "backend/src/features/minecraft/service/seed_tile_tests.rs",
       "source": "rust-be-template/src/features/minecraft/service/seed_tile_tests.rs",
-      "sha256": "87049c07b447744d97d677e569970258985d401f40951335cc8f539caec26f9e"
+      "sha256": "d9940355d4b0e5289f3e7f34eac024789bf32274724b8069d75d3146858589c1"
     },
     {
       "path": "backend/src/features/minecraft/service/seed_tile.rs",
@@ -295,7 +295,7 @@
     {
       "path": "backend/src/routers/main_router/compression_tests.rs",
       "source": "rust-be-template/src/routers/main_router/compression_tests.rs",
-      "sha256": "e7ed3345800e4d994265ea85250061c39272516f5b9f206b6d78972e67bba4f1"
+      "sha256": "35e42a16dbaba39dd52177bf62b660dace8aacb826b143eed1b4bd6c30ae0dbc"
     },
     {
       "path": "backend/src/routers/main_router/compression.rs",
@@ -350,7 +350,7 @@
     {
       "path": "frontend/e2e/minecraft-explorer.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-explorer.spec.ts",
-      "sha256": "ab4aa1a99f8dee51382ef99871f6c65258e1c0fb6eb0e811e11efe9cb77dd752"
+      "sha256": "146e1cdab6f6bb700ec5657914e797330d640089bd677f1295d8cdb3fc2247de"
     },
     {
       "path": "frontend/e2e/minecraft-fixtures.ts",
@@ -360,12 +360,12 @@
     {
       "path": "frontend/e2e/minecraft-hover.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-hover.spec.ts",
-      "sha256": "e8fcd2485f60fce07606105ebfd20da18e20e977a52fb28a9de676bd8a862d35"
+      "sha256": "abeb3e3bbf6dda99c734947e50a047a7bbe022433a5c327e085606805ce88723"
     },
     {
       "path": "frontend/e2e/minecraft-live-regressions.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-live-regressions.spec.ts",
-      "sha256": "4c39773bb25369e2503416fe10b307295ef86722aa521908783743be0a2a0d52"
+      "sha256": "4789bc3d90f776eb56f7ba014f29a55754138c3fd08d2fc29fb1c0648eb63c47"
     },
     {
       "path": "frontend/e2e/minecraft-navigation.spec.ts",
@@ -375,7 +375,7 @@
     {
       "path": "frontend/e2e/minecraft-prediction.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-prediction.spec.ts",
-      "sha256": "7ef5efa628d1e95c4de4a2edfc7be4e166ebfb2bc125047e6d15f62bc2ccb90c"
+      "sha256": "f7825b9c7cbe980665778aa3e612d39c1e040a1f2f0a02497bffb5ec609266e5"
     },
     {
       "path": "frontend/e2e/minecraft-seed-benchmark.spec.ts",
@@ -385,7 +385,7 @@
     {
       "path": "frontend/e2e/minecraft-selection.spec.ts",
       "source": "solid-csr-spa-template/e2e/minecraft-selection.spec.ts",
-      "sha256": "89f659bcfca32dc5cb17670ec612411e690d87dac95e4a947de92fc759f5d4e2"
+      "sha256": "609417d896783498b89b07825ec651fd969523522f6c7afa7f978372e1f7bd3c"
     },
     {
       "path": "frontend/e2e/minecraft.spec.ts",
@@ -405,7 +405,7 @@
     {
       "path": "frontend/e2e/seed-tile-fixture.ts",
       "source": "solid-csr-spa-template/e2e/seed-tile-fixture.ts",
-      "sha256": "361180e488231f5e26d493f43825f93d4a01849c1a2899ad3b165f4032fc4bb7"
+      "sha256": "23429e5822a0a37e8a9528383482d424de7bf701cb14f3ccfcd538ff0c985ba5"
     },
     {
       "path": "frontend/package.reference.json",
@@ -430,7 +430,7 @@
     {
       "path": "frontend/src/__tests__/minecraft_inspection_panel.test.tsx",
       "source": "solid-csr-spa-template/src/__tests__/minecraft_inspection_panel.test.tsx",
-      "sha256": "70c3aa4763046bf0ef1bac364d10409c48f05ee04ba05a359c4d63ebe2dc7da5"
+      "sha256": "b512dfd76e44b737fc64b91a6a768191e9d5fa93ce302007298bf79a09e158eb"
     },
     {
       "path": "frontend/src/__tests__/minecraft_inspection.test.ts",
@@ -450,22 +450,22 @@
     {
       "path": "frontend/src/__tests__/minecraft_page.test.tsx",
       "source": "solid-csr-spa-template/src/__tests__/minecraft_page.test.tsx",
-      "sha256": "4a91eb9de3f4521a80d4c06fd53ddf3b6bafbb5b640b747fe4356e094ba61fa7"
+      "sha256": "277ce276af6fd63147ab913d97869a691d1e38d735fbef4291baa7a189bc8c96"
     },
     {
       "path": "frontend/src/__tests__/minecraft_seed_binary.test.ts",
       "source": "solid-csr-spa-template/src/__tests__/minecraft_seed_binary.test.ts",
-      "sha256": "132dcc3d1efe496d5205c6aa6a6f60cdea3c13c01d89aea43c9b2862a8f0a167"
+      "sha256": "1f3809b533aea513f6e27bdca265ada2efc27fc10cbca4e0c3190cfa27d396d0"
     },
     {
       "path": "frontend/src/__tests__/minecraft_seed_png.test.ts",
       "source": "solid-csr-spa-template/src/__tests__/minecraft_seed_png.test.ts",
-      "sha256": "12a913167dfa2235975dee97302b21b2c3a6f2fc6bceda772902e022abca3909"
+      "sha256": "381976ddfdc379980c1f1dd75a13e08d1fc96e6492c65526b691997902c54f95"
     },
     {
       "path": "frontend/src/__tests__/minecraft_seed_tiles.test.ts",
       "source": "solid-csr-spa-template/src/__tests__/minecraft_seed_tiles.test.ts",
-      "sha256": "73b4ab83e043039d6036249281c99b791cd751ffdcea0e6fc4971c5a8ff1173c"
+      "sha256": "173d49cee0c71fd3268f587b1e30ca52ed8a8bdbd83ce2b8b18f95f8c584056d"
     },
     {
       "path": "frontend/src/__tests__/minecraft_terrain_refresh.test.ts",
@@ -475,7 +475,7 @@
     {
       "path": "frontend/src/components/minecraft/createMapExplorer.ts",
       "source": "solid-csr-spa-template/src/components/minecraft/createMapExplorer.ts",
-      "sha256": "470116755ca584d4ebe83df99e591c3049f0087d00e4b2b770ff76fed6c65aff"
+      "sha256": "0e925d4b5de7f35d6a8230194499c9c7f944eca45c37e71dc9df1bd52958f2c4"
     },
     {
       "path": "frontend/src/components/minecraft/MapAnalysis.tsx",
@@ -485,7 +485,7 @@
     {
       "path": "frontend/src/components/minecraft/MapCanvas.tsx",
       "source": "solid-csr-spa-template/src/components/minecraft/MapCanvas.tsx",
-      "sha256": "71a60aee4c47ada468717aa33b7397a0374b45b2cb9e97d6e4e9c38e558d4401"
+      "sha256": "9277af695d92c2868038e99b8d6b74f18a2780f5595b2e221f4ecc01084a9562"
     },
     {
       "path": "frontend/src/components/minecraft/mapControls.ts",
@@ -510,7 +510,7 @@
     {
       "path": "frontend/src/components/minecraft/MapPrediction.tsx",
       "source": "solid-csr-spa-template/src/components/minecraft/MapPrediction.tsx",
-      "sha256": "b5d59b8627f084aba8e5e439a77b2532b085c0685fe2a543447393d686b420ba"
+      "sha256": "67cd66347c09a14cfb1125d086d53d3121fe704fa35dbeb02f651748b6ed5097"
     },
     {
       "path": "frontend/src/components/minecraft/MapTravel.tsx",
@@ -530,12 +530,12 @@
     {
       "path": "frontend/src/components/minecraft/seedTileBinary.ts",
       "source": "solid-csr-spa-template/src/components/minecraft/seedTileBinary.ts",
-      "sha256": "6d05e85ce154f90560d13ecba720d0da7a31e28eb2f97c86818b57e48aacf73e"
+      "sha256": "7be8ff2e196837ce271649194540cddd4168cbcfec98ce2b922d2a4ff249a86e"
     },
     {
       "path": "frontend/src/components/minecraft/seedTileLayer.ts",
       "source": "solid-csr-spa-template/src/components/minecraft/seedTileLayer.ts",
-      "sha256": "a630e64d77e6d3c970da122593fb7dd16e439a57da51f10702b357dd996db6d2"
+      "sha256": "3c56a8ea522c7f153809238bd9ce56260bbbfb3b36d46f2e1bcad6b4df862eb5"
     },
     {
       "path": "frontend/src/components/minecraft/seedTilePng.ts",
@@ -545,7 +545,7 @@
     {
       "path": "frontend/src/components/minecraft/seedTiles.ts",
       "source": "solid-csr-spa-template/src/components/minecraft/seedTiles.ts",
-      "sha256": "5bdb2f0be933833e3f2201630e87d7b83167e194926de39210db8ce4d7956f8c"
+      "sha256": "d1434cc7457c3563b15c82ef77e0b16e457008a55d7e44a786ec5a1e7ecd9a2b"
     },
     {
       "path": "frontend/src/components/minecraft/terrainRefresh.ts",
@@ -645,12 +645,12 @@
     {
       "path": "frontend/src/generated/types/minecraft-seed-tile-query.ts",
       "source": "solid-csr-spa-template/src/generated/types/minecraft-seed-tile-query.ts",
-      "sha256": "08d0c26ccf7892a73f1b9830bccae3b7deca5dff10016f1e835cdc7530ec2155"
+      "sha256": "c0e1b8793ecba7e3d813bde46924657a7e127288e997d966074c8316db2eab24"
     },
     {
       "path": "frontend/src/generated/types/minecraft-seed-tile.ts",
       "source": "solid-csr-spa-template/src/generated/types/minecraft-seed-tile.ts",
-      "sha256": "0c402abb075ce47cf0b4a4213b7ad39e367a6dcd9c55e28477b27d9095d09167"
+      "sha256": "8e0f63f90e04985d63d89356bbf96d3f868606dd201d604e51f2b35a5d5b1207"
     },
     {
       "path": "frontend/src/generated/types/minecraft-status.ts",
@@ -675,7 +675,7 @@
     {
       "path": "frontend/src/pages/minecraft.tsx",
       "source": "solid-csr-spa-template/src/pages/minecraft.tsx",
-      "sha256": "b3e89d36a5400a5243c0a7638a20daa13062e7376db01b9e823e958a86b55a7d"
+      "sha256": "c098e5f5d60687b5d4e625e68ff4396f5cd4f68429481ea88488883efadcd4fa"
     },
     {
       "path": "frontend/src/services/minecraft_seed_tile.ts",
@@ -695,7 +695,12 @@
     {
       "path": "frontend/src/styles/minecraft.css",
       "source": "solid-csr-spa-template/src/styles/minecraft.css",
-      "sha256": "43ca56f304d08f68c4fdabcdc2389a5781ef5514cb15652d0fbd13e19ce9dc69"
+      "sha256": "01793e8206378358292df435d836f47baee306ce7f9b67607269139b4644f7a3"
+    },
+    {
+      "path": "frontend/e2e/minecraft-surface.spec.ts",
+      "source": "solid-csr-spa-template/e2e/minecraft-surface.spec.ts",
+      "sha256": "e07b5ec166898ce3b949163773d94bfbb02d490dd5c3b9df9f488859f5970b93"
     }
   ],
   "extracted": [
@@ -706,27 +711,27 @@
       "sha256": "ec95d1ca4c8af27b1c1648befe672543e5bc8c0b493e52ff8d79b8fabdbf7386"
     }
   ],
-  "sourceCommit": "ef29ece5a2d049902aaa5a1cff5130a4b3b6804d",
+  "sourceCommit": "e95b5a08f11639f09c8636def11ddc62c351e851",
   "documentation": [
     {
       "path": "docs/architecture/be/minecraft-explorer.md",
       "source": "docs/architecture/be/minecraft-explorer.md",
-      "source_sha256": "ea6ab9bbd79e17f2d1c715402f270254196e04360cd3ebcf2235aa546565a4cb",
-      "sha256": "16b3a92b6925e0e1f19e39ca4f81b0ea1d505d0a8b5040d10c46ea22a63a4b86",
+      "source_sha256": "25b261e7f5e09bd2fcb2ab130bf0a7500e5132c7245b1eb4943b09079a1143be",
+      "sha256": "5ead1d4cda1d8ac1dc9edc565c290d41a85ebd56f0c681929e97ba3f903d1b0c",
       "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
     },
     {
       "path": "docs/architecture/be/minecraft-tile-protocol.md",
       "source": "docs/architecture/be/minecraft-tile-protocol.md",
-      "source_sha256": "9e96f768b619c15300838455fd3186829132677580b2efb3696b367217b9be63",
-      "sha256": "d174a97ad089daf198bd0f73f90ddc6e6c69769a769b870088a2c41e61c0ca7d",
+      "source_sha256": "879c315c56db318d29d0eadeaf89379c67c130c89203f7c379f8e60d9de9504d",
+      "sha256": "4f78021f1d64ebe85b7631f03d6d5bd87d89b2e6558df85ee35ff19b19df562c",
       "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
     },
     {
       "path": "docs/design/fe/minecraft.md",
       "source": "docs/design/fe/minecraft.md",
-      "source_sha256": "ab8db695baf77e4a58e41eba1d601fa67e14023c6265039c98b3fda7b2d1eea4",
-      "sha256": "f52e144917a544e75853724e0792ffab9d4864a11a69fb64d6b62f7beb8f3e8a",
+      "source_sha256": "79a1f72ff39dd0f9730322d46776866abeaf21ba2c1e6b750050facdcf0b73ba",
+      "sha256": "72e5c27769858f4993fce84de693128d84a31524c13df1ca7c781066a7ce9227",
       "adaptation": "Repository-relative component links and standalone reproduction commands; original host plan links replaced with public integration documentation."
     }
   ]

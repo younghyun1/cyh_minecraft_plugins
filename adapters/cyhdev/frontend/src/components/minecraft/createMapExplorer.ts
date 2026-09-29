@@ -27,6 +27,7 @@ export function createMapExplorer() {
   const [predicting, setPredicting] = createSignal(false);
   const [predictionsEnabled, setPredictionsEnabled] = createSignal(true);
   const [predictionY, setPredictionY] = createSignal(64);
+  const [surfacePrediction, setSurfacePrediction] = createSignal(true);
   let transportFormat = storedPredictionFormat();
   const [predictionFormat, setPredictionFormat] = createSignal<PredictionFormat>(transportFormat);
   const [areaRegion, setAreaRegion] = createSignal<ReturnType<typeof scanOrigin> | null>(null);
@@ -50,11 +51,12 @@ export function createMapExplorer() {
   let renderedAt: (point: MapPoint) => boolean = () => false;
   const currentWorld = () => catalog()?.worlds.find(world => world.map_id === loaded()?.world.name);
   const seedWorld = () => { const world = currentWorld(); return world && supportsSeedWorld(world.id) ? world.id : null; };
+  const predictionSampleY = () => seedWorld() === "minecraft:overworld" && surfacePrediction() ? null : predictionY();
   const available = () => active && document.visibilityState === "visible";
   const gate = createMapQueryGate(available, value => { if (active) setBusy(value); });
   const inspection = createMapInspection({
     allowed: available,
-    context: () => ({ world: currentWorld()?.id ?? null, area: area(), areaSlice: areaSlice(), matches: matches(), matchedBlock: matchedBlock(), seed: (point: MapPoint) => { const world = currentWorld(); return world && !renderedAt(point) ? seedTiles.sample(world.id, point, predictionY()) : null; } }),
+    context: () => ({ world: currentWorld()?.id ?? null, area: area(), areaSlice: areaSlice(), matches: matches(), matchedBlock: matchedBlock(), seed: (point: MapPoint) => { const world = currentWorld(); return world && !renderedAt(point) ? seedTiles.sample(world.id, point, predictionSampleY()) : null; } }),
     read: async (world, chunk_x, chunk_z) => (await contractApi.minecraftMapQuery({ body: { kind: "area", world, chunk_x, chunk_z, width: 1, height: 1, y: null } }, { signal: lifetime.signal })).data,
     schedule: job => gate.hover(job), clearQueued: () => gate.clearHover(),
   });
@@ -63,7 +65,7 @@ export function createMapExplorer() {
     changed: state => { if (active) { setPredictionNotice(state.notice); setPredicting(state.loading); setPredictionPreset(state.preset); } },
     updated: () => queueMicrotask(() => untrack(() => {
       const current = inspection.inspection(), world = currentWorld();
-      if (current?.biome?.source === "predicted" || current?.status === "loading" && world && !renderedAt(current.point) && seedTiles.sample(world.id, current.point, predictionY())) inspection.refresh();
+      if (current?.biome?.source === "predicted" || current?.status === "loading" && world && !renderedAt(current.point) && seedTiles.sample(world.id, current.point, predictionSampleY())) inspection.refresh();
     })),
   });
   const selectPredictionFormat = (format: PredictionFormat) => {
@@ -77,9 +79,9 @@ export function createMapExplorer() {
   const configureSeeds = () => {
     const world = currentWorld(), y = world ? Math.max(world.min_y, Math.min(world.max_y, predictionY())) : predictionY();
     if (y !== predictionY()) setPredictionY(y);
-    seedTiles.configure(seedWorld(), y, available() && predictionsEnabled());
+    seedTiles.configure(seedWorld(), seedWorld() === "minecraft:overworld" && surfacePrediction() ? null : y, available() && predictionsEnabled());
   };
-  createEffect(() => [loaded(), catalog(), predictionsEnabled(), predictionY()] as const, () => untrack(configureSeeds));
+  createEffect(() => [loaded(), catalog(), predictionsEnabled(), predictionY(), surfacePrediction()] as const, () => untrack(configureSeeds));
   const setRenderedLookup = (lookup: (point: MapPoint) => boolean) => { renderedAt = lookup; inspection.refresh(); };
 
   const refreshPlayers = async () => {
@@ -183,7 +185,7 @@ export function createMapExplorer() {
   document.addEventListener("visibilitychange", onVisibility);
   const poll = window.setInterval(() => { if (document.visibilityState === "visible") void refreshPlayers(); }, 5000);
   onCleanup(() => { active = false; ++epoch; seedTiles.dispose(); inspection.invalidate(); gate.invalidate(); lifetime.abort(); worldRequest?.abort(); queryRequest?.abort(); window.clearInterval(poll); document.removeEventListener("visibilitychange", onVisibility); });
-  return { worlds, loaded, catalog, area, matches, seedTiles, seedWorld, predictionFormat, selectPredictionFormat, predictionPreset, predictionNotice, predicting, predictionsEnabled, setPredictionsEnabled, predictionY, setPredictionY, setRenderedLookup, refreshInspection: inspection.refresh, areaRegion, matchRegion, areaSlice, matchedBlock, players, point, selectedRegion, selectRegion, view, busy, loading, error, catalogError, playerError, refresh, currentWorld, selectWorld, initialize, loadCatalog, scan, searchBlocks, terrainRefreshing, navigate, setPoint: selectPoint, refreshMap, inspect: inspection.inspect, inspection: inspection.inspection };
+  return { worlds, loaded, catalog, area, matches, seedTiles, seedWorld, predictionFormat, selectPredictionFormat, predictionPreset, predictionNotice, predicting, predictionsEnabled, setPredictionsEnabled, predictionY, setPredictionY, surfacePrediction, setSurfacePrediction, predictionSampleY, setRenderedLookup, refreshInspection: inspection.refresh, areaRegion, matchRegion, areaSlice, matchedBlock, players, point, selectedRegion, selectRegion, view, busy, loading, error, catalogError, playerError, refresh, currentWorld, selectWorld, initialize, loadCatalog, scan, searchBlocks, terrainRefreshing, navigate, setPoint: selectPoint, refreshMap, inspect: inspection.inspect, inspection: inspection.inspection };
 }
 
 export type MapExplorer = ReturnType<typeof createMapExplorer>;
