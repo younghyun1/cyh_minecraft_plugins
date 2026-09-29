@@ -1,4 +1,4 @@
-//! One in-flight request with bounded per-player conversational context.
+//! One in-flight request with bounded shared conversation state per Minecraft world.
 use crate::{
     error::{Error, Result},
     protocol,
@@ -20,6 +20,8 @@ struct Request {
     id: u64,
     player_uuid: String,
     username: String,
+    world_uuid: String,
+    world_name: String,
     question: String,
 }
 
@@ -39,6 +41,7 @@ pub async fn serve(search: Search, binary: &Path, home: &Path, cwd: &Path) -> Re
         let line = protocol::line(&mut input, 4096).await?;
         let request: Request = serde_json::from_str(&line)?;
         if !sessions::valid_sender(&request.player_uuid, &request.username)
+            || !sessions::valid_world(&request.world_uuid, &request.world_name)
             || request.question.trim().is_empty()
             || request.question.chars().count() > 240
             || request.question.chars().any(char::is_control)
@@ -48,9 +51,15 @@ pub async fn serve(search: Search, binary: &Path, home: &Path, cwd: &Path) -> Re
             ));
         }
         let started = Instant::now();
+        if !sessions.can_admit(&request.world_uuid) {
+            let response = json!({"id":request.id,"error":"Minecraft help has reached its world conversation limit."});
+            output.write_all(format!("{response}\n").as_bytes()).await?;
+            output.flush().await?;
+            continue;
+        }
         let session = tokio::time::timeout(
             Duration::from_secs(5),
-            sessions.acquire(&request.player_uuid, &mut codex),
+            sessions.acquire(&request.world_uuid, &mut codex),
         )
         .await
         .map_err(|_| Error::Timeout)??;
@@ -62,7 +71,7 @@ pub async fn serve(search: Search, binary: &Path, home: &Path, cwd: &Path) -> Re
         };
         let results = search.search(&query)?;
         let prompt = serde_json::to_string(
-            &json!({"sender":{"uuid":request.player_uuid,"username":request.username},"question":request.question,"wiki_passages":results.hits}),
+            &json!({"world":{"uuid":request.world_uuid,"name":request.world_name},"sender":{"uuid":request.player_uuid,"username":request.username},"question":request.question,"wiki_passages":results.hits}),
         )?;
         let answer = match tokio::time::timeout(
             Duration::from_secs(15),
@@ -75,7 +84,6 @@ pub async fn serve(search: Search, binary: &Path, home: &Path, cwd: &Path) -> Re
         };
         let failed = answer.is_err();
         session.previous_question = request.question;
-        session.last_used = Instant::now();
         let response = match answer {
             Ok(text) => {
                 json!({"id":request.id,"answer":text,"sources":results.hits.iter().map(|hit| &hit.url).take(2).collect::<Vec<_>>(),

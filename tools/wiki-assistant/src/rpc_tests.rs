@@ -19,7 +19,7 @@ fn pair() -> (Codex, tokio::io::DuplexStream) {
 }
 
 #[tokio::test]
-async fn sessions_reuse_thread_and_only_return_final_answer() -> Result<()> {
+async fn worlds_share_speakers_but_isolate_context_and_only_return_final_answer() -> Result<()> {
     let (mut client, server) = pair();
     let remote = tokio::spawn(async move {
         let (read, mut write) = tokio::io::split(server);
@@ -57,26 +57,36 @@ async fn sessions_reuse_thread_and_only_return_final_answer() -> Result<()> {
     });
     let mut sessions = Sessions::default();
     let first = sessions
-        .acquire("player-a", &mut client)
+        .acquire("world-a", &mut client)
         .await?
         .thread
         .clone();
     assert_eq!(
-        client.answer(&first, "question 1".into()).await?,
+        client
+            .answer(
+                &first,
+                json!({"sender":{"username":"Alice"},"question":"question 1"}).to_string()
+            )
+            .await?,
         "Use three iron ingots."
     );
     let again = sessions
-        .acquire("player-a", &mut client)
+        .acquire("world-a", &mut client)
         .await?
         .thread
         .clone();
     assert_eq!(first, again);
     assert_eq!(
-        client.answer(&again, "follow up".into()).await?,
+        client
+            .answer(
+                &again,
+                json!({"sender":{"username":"Bob"},"question":"follow up"}).to_string()
+            )
+            .await?,
         "Use three iron ingots."
     );
     let other = sessions
-        .acquire("player-b", &mut client)
+        .acquire("world-b", &mut client)
         .await?
         .thread
         .clone();
@@ -122,9 +132,9 @@ async fn live_cli_keeps_prior_messages() -> Result<()> {
     tokio::time::timeout(std::time::Duration::from_secs(50), async {
         let mut client = Codex::start(Path::new(&binary), &home, &work).await?;
         let thread = client.start_thread().await?;
-        let first = client.answer(&thread, json!({"sender":{"uuid":"12345678-1234-1234-1234-123456789abc","username":"SyntheticPlayer"},"question":"My fictional base is called CopperKite. Remember that name for my next question.","wiki_passages":[]}).to_string()).await?;
+        let first = client.answer(&thread, json!({"world":{"uuid":"00000000-0000-0000-0000-000000000001","name":"SyntheticWorld"},"sender":{"uuid":"12345678-1234-1234-1234-123456789abc","username":"Alice"},"question":"My fictional base is called CopperKite. Remember that name for our next question.","wiki_passages":[]}).to_string()).await?;
         assert!(first.chars().count() <= 360);
-        let second = client.answer(&thread, json!({"sender":{"uuid":"12345678-1234-1234-1234-123456789abc","username":"SyntheticPlayer"},"question":"What did I call my fictional base?","wiki_passages":[]}).to_string()).await?;
+        let second = client.answer(&thread, json!({"world":{"uuid":"00000000-0000-0000-0000-000000000001","name":"SyntheticWorld"},"sender":{"uuid":"12345678-1234-1234-1234-123456789def","username":"Bob"},"question":"What did Alice call her fictional base?","wiki_passages":[]}).to_string()).await?;
         assert!(second.contains("CopperKite"));
         client.unload(&thread).await?;
         client.stop().await?;

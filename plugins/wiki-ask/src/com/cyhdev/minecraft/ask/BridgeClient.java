@@ -42,7 +42,7 @@ final class BridgeClient implements AutoCloseable {
                 || value.get("protocol").getAsInt() != 1) throw new IOException("Bridge handshake failed");
     }
 
-    String[] ask(String uuid, String username, String question) throws IOException {
+    String[] ask(String uuid, String username, String worldUuid, String worldName, String question) throws IOException {
         boolean restart = process == null || !process.isAlive();
         if (restart) {
             start();
@@ -54,12 +54,14 @@ final class BridgeClient implements AutoCloseable {
         request.addProperty("question", question);
         request.addProperty("player_uuid", uuid);
         request.addProperty("username", username);
+        request.addProperty("world_uuid", worldUuid);
+        request.addProperty("world_name", worldName);
         writer.write(request.toString());
         writer.newLine();
         writer.flush();
         JsonObject response = parse(readLine(reader));
         if (!response.has("id") || response.get("id").getAsLong() != id) throw new IOException("Bridge request mismatch");
-        if (response.has("error")) throw new IOException("Bridge request failed");
+        if (response.has("error")) return new String[] {plain(response.get("error").getAsString()), ""};
         String answer = plain(response.get("answer").getAsString());
         if (answer.isBlank()) throw new IOException("Empty answer");
         String source = "";

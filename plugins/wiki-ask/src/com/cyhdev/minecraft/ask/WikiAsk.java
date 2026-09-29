@@ -82,6 +82,8 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         }
         UUID id = player.getUniqueId();
         String username = player.getName();
+        UUID worldId = player.getWorld().getUID();
+        String worldName = player.getWorld().getName();
         long now = System.nanoTime();
         Long last = cooldowns.get(id);
         if (last != null && now - last < TimeUnit.SECONDS.toNanos(10)) {
@@ -97,7 +99,7 @@ public final class WikiAsk extends JavaPlugin implements Listener {
             return true;
         }
         try {
-            worker.execute(() -> answer(id, username, question));
+            worker.execute(() -> answer(id, username, worldId, worldName, question));
             cooldowns.put(id, now);
             player.sendActionBar(Component.text("Checking the local wiki…", NamedTextColor.GRAY));
         } catch (RejectedExecutionException exception) {
@@ -107,12 +109,12 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         return true;
     }
 
-    private void answer(UUID id, String username, String question) {
+    private void answer(UUID id, String username, UUID worldId, String worldName, String question) {
         var deadline = deadlines.schedule(bridge::close, 43, TimeUnit.SECONDS);
         String text;
         String source = "";
         try {
-            String[] response = bridge.ask(id.toString(), username, question);
+            String[] response = bridge.ask(id.toString(), username, worldId.toString(), worldName, question);
             text = response[0];
             source = response[1];
         } catch (IOException | RuntimeException exception) {
@@ -129,7 +131,8 @@ public final class WikiAsk extends JavaPlugin implements Listener {
             getServer().getScheduler().runTask(this, () -> {
                 try {
                     Player player = getServer().getPlayer(id);
-                    if (player == null || !player.isOnline() || !player.hasPermission("wikiask.use")) return;
+                    if (player == null || !player.isOnline() || !player.hasPermission("wikiask.use")
+                            || !player.getWorld().getUID().equals(worldId)) return;
                     Component message = Component.text("[Ask] ", NamedTextColor.AQUA).append(Component.text(answer, NamedTextColor.WHITE));
                     if (!url.isEmpty()) {
                         message = message.append(Component.text(" [Wiki]", NamedTextColor.GRAY)
