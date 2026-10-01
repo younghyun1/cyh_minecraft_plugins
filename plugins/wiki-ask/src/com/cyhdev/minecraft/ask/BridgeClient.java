@@ -56,11 +56,18 @@ final class BridgeClient implements AutoCloseable {
     }
 
     String[] ask(String uuid, String username, String worldUuid, String worldName, String question) throws IOException {
+        return request(uuid, username, worldUuid, worldName, question, "ask");
+    }
+
+    /** Control operations are explicit protocol fields, never prompts interpreted by the model. */
+    String[] request(String uuid, String username, String worldUuid, String worldName, String question, String action) throws IOException {
+        if (!List.of("ask", "clear", "compact").contains(action)) throw new IOException("Unknown operation");
         prepare();
         long id = ++sequence;
         JsonObject request = new JsonObject();
         request.addProperty("id", id);
         request.addProperty("question", question);
+        request.addProperty("action", action);
         request.addProperty("player_uuid", uuid);
         request.addProperty("username", username);
         request.addProperty("world_uuid", worldUuid);
@@ -81,6 +88,13 @@ final class BridgeClient implements AutoCloseable {
             }
         }
         return new String[] {answer, source};
+    }
+
+    static String action(String[] args) {
+        if (args.length == 1 && (args[0].equalsIgnoreCase("clear") || args[0].equalsIgnoreCase("compact"))) {
+            return args[0].toLowerCase(java.util.Locale.ROOT);
+        }
+        return "ask";
     }
 
     private static JsonObject parse(String line) throws IOException {

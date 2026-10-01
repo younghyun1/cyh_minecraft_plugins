@@ -4,9 +4,14 @@ import java.util.UUID;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 /** Shared conversation delivery stays inside its world and permission boundary. */
 final class WorldChat {
+    static boolean canControl(CommandSender sender) {
+        return sender instanceof Player && sender.isOp() && sender.hasPermission("wikiask.use");
+    }
+
     private WorldChat() {}
 
     static Component question(String username, String question) {

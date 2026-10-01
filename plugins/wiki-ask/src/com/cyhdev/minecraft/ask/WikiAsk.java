@@ -88,9 +88,14 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         }
         if (!running || !player.hasPermission("wikiask.use")) return true;
         String question = String.join(" ", args).trim();
+        String action = BridgeClient.action(args);
+        if (!action.equals("ask") && !WorldChat.canControl(player)) {
+            tell(player, "Only server operators can clear or compact conversations.");
+            return true;
+        }
         if (question.isEmpty() || question.codePointCount(0, question.length()) > 240
                 || question.codePoints().anyMatch(Character::isISOControl)) {
-            tell(player, "Usage: /ask <Minecraft question, up to 240 characters>");
+            tell(player, "Usage: /ask <question> | clear | compact");
             return true;
         }
         UUID id = player.getUniqueId();
@@ -112,10 +117,10 @@ public final class WikiAsk extends JavaPlugin implements Listener {
             return true;
         }
         try {
-            worker.execute(() -> answer(id, username, worldId, worldName, question));
+            worker.execute(() -> answer(id, username, worldId, worldName, question, action));
             cooldowns.put(id, now);
             WorldChat.send(getServer().getOnlinePlayers(), worldId, WorldChat.question(username, question));
-            player.sendActionBar(Component.text("Checking the local wiki…", NamedTextColor.GRAY));
+            player.sendActionBar(Component.text(action.equals("ask") ? "Checking the local wiki…" : "Updating this world's conversation…", NamedTextColor.GRAY));
         } catch (RejectedExecutionException exception) {
             busy.set(false);
             tell(player, "Minecraft help is unavailable. Try again shortly.");
@@ -123,12 +128,13 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         return true;
     }
 
-    private void answer(UUID id, String username, UUID worldId, String worldName, String question) {
-        var deadline = deadlines.schedule(bridge::close, 43, TimeUnit.SECONDS);
+    private void answer(UUID id, String username, UUID worldId, String worldName, String question, String action) {
+        var deadline = deadlines.schedule(bridge::close, action.equals("ask") ? 43 : 60, TimeUnit.SECONDS);
         String text;
         String source = "";
         try {
-            String[] response = bridge.ask(id.toString(), username, worldId.toString(), worldName, question);
+            String[] response = bridge.request(id.toString(), username, worldId.toString(), worldName,
+                    action.equals("ask") ? question : "", action);
             text = response[0];
             source = response[1];
         } catch (IOException | RuntimeException exception) {
@@ -175,6 +181,10 @@ public final class WikiAsk extends JavaPlugin implements Listener {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (WorldChat.canControl(sender) && args.length == 1) {
+            String prefix = args[0].toLowerCase(java.util.Locale.ROOT);
+            return List.of("clear", "compact").stream().filter(value -> value.startsWith(prefix)).toList();
+        }
         return List.of();
     }
 

@@ -44,6 +44,29 @@ pub fn valid_world(uuid: &str, name: &str) -> bool {
 }
 
 impl Sessions {
+    /// Forget only the selected world's thread and retrieval follow-up context.
+    pub async fn clear(&mut self, uuid: &str, codex: &mut Codex) -> Result<()> {
+        if let Some(session) = self.entries.get(uuid) {
+            match codex.unload(&session.thread).await {
+                Ok(()) => {}
+                Err(error) => return Err(error),
+            }
+            self.entries.remove(uuid);
+        }
+        Ok(())
+    }
+
+    /// Compact an existing world without allocating a conversation for an unused world.
+    pub async fn compact(&self, uuid: &str, codex: &mut Codex) -> Result<bool> {
+        match self.entries.get(uuid) {
+            Some(session) => match codex.compact(&session.thread).await {
+                Ok(()) => Ok(true),
+                Err(error) => Err(error),
+            },
+            None => Ok(false),
+        }
+    }
+
     /// Reject new worlds at capacity without forgetting existing conversations.
     pub fn can_admit(&self, uuid: &str) -> bool {
         self.entries.contains_key(uuid) || self.entries.len() < 32

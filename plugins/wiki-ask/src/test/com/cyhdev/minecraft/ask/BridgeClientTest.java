@@ -19,6 +19,7 @@ public final class BridgeClientTest {
     public static void main(String[] args) throws IOException {
         if (args.length > 0 && args[0].equals("--fixture")) { fixture(); return; }
         if (args.length > 0 && args[0].equals("--live")) { live(args); return; }
+        if (args.length > 0 && args[0].equals("--live-controls")) { liveControls(args); return; }
         if (args.length > 0 && args[0].equals("--startup-failure")) {
             System.out.println("{\"ready\":false,\"protocol\":1,\"diagnostic\":\"dedicated Codex home must not contain custom skills\"}");
             return;
@@ -47,6 +48,8 @@ public final class BridgeClientTest {
             String[] reply = client.ask("player-id", "Bob", "world-id", "Survival", "second");
             check(reply[0].equals("Bob in Survival; previous requests: 1"));
             check(reply[1].endsWith("/100"));
+            check(client.request("player-id", "Bob", "world-id", "Survival", "", "clear")[0].equals("clear completed"));
+            check(client.request("player-id", "Bob", "world-id", "Survival", "", "compact")[0].equals("compact completed"));
             client.shutdown();
             boolean stopped = false;
             try { client.prepare(); } catch (IOException expected) { stopped = true; }
@@ -60,7 +63,11 @@ public final class BridgeClientTest {
             catch (IOException expected) { explained = expected.getMessage().contains("custom skills"); }
             check(explained);
         } finally { Files.deleteIfExists(work); }
-        System.out.println("BridgeClient: 11 checks passed");
+        check(BridgeClient.action(new String[] {"clear"}).equals("clear"));
+        check(BridgeClient.action(new String[] {"COMPACT"}).equals("compact"));
+        check(BridgeClient.action(new String[] {"clear", "glass"}).equals("ask"));
+        check(BridgeClient.action(new String[] {}).equals("ask"));
+        System.out.println("BridgeClient: 17 checks passed");
     }
 
     /** Explicit opt-in verifies the exact Java environment and repeated starts with one Codex home. */
@@ -85,19 +92,47 @@ public final class BridgeClientTest {
     private static void fixture() throws IOException {
         System.out.println("{\"ready\":true,\"protocol\":1}");
         var reader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             JsonObject request = JsonParser.parseString(BridgeClient.readLine(reader)).getAsJsonObject();
             check(request.get("player_uuid").getAsString().equals("player-id"));
             check(request.get("world_uuid").getAsString().equals("world-id"));
             JsonObject response = new JsonObject();
             response.add("id", request.get("id"));
-            if (i == 0) response.addProperty("error", "At capacity.");
+            if (i >= 2) {
+                check(request.get("question").getAsString().isEmpty());
+                String action = i == 2 ? "clear" : "compact";
+                check(request.get("action").getAsString().equals(action));
+                response.addProperty("answer", action + " completed");
+            } else if (i == 0) response.addProperty("error", "At capacity.");
             else {
                 response.addProperty("answer", request.get("username").getAsString() + " in "
                         + request.get("world_name").getAsString() + "; previous requests: " + i);
                 response.add("sources", JsonParser.parseString("[\"https://minecraft.wiki/w/Special:Redirect/revision/100\"]"));
             }
             System.out.println(response);
+        }
+    }
+
+    /** Opt-in exercises compaction and clearing through the real Java-to-Rust pipe. */
+    private static void liveControls(String[] args) throws IOException {
+        if (args.length != 7) throw new IOException("Expected --live-controls bridge index corpus codex codex-home work-directory");
+        List<String> command = List.of(args[1], "serve", "--index", args[2], "--corpus", args[3],
+                "--codex", args[4], "--codex-home", args[5], "--work-dir", args[6]);
+        String player = "12345678-1234-1234-1234-123456789abc";
+        String world = "00000000-0000-0000-0000-000000000001";
+        try (BridgeClient client = new BridgeClient(command)) {
+            client.prepare();
+            String[] first = client.ask(player, "JavaProbe", world, "SyntheticWorld",
+                    "Remember our fictional base name CopperKite9382. What is our base called?");
+            check(first[0].contains("CopperKite9382"));
+            check(client.request(player, "JavaProbe", world, "SyntheticWorld", "", "compact")[0].contains("has been compacted"));
+            String[] compacted = client.ask(player, "JavaProbe", world, "SyntheticWorld", "What is our fictional base called?");
+            System.out.println("Synthetic recall after compaction: " + compacted[0]);
+            check(compacted[0].contains("CopperKite9382"));
+            check(client.request(player, "JavaProbe", world, "SyntheticWorld", "", "clear")[0].contains("has been cleared"));
+            String[] cleared = client.ask(player, "JavaProbe", world, "SyntheticWorld", "What is our fictional base called?");
+            check(!cleared[0].contains("CopperKite9382") && !cleared[0].contains("unavailable"));
+            System.out.println("Live controls: compaction retained context; clear removed context; 5 checks passed");
         }
     }
 

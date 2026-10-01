@@ -6,6 +6,12 @@ Each Bukkit world UUID owns one shared conversation. Every message includes the 
 
 Targets Paper 26.2+ and Java 25 using public Bukkit/Adventure APIs. Compiled locally against Paper 26.2 build 123; Folia is unsupported. This plugin does not depend on squaremap or the website adapter.
 
+## Conversation commands
+
+`/ask clear` and `/ask compact` require server operator status and `wikiask.use`. Both affect only the caller's current world's shared conversation, use the existing cooldown and global busy gate, and announce completion to permitted players in that world. Non-operators cannot invoke or tab-complete these controls; ordinary questions remain available under `wikiask.use`.
+
+`clear` unsubscribes the old conversation and removes its follow-up retrieval context; the next question creates a fresh conversation. Other worlds remain intact. `compact` asks Codex to summarize the existing conversation, retaining useful context rather than resetting it. Confirmation waits for successful compaction completion, with a 35-second operation deadline and 60-second Java watchdog including cold startup. An unused world reports that there is nothing to compact. Controls use explicit protocol actions and are never submitted as gameplay prompts. Only a single exact `clear` or `compact` argument selects a control; longer questions remain questions.
+
 ## Development build
 
 Supply an existing compatible Paper installation's library directory through `ASK_LIBRARIES`. These Bash commands only compile, run synthetic boundary tests, and package the plugin. They do not download or launch a Minecraft server.
@@ -43,6 +49,8 @@ Blank or invalid paths disable the plugin. The corpus and index must already be 
 Copying the reviewed jar and configuring/activating it are separate deployment actions requiring explicit scope. Building this project does not install the plugin, change a live server, or authorize a restart. When updating a running Paper server, stage the replacement jar in its configured update directory for the next authorized restart. No live server was used by the synthetic tests.
 
 An explicitly requested live verification can run `BridgeClientTest --live <bridge> <index> <corpus> <codex> <codex-home> <work-directory>` with the same Java classpath. It makes two synthetic gameplay requests using separate companion starts and the same populated Codex home. This checks Java's cleared subprocess environment and restart compatibility without invoking the Minecraft command or changing a world. Startup failures return bounded operator diagnostics to the plugin log; raw child output remains discarded.
+
+The same arguments with `--live-controls` verify that a synthetic remembered detail survives manual compaction and disappears after clearing. This creates its own companion and conversations; it does not control the running plugin's sessions.
 
 ## Permissions and lifecycle
 

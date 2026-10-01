@@ -25,6 +25,17 @@ struct Request {
     world_uuid: String,
     world_name: String,
     question: String,
+    #[serde(default)]
+    action: Action,
+}
+
+#[derive(Default, Deserialize, PartialEq)]
+#[serde(rename_all = "snake_case")]
+enum Action {
+    #[default]
+    Ask,
+    Clear,
+    Compact,
 }
 
 /// Serve line-delimited requests from the Paper child-process pipe only.
@@ -58,7 +69,7 @@ pub async fn serve(
         let request: Request = serde_json::from_str(&line)?;
         if !sessions::valid_sender(&request.player_uuid, &request.username)
             || !sessions::valid_world(&request.world_uuid, &request.world_name)
-            || request.question.trim().is_empty()
+            || (request.action == Action::Ask && request.question.trim().is_empty())
             || request.question.chars().count() > 240
             || request.question.chars().any(char::is_control)
         {
@@ -67,6 +78,34 @@ pub async fn serve(
             ));
         }
         let started = Instant::now();
+        if request.action != Action::Ask {
+            let result = tokio::time::timeout(Duration::from_secs(35), async {
+                match request.action {
+                    Action::Clear => match sessions.clear(&request.world_uuid, &mut codex).await {
+                        Ok(()) => Ok("This world's shared conversation has been cleared."),
+                        Err(error) => Err(error),
+                    },
+                    Action::Compact => {
+                        match sessions.compact(&request.world_uuid, &mut codex).await {
+                            Ok(true) => Ok("This world's shared conversation has been compacted."),
+                            Ok(false) => Ok("This world has no conversation to compact."),
+                            Err(error) => Err(error),
+                        }
+                    }
+                    Action::Ask => Err(Error::Codex),
+                }
+            })
+            .await;
+            let answer = match result {
+                Ok(Ok(answer)) => answer,
+                Ok(Err(error)) => return Err(error),
+                Err(_) => return Err(Error::Timeout),
+            };
+            let response = json!({"id":request.id,"answer":answer,"sources":[]});
+            output.write_all(format!("{response}\n").as_bytes()).await?;
+            output.flush().await?;
+            continue;
+        }
         if !sessions.can_admit(&request.world_uuid) {
             let response = json!({"id":request.id,"error":"Minecraft help has reached its world conversation limit."});
             output.write_all(format!("{response}\n").as_bytes()).await?;
@@ -130,5 +169,26 @@ pub async fn serve(
             codex.stop().await?;
             return Err(Error::Codex);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn legacy_questions_and_explicit_controls_decode_without_prompt_dispatch() -> Result<()> {
+        let mut frame = json!({"id":1,"player_uuid":"player","username":"Alice","world_uuid":"world","world_name":"Survival","question":"clear"});
+        let request: Request = serde_json::from_value(frame.clone())?;
+        assert!(request.action == Action::Ask);
+        for action in ["clear", "compact"] {
+            frame["action"] = json!(action);
+            frame["question"] = json!("");
+            let request: Request = serde_json::from_value(frame.clone())?;
+            assert!(request.action != Action::Ask);
+        }
+        frame["action"] = json!("shell");
+        assert!(serde_json::from_value::<Request>(frame).is_err());
+        Ok(())
     }
 }

@@ -4,7 +4,7 @@ use crate::sessions::Sessions;
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader};
 
 /// Simulate an app-server on a bounded duplex pipe.
-fn pair() -> (Codex, tokio::io::DuplexStream) {
+pub(super) fn pair() -> (Codex, tokio::io::DuplexStream) {
     let (client, server) = tokio::io::duplex(64 * 1024);
     let (read, write) = tokio::io::split(client);
     (
