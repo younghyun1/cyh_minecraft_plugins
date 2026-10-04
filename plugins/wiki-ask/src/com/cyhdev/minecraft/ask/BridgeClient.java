@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Consumer;
 
 /** One worker owns the pipe; the deadline thread may close its process. */
 final class BridgeClient implements AutoCloseable {
@@ -19,9 +20,15 @@ final class BridgeClient implements AutoCloseable {
     private BufferedReader reader;
     private BufferedWriter writer;
     private long sequence;
+    private final Consumer<String> progress;
 
     BridgeClient(List<String> command) {
+        this(command, phase -> {});
+    }
+
+    BridgeClient(List<String> command, Consumer<String> progress) {
         this.command = List.copyOf(command);
+        this.progress = progress;
     }
 
     /** No shell interpolation; questions only enter a bounded JSON stdin frame. */
@@ -44,12 +51,13 @@ final class BridgeClient implements AutoCloseable {
             throw new IOException("Bridge startup failed: " + plain(value.get("diagnostic").getAsString()));
         }
         if (!value.has("ready") || !value.get("ready").getAsBoolean()
-                || value.get("protocol").getAsInt() != 1) throw new IOException("Bridge handshake failed");
+                || value.get("protocol").getAsInt() != 2) throw new IOException("Bridge handshake failed; install matching jar and companion");
     }
 
     /** Load the corpus and establish IPC during plugin startup, away from the tick thread. */
     void prepare() throws IOException {
         if (process == null || !process.isAlive()) {
+            progress.accept("starting");
             start();
             ready();
         }
@@ -75,9 +83,24 @@ final class BridgeClient implements AutoCloseable {
         writer.write(request.toString());
         writer.newLine();
         writer.flush();
-        JsonObject response = parse(readLine(reader));
-        if (!response.has("id") || response.get("id").getAsLong() != id) throw new IOException("Bridge request mismatch");
-        if (response.has("error")) return new String[] {plain(response.get("error").getAsString()), ""};
+        String operation = action.equals("ask") ? "connecting" : action.equals("compact") ? "compacting" : "clearing";
+        JsonObject response = null;
+        for (int frames = 0; frames <= 32; frames++) {
+            response = parse(readLine(reader));
+            if (!response.has("id") || response.get("id").getAsLong() != id) throw new IOException("Bridge request mismatch");
+            if (!response.has("status")) break;
+            if (frames == 32 || response.size() != 2) throw new IOException("Invalid bridge progress stream");
+            String phase = response.get("status").getAsString();
+            RequestStatus.description(phase);
+            progress.accept(phase);
+            if (!phase.equals("resetting")) operation = phase;
+        }
+        if (response == null) throw new IOException("Missing bridge response");
+        if (response.has("error_code")) {
+            String message = RequestStatus.failure(response.get("error_code").getAsString(), operation);
+            if (response.has("fatal") && response.get("fatal").getAsBoolean()) close();
+            return new String[] {message, ""};
+        }
         String answer = plain(response.get("answer").getAsString());
         if (answer.isBlank()) throw new IOException("Empty answer");
         String source = "";

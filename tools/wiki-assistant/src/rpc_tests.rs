@@ -4,7 +4,7 @@ use crate::sessions::Sessions;
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader};
 
 /// Simulate an app-server on a bounded duplex pipe.
-pub(super) fn pair() -> (Codex, tokio::io::DuplexStream) {
+pub(crate) fn pair() -> (Codex, tokio::io::DuplexStream) {
     let (client, server) = tokio::io::duplex(64 * 1024);
     let (read, write) = tokio::io::split(client);
     (
@@ -13,6 +13,7 @@ pub(super) fn pair() -> (Codex, tokio::io::DuplexStream) {
             input: Box::new(write),
             output: Box::new(BufReader::new(read)),
             next_id: 1,
+            progress: crate::progress::Progress::default(),
         },
         server,
     )
@@ -31,21 +32,26 @@ async fn worlds_share_speakers_but_isolate_context_and_only_return_final_answer(
             let request: Value = serde_json::from_str(&line)?;
             let id = request["id"].clone();
             let response = if request["method"] == "thread/start" {
-                assert_eq!(request["params"]["model"], "gpt-6-luna");
+                assert_eq!(request["params"]["model"], "gpt-6.1-sol");
                 assert_eq!(request["params"]["serviceTier"], "fast");
-                assert_eq!(request["params"]["config"]["model_reasoning_effort"], "low");
+                assert_eq!(
+                    request["params"]["config"]["model_reasoning_effort"],
+                    "medium"
+                );
                 threads += 1;
-                json!({"id":id,"result":{"model":"gpt-6-luna","thread":{"id":format!("thread-{threads}")}}})
+                json!({"id":id,"result":{"model":"gpt-6.1-sol","thread":{"id":format!("thread-{threads}")}}})
             } else {
                 assert_eq!(request["method"], "turn/start");
-                assert_eq!(request["params"]["effort"], "low");
+                assert_eq!(request["params"]["effort"], "medium");
+                assert_eq!(request["params"]["model"], "gpt-6.1-sol");
+                assert_eq!(request["params"]["outputSchema"], crate::response::schema());
                 assert_eq!(request["params"]["serviceTier"], "fast");
                 let thread = request["params"]["threadId"].clone();
                 for value in [
                     json!({"id":id,"result":{"turn":{"id":"turn-1"}}}),
                     json!({"method":"item/completed","params":{"threadId":thread,"item":{"type":"reasoning","text":"SECRET REASONING"}}}),
                     json!({"method":"item/completed","params":{"threadId":thread,"item":{"type":"agentMessage","phase":"commentary","text":"SECRET COMMENTARY"}}}),
-                    json!({"method":"item/completed","params":{"threadId":thread,"item":{"type":"agentMessage","phase":"final_answer","text":"Use three iron ingots."}}}),
+                    json!({"method":"item/completed","params":{"threadId":thread,"item":{"type":"agentMessage","phase":"final_answer","text":json!({"relevance":"minecraft","answer":"Use three iron ingots."}).to_string()}}}),
                 ] {
                     write.write_all(format!("{value}\n").as_bytes()).await?;
                 }
@@ -163,7 +169,7 @@ async fn dynamic_tools_return_sources_and_never_leak_into_chat() -> Result<()> {
         for value in [
             json!({"method":"item/completed","params":{"threadId":"world","item":{"type":"dynamicToolCall","text":"HIDDEN TOOL RESULT"}}}),
             json!({"method":"item/completed","params":{"threadId":"world","item":{"type":"agentMessage","phase":"analysis","text":"HIDDEN UNKNOWN PHASE"}}}),
-            json!({"method":"item/completed","params":{"threadId":"world","item":{"type":"agentMessage","phase":"final_answer","text":"Use three iron ingots."}}}),
+            json!({"method":"item/completed","params":{"threadId":"world","item":{"type":"agentMessage","phase":"final_answer","text":json!({"relevance":"minecraft","answer":"Use three iron ingots."}).to_string()}}}),
             json!({"method":"turn/completed","params":{"threadId":"world","turn":{"status":"completed"}}}),
         ] {
             write.write_all(format!("{value}\n").as_bytes()).await?;

@@ -21,7 +21,7 @@ async fn clear_replaces_only_one_world_and_compact_preserves_followup() -> Resul
                 assert_eq!(request["params"]["threadId"], thread);
             }
             let result = if method == "thread/start" {
-                json!({"model":"gpt-6-luna","thread":{"id":thread}})
+                json!({"model":"gpt-6.1-sol","thread":{"id":thread}})
             } else {
                 json!({})
             };

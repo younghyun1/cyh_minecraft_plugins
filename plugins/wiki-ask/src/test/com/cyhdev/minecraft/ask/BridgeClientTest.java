@@ -21,7 +21,7 @@ public final class BridgeClientTest {
         if (args.length > 0 && args[0].equals("--live")) { live(args); return; }
         if (args.length > 0 && args[0].equals("--live-controls")) { liveControls(args); return; }
         if (args.length > 0 && args[0].equals("--startup-failure")) {
-            System.out.println("{\"ready\":false,\"protocol\":1,\"diagnostic\":\"dedicated Codex home must not contain custom skills\"}");
+            System.out.println("{\"ready\":false,\"protocol\":2,\"diagnostic\":\"dedicated Codex home must not contain custom skills\"}");
             return;
         }
         String text = BridgeClient.plain("§\u202eReason\n" + "🪨 word ".repeat(1000));
@@ -44,7 +44,7 @@ public final class BridgeClientTest {
             client.prepare();
             client.prepare();
             String[] rejected = client.ask("player-id", "Alice", "world-id", "Survival", "first");
-            check(rejected[0].equals("At capacity."));
+            check(rejected[0].contains("32-world"));
             String[] reply = client.ask("player-id", "Bob", "world-id", "Survival", "second");
             check(reply[0].equals("Bob in Survival; previous requests: 1"));
             check(reply[1].endsWith("/100"));
@@ -90,7 +90,7 @@ public final class BridgeClientTest {
     }
 
     private static void fixture() throws IOException {
-        System.out.println("{\"ready\":true,\"protocol\":1}");
+        System.out.println("{\"ready\":true,\"protocol\":2}");
         var reader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
         for (int i = 0; i < 4; i++) {
             JsonObject request = JsonParser.parseString(BridgeClient.readLine(reader)).getAsJsonObject();
@@ -103,7 +103,7 @@ public final class BridgeClientTest {
                 String action = i == 2 ? "clear" : "compact";
                 check(request.get("action").getAsString().equals(action));
                 response.addProperty("answer", action + " completed");
-            } else if (i == 0) response.addProperty("error", "At capacity.");
+            } else if (i == 0) response.addProperty("error_code", "capacity");
             else {
                 response.addProperty("answer", request.get("username").getAsString() + " in "
                         + request.get("world_name").getAsString() + "; previous requests: " + i);

@@ -27,4 +27,12 @@ final class WorldChat {
                     && player.getWorld().getUID().equals(world)) player.sendMessage(message);
         }
     }
+
+    /** Progress uses the same recipient boundary as public questions and replies. */
+    static void actionBar(Iterable<? extends Player> players, UUID world, Component message) {
+        for (Player player : players) {
+            if (player.isOnline() && player.hasPermission("wikiask.use")
+                    && player.getWorld().getUID().equals(world)) player.sendActionBar(message);
+        }
+    }
 }

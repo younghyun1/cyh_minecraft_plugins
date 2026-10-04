@@ -89,11 +89,18 @@ async fn live_bridge_shares_world_context_and_isolates_other_worlds() -> Result<
             "world_uuid":world,"world_name":format!("SyntheticWorld{world}"),"question":question});
         input.write_all(format!("{request}\n").as_bytes()).await?;
         input.flush().await?;
-        let response: Value = serde_json::from_str(
-            &tokio::time::timeout(Duration::from_secs(25), protocol::line(&mut output, 4096))
-                .await
-                .map_err(|_| Error::Timeout)??,
-        )?;
+        let response: Value = tokio::time::timeout(Duration::from_secs(55), async {
+            for _ in 0..33 {
+                let frame: Value = serde_json::from_str(&protocol::line(&mut output, 4096).await?)?;
+                assert_eq!(frame["id"], id);
+                if frame.get("status").is_none() {
+                    return Ok::<Value, Error>(frame);
+                }
+            }
+            Err(Error::Codex)
+        })
+        .await
+        .map_err(|_| Error::Timeout)??;
         assert_eq!(response["id"], id);
         let answer = response["answer"].as_str().ok_or(Error::Codex)?;
         assert!(answer.chars().count() <= 360 && answer.split_whitespace().count() <= 60);

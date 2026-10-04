@@ -1,7 +1,7 @@
 //! Dispatch only wiki tools during inference; hidden events never become chat output.
 use crate::{
     error::{Error, Result},
-    protocol,
+    progress::Phase,
     rpc::Codex,
     wiki_tools::Lookup,
 };
@@ -11,6 +11,7 @@ pub struct Answer {
     pub text: String,
     pub sources: Vec<String>,
     pub tool_calls: usize,
+    pub relevant: bool,
 }
 
 pub async fn run(
@@ -19,10 +20,12 @@ pub async fn run(
     prompt: String,
     mut lookup: Option<&mut Lookup<'_>>,
 ) -> Result<Answer> {
+    codex.progress.thread(thread, true);
+    codex.progress.emit(Phase::Answering).await?;
     let started = codex
         .request(
             "turn/start",
-            json!({"threadId":thread,"model":"gpt-6-luna","effort":"low","serviceTier":"fast",
+            json!({"threadId":thread,"model":"gpt-6.1-sol","effort":"medium","serviceTier":"fast","outputSchema":crate::response::schema(),
         "input":[{"type":"text","text":prompt,"text_elements":[]}]}),
         )
         .await?;
@@ -36,6 +39,7 @@ pub async fn run(
     for _ in 0..1024 {
         let event = codex.read().await?;
         if event["method"] == "item/tool/call" {
+            codex.progress.emit(Phase::Searching).await?;
             requests += 1;
             let params = &event["params"];
             if requests > 6
@@ -59,6 +63,7 @@ pub async fn run(
                 ),
             };
             codex.write(json!({"id":event["id"],"result":{"success":success,"contentItems":[{"type":"inputText","text":content}]}})).await?;
+            codex.progress.emit(Phase::Answering).await?;
             continue;
         }
         if event["params"]["threadId"].as_str() != Some(thread) {
@@ -77,7 +82,7 @@ pub async fn run(
             }
             Some("turn/completed") => {
                 if event["params"]["turn"]["status"] != "completed" {
-                    return Err(Error::Codex);
+                    return Err(Error::provider(&event["params"]["turn"]["error"]));
                 }
                 complete = true;
                 break;
@@ -92,9 +97,11 @@ pub async fn run(
         Some(local) => (std::mem::take(&mut local.sources), local.calls),
         None => (Vec::new(), 0),
     };
+    let (text, relevant) = crate::response::decode(&answer)?;
     Ok(Answer {
-        text: protocol::answer(&answer),
-        sources,
+        text,
+        sources: if relevant { sources } else { Vec::new() },
         tool_calls,
+        relevant,
     })
 }

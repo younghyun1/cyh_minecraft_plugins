@@ -6,7 +6,7 @@ use tokio::io::{AsyncBufRead, AsyncBufReadExt, AsyncReadExt};
 pub fn startup_failure(error: &Error) -> Result<()> {
     use std::io::Write;
     let frame =
-        serde_json::json!({"ready":false,"protocol":1,"diagnostic":error.startup_diagnostic()});
+        serde_json::json!({"ready":false,"protocol":2,"diagnostic":error.startup_diagnostic()});
     let mut output = std::io::stdout().lock();
     writeln!(output, "{frame}")?;
     output.flush()?;

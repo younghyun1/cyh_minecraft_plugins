@@ -29,8 +29,10 @@ public final class WorldChatTest {
         Component answer = Component.text("Blue ice is faster.");
         WorldChat.send(players, world, question);
         WorldChat.send(players, world, answer);
+        Component progress = Component.text("Compacting conversation history (6s elapsed).");
+        WorldChat.actionBar(players, world, progress);
         for (Recipient recipient : List.of(alice, bob)) {
-            check(recipient.messages().equals(List.of(question, answer)));
+            check(recipient.messages().equals(List.of(question, answer, progress)));
             check(PlainTextComponentSerializer.plainText().serialize(recipient.messages().get(0))
                     .equals("[Ask] Alice: Is <red>blue ice</red> faster?"));
         }
@@ -51,7 +53,7 @@ public final class WorldChatTest {
                     case "isOp" -> operator;
                     case "getWorld" -> world;
                     case "hasPermission" -> permitted && arguments[0].equals("wikiask.use");
-                    case "sendMessage" -> { messages.add((Component) arguments[0]); yield null; }
+                    case "sendMessage", "sendActionBar" -> { messages.add((Component) arguments[0]); yield null; }
                     default -> throw new AssertionError("Unexpected player access: " + method.getName());
                 });
         return new Recipient(player, messages);

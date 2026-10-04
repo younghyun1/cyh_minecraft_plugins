@@ -1,5 +1,5 @@
 name: WikiAsk
-version: '0.1.2'
+version: '0.1.3'
 main: com.cyhdev.minecraft.ask.WikiAsk
 api-version: '26.2'
 description: Fast shared per-world Minecraft Wiki chat through a local Codex CLI

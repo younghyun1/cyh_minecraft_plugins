@@ -31,6 +31,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class WikiAsk extends JavaPlugin implements Listener {
     private final Map<UUID, Long> cooldowns = new HashMap<>();
     private final AtomicBoolean busy = new AtomicBoolean();
+    private final RequestStatus status = new RequestStatus();
+    private UUID activePlayer;
+    private UUID activeWorld;
     private final ThreadPoolExecutor worker = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS,
             new SynchronousQueue<>(), Thread.ofPlatform().name("wiki-ask-worker").daemon().factory());
     private final ScheduledExecutorService deadlines = Executors.newSingleThreadScheduledExecutor(
@@ -47,7 +50,7 @@ public final class WikiAsk extends JavaPlugin implements Listener {
             command.add("serve");
             command.addAll(List.of("--index", path("wiki-index", false), "--corpus", path("wiki-corpus", false), "--codex", path("codex-binary", true),
                     "--codex-home", path("codex-home", false), "--work-dir", path("work-directory", false)));
-            bridge = new BridgeClient(command);
+            bridge = new BridgeClient(command, status::update);
         } catch (IllegalArgumentException exception) {
             getLogger().severe("Configure existing absolute bridge, corpus, index, Codex home, and work paths before enabling WikiAsk.");
             getServer().getPluginManager().disablePlugin(this);
@@ -56,10 +59,12 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         running = true;
         getServer().getPluginManager().registerEvents(this, this);
         busy.set(true);
+        getServer().getScheduler().runTaskTimer(this, this::showProgress, 20, 40);
         worker.execute(() -> {
             var deadline = deadlines.schedule(bridge::close, 43, TimeUnit.SECONDS);
             try {
                 bridge.prepare();
+                getLogger().info("WikiAsk ready: gpt-6.1-sol, medium reasoning, fast tier; local wiki loaded.");
             } catch (IOException | RuntimeException exception) {
                 bridge.close();
                 logFailure("startup", exception);
@@ -104,32 +109,45 @@ public final class WikiAsk extends JavaPlugin implements Listener {
         String worldName = player.getWorld().getName();
         long now = System.nanoTime();
         Long last = cooldowns.get(id);
+        if (busy.get()) {
+            tell(player, status.busy());
+            return true;
+        }
         if (last != null && now - last < TimeUnit.SECONDS.toNanos(10)) {
-            tell(player, "Wait a few seconds before asking again.");
+            long seconds = 10 - TimeUnit.NANOSECONDS.toSeconds(now - last);
+            tell(player, "Your /ask cooldown has " + seconds + " seconds remaining.");
             return true;
         }
         if (cooldowns.size() >= 4096 && !cooldowns.containsKey(id)) {
             cooldowns.entrySet().removeIf(entry -> now - entry.getValue() >= TimeUnit.SECONDS.toNanos(10));
-            if (cooldowns.size() >= 4096) { tell(player, "Minecraft help is busy. Try again shortly."); return true; }
+            if (cooldowns.size() >= 4096) { tell(player, "The /ask cooldown table is full; retry in 10 seconds."); return true; }
         }
         if (!busy.compareAndSet(false, true)) {
-            tell(player, "Minecraft help is busy. Try again shortly.");
+            tell(player, status.busy());
             return true;
         }
         try {
+            status.begin(action);
+            activePlayer = id;
+            activeWorld = worldId;
             worker.execute(() -> answer(id, username, worldId, worldName, question, action));
             cooldowns.put(id, now);
             WorldChat.send(getServer().getOnlinePlayers(), worldId, WorldChat.question(username, question));
-            player.sendActionBar(Component.text(action.equals("ask") ? "Checking the local wiki…" : "Updating this world's conversation…", NamedTextColor.GRAY));
+            showProgress();
         } catch (RejectedExecutionException exception) {
             busy.set(false);
-            tell(player, "Minecraft help is unavailable. Try again shortly.");
+            tell(player, "The previous /ask worker is finishing cleanup. Retry in a moment; your command was not queued.");
         }
         return true;
     }
 
     private void answer(UUID id, String username, UUID worldId, String worldName, String question, String action) {
-        var deadline = deadlines.schedule(bridge::close, action.equals("ask") ? 43 : 60, TimeUnit.SECONDS);
+        var timedOut = new AtomicBoolean();
+        var deadline = deadlines.schedule(() -> {
+            timedOut.set(true);
+            status.update("resetting");
+            bridge.close();
+        }, action.equals("ask") ? 75 : 60, TimeUnit.SECONDS);
         String text;
         String source = "";
         try {
@@ -139,7 +157,7 @@ public final class WikiAsk extends JavaPlugin implements Listener {
             source = response[1];
         } catch (IOException | RuntimeException exception) {
             bridge.close();
-            text = "Minecraft help is temporarily unavailable. Try again shortly.";
+            text = status.disconnected(timedOut.get());
             logFailure("request", exception);
         } finally {
             deadline.cancel(false);
@@ -163,6 +181,16 @@ public final class WikiAsk extends JavaPlugin implements Listener {
                 } finally { busy.set(false); }
             });
         } catch (RuntimeException exception) { busy.set(false); }
+    }
+
+    /** Bukkit visibility and player state are read only on the server thread. */
+    private void showProgress() {
+        if (!running || !busy.get() || activePlayer == null || activeWorld == null) return;
+        Player requester = getServer().getPlayer(activePlayer);
+        if (requester == null || !requester.isOnline() || !requester.hasPermission("wikiask.use")
+                || !requester.getWorld().getUID().equals(activeWorld)) return;
+        Component message = Component.text("[Ask] " + status.progress(), NamedTextColor.GRAY);
+        WorldChat.actionBar(getServer().getOnlinePlayers(), activeWorld, message);
     }
 
     private static void tell(Player player, String message) {
