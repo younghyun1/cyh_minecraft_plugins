@@ -410,7 +410,7 @@
     {
       "path": "frontend/package.reference.json",
       "source": "solid-csr-spa-template/package.json",
-      "sha256": "d0518458081c2186cc8d7e982b89686310e4a477332fbff61e9cfa53f2003871"
+      "sha256": "0c3637cb8f6f8a7ed2d09058a01b020d0aa6e82b40b2218b07c1dbd7f7185b3b"
     },
     {
       "path": "frontend/playwright.config.ts",
@@ -726,7 +726,7 @@
       "sha256": "ec95d1ca4c8af27b1c1648befe672543e5bc8c0b493e52ff8d79b8fabdbf7386"
     }
   ],
-  "sourceCommit": "6c39158165415b75f41e7d01cb12e85e57b0a58d",
+  "sourceCommit": "ecc21139c6db6e7a47367676857e4c14fb635ef6",
   "documentation": [
     {
       "path": "docs/architecture/be/minecraft-explorer.md",

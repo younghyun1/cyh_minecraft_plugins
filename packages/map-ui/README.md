@@ -6,7 +6,7 @@ Reusable Solid components and browser state for squaremap terrain, continuous bi
 
 Run `npm ci`, then `npm run check` in this directory. The check typechecks the complete source, runs the browser-state and protocol unit tests, and emits an ES module, declarations, and CSS into `dist/`. It needs no sibling website checkout, Minecraft server, or backend credentials. The package is private in npm metadata; committing it to a public source repository does not publish it to npm.
 
-Solid, its signals/web runtimes, and its compiler are pinned to the coordinated `2.0.0-rc.8` graph used by the source application. The Vite plugin is pinned to `3.0.0-next.43`; Leaflet is pinned to `1.9.4`. Do not independently update one Solid prerelease package. `.npmrc` preserves the source application's prerequisite handling, and the lockfile fixes the complete tested graph.
+Solid, its signals/web runtimes, and its compiler are pinned to the coordinated `2.0.0-rc.13` graph used by the source application. The Vite plugin is pinned to `3.0.0-next.47`; Leaflet is pinned to `1.9.4`. Do not independently update one Solid prerelease package. Vite 8.3.3, Vitest 5.0.3, and jsdom 30.1.2 are pinned and verified together; the combined toolchain requires Node.js 22.22.2+, 24.15.0+, or 26+ on those supported release lines. `.npmrc` preserves the source application's prerequisite handling, and the lockfile fixes the complete tested graph.
 
 ## Public boundary
 

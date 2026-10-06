@@ -30,25 +30,25 @@
     "benchmark:browser": "playwright test --config=playwright.seed-benchmark.config.ts"
   },
   "peerDependencies": {
-    "@solidjs/signals": "2.0.0-rc.8",
-    "@solidjs/web": "2.0.0-rc.8",
-    "solid-js": "2.0.0-rc.8",
+    "@solidjs/signals": "2.0.0-rc.13",
+    "@solidjs/web": "2.0.0-rc.13",
+    "solid-js": "2.0.0-rc.13",
     "leaflet": "1.9.4"
   },
   "devDependencies": {
-    "@solidjs/babel-plugin": "2.0.0-rc.8",
-    "@solidjs/compiler": "2.0.0-rc.8",
-    "@solidjs/signals": "2.0.0-rc.8",
+    "@solidjs/babel-plugin": "2.0.0-rc.13",
+    "@solidjs/compiler": "2.0.0-rc.13",
+    "@solidjs/signals": "2.0.0-rc.13",
     "@solidjs/testing-library": "1.0.0-beta.3",
-    "@solidjs/vite-plugin": "3.0.0-next.43",
-    "@solidjs/web": "2.0.0-rc.8",
+    "@solidjs/vite-plugin": "3.0.0-next.47",
+    "@solidjs/web": "2.0.0-rc.13",
     "@types/leaflet": "1.9.22",
-    "jsdom": "30.1.0",
+    "jsdom": "30.1.2",
     "leaflet": "1.9.4",
-    "solid-js": "2.0.0-rc.8",
+    "solid-js": "2.0.0-rc.13",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "vite": "8.3.0",
-    "vitest": "5.0.1",
+    "vite": "8.3.3",
+    "vitest": "5.0.3",
     "@playwright/test": "1.63.0"
   },
   "overrides": {
