@@ -5,7 +5,7 @@
   "files": [
     {
       "path": "src/components/minecraft/MapCanvas.tsx",
-      "sha256": "e9ac2f690256f75e6148225d749fc3fc2af6c20ae7b355f61c51a0d779c99cbe"
+      "sha256": "bb738c41d21a72a75d3d173d5ba464859c3f70cd1272a6717a18f1a0325ec559"
     },
     {
       "path": "src/components/minecraft/MapInspection.tsx",
@@ -160,5 +160,5 @@
       "sha256": "03ea24c70889b0a725b0cb7c02a5f52fec09d2489e451804446c2bf459282bda"
     }
   ],
-  "sourceCommit": "af591ae85e40a81473125943363890622e0aa067"
+  "sourceCommit": "6c39158165415b75f41e7d01cb12e85e57b0a58d"
 }

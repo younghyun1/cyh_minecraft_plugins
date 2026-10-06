@@ -480,12 +480,12 @@
     {
       "path": "frontend/src/components/minecraft/MapAnalysis.tsx",
       "source": "solid-csr-spa-template/src/components/minecraft/MapAnalysis.tsx",
-      "sha256": "ab594ab0762d44002b082b884b2024acfcf200d31fe7130d0d87fadba3c30a6e"
+      "sha256": "4b1d78d5d7591040c719e47ccf92f0c88c515a3e5f6e2e72f6bfbd13dfa0513a"
     },
     {
       "path": "frontend/src/components/minecraft/MapCanvas.tsx",
       "source": "solid-csr-spa-template/src/components/minecraft/MapCanvas.tsx",
-      "sha256": "e9ac2f690256f75e6148225d749fc3fc2af6c20ae7b355f61c51a0d779c99cbe"
+      "sha256": "bb738c41d21a72a75d3d173d5ba464859c3f70cd1272a6717a18f1a0325ec559"
     },
     {
       "path": "frontend/src/components/minecraft/mapControls.ts",
@@ -675,7 +675,7 @@
     {
       "path": "frontend/src/pages/minecraft.tsx",
       "source": "solid-csr-spa-template/src/pages/minecraft.tsx",
-      "sha256": "d1f58a7644b623a6f612d22df72bc403283faa4cf39ffc9b30f7043718f55143"
+      "sha256": "72886458e26c2534a26725ee344ae9efea4f3df4edc7e12351b95136fe6f6eb5"
     },
     {
       "path": "frontend/src/services/minecraft_seed_tile.ts",
@@ -726,7 +726,7 @@
       "sha256": "ec95d1ca4c8af27b1c1648befe672543e5bc8c0b493e52ff8d79b8fabdbf7386"
     }
   ],
-  "sourceCommit": "af591ae85e40a81473125943363890622e0aa067",
+  "sourceCommit": "6c39158165415b75f41e7d01cb12e85e57b0a58d",
   "documentation": [
     {
       "path": "docs/architecture/be/minecraft-explorer.md",

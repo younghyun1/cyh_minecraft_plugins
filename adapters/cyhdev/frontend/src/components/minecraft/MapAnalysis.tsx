@@ -13,8 +13,6 @@ export type LayerControls = {
   readonly setElevation: (value: boolean) => void;
   readonly structures: () => boolean;
   readonly setStructures: (value: boolean) => void;
-  readonly grid: () => boolean;
-  readonly setGrid: (value: boolean) => void;
 };
 
 export function ScanReceipt(props: { readonly result: MinecraftMapData }) {
@@ -50,7 +48,6 @@ export function MapAnalysis(props: { readonly explorer: MapExplorer; readonly la
       <label><input type="checkbox" checked={props.layers.biomes()} onChange={event => props.layers.setBiomes(event.currentTarget.checked)} /> Biome colors</label>
       <label><input type="checkbox" checked={props.layers.elevation()} onChange={event => props.layers.setElevation(event.currentTarget.checked)} /> Surface elevation</label>
       <label><input type="checkbox" checked={props.layers.structures()} onChange={event => props.layers.setStructures(event.currentTarget.checked)} /> Structure bounds</label>
-      <label><input type="checkbox" checked={props.layers.grid()} onChange={event => props.layers.setGrid(event.currentTarget.checked)} /> Chunk grid</label>
     </fieldset>
     <Show when={props.explorer.area()}>{result => <>
       <ScanReceipt result={result()} />

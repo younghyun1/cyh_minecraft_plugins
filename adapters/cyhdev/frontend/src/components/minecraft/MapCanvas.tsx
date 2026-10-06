@@ -32,7 +32,6 @@ type Props = {
   readonly biomeLayer: boolean;
   readonly elevation: boolean;
   readonly structures: boolean;
-  readonly grid: boolean;
   readonly measuring: boolean;
   readonly measureStart: MapPoint | null;
   readonly refresh: number;
@@ -66,7 +65,7 @@ export default function MapCanvas(props: Props) {
   let removeControls: (() => void) | undefined;
   let dragStart: MapPoint | null = null, dragEnd: MapPoint | null = null, dragPointer: number | null = null, suppressClickUntil = 0;
   const [ready, setReady] = createSignal(false);
-  const sampled = L.layerGroup(), observedHighlights = L.layerGroup(), markers = L.layerGroup(), playersLayer = L.layerGroup(), selection = L.layerGroup(), grid = L.layerGroup();
+  const sampled = L.layerGroup(), observedHighlights = L.layerGroup(), markers = L.layerGroup(), playersLayer = L.layerGroup(), selection = L.layerGroup();
   const waypointRenderer = L.svg({ pane: "minecraft-waypoints" });
   const dragged = L.layerGroup();
   // The parent keys this component by its loaded world, so projection settings are immutable here.
@@ -116,20 +115,6 @@ export default function MapCanvas(props: Props) {
   });
   const cancelSelection = () => { dragStart = null; dragEnd = null; dragPointer = null; dragged.clearLayers(); };
 
-  const drawGrid = () => {
-    grid.clearLayers();
-    if (!map || !untrack(() => props.grid)) return;
-    const visible = map.getBounds();
-    const minX = Math.max(-WORLD_LIMIT, Math.floor(visible.getWest() * scale / 16) * 16);
-    const maxX = Math.min(WORLD_LIMIT, Math.ceil(visible.getEast() * scale / 16) * 16);
-    const minZ = Math.max(-WORLD_LIMIT, Math.floor(-visible.getNorth() * scale / 16) * 16);
-    const maxZ = Math.min(WORLD_LIMIT, Math.ceil(-visible.getSouth() * scale / 16) * 16);
-    if ((maxX - minX) / 16 + (maxZ - minZ) / 16 > 128) return;
-    const style = { color: "#fff0ba", opacity: 0.4, weight: 1, interactive: false };
-    for (let x = minX; x <= maxX; x += 16) L.polyline([position({ x, z: minZ }), position({ x, z: maxZ })], style).addTo(grid);
-    for (let z = minZ; z <= maxZ; z += 16) L.polyline([position({ x: minX, z }), position({ x: maxX, z })], style).addTo(grid);
-  };
-
   onSettled(() => {
     if (!element) return;
     map = L.map(element, { crs: L.CRS.Simple, attributionControl: false, preferCanvas: true, minZoom: minimumMapZoom(element.clientWidth, element.clientHeight, settings.maxZoom), maxZoom: settings.maxZoom + settings.extraZoom, zoomControl: true });
@@ -149,7 +134,7 @@ export default function MapCanvas(props: Props) {
     map.createPane("minecraft-waypoints");
     boundary = createTerrainBoundary(map, tiles, settings.maxZoom, point => untrack(() => props.seedWorld ? props.seedTiles.sample(props.seedWorld, point, props.predictionY) !== null : false), () => untrack(props.onInspectionRefresh));
     untrack(() => props.onRenderedLookup(point => boundary?.rendered(point) ?? false));
-    sampled.addTo(map); observedHighlights.addTo(map); grid.addTo(map); markers.addTo(map); playersLayer.addTo(map); selection.addTo(map); dragged.addTo(map);
+    sampled.addTo(map); observedHighlights.addTo(map); markers.addTo(map); playersLayer.addTo(map); selection.addTo(map); dragged.addTo(map);
     map.on("click", (event: L.LeafletMouseEvent) => untrack(() => {
       if (props.selecting || Date.now() < suppressClickUntil) return;
       const point = eventPoint(event.originalEvent);
@@ -163,7 +148,6 @@ export default function MapCanvas(props: Props) {
     element.addEventListener("pointerup", endSelection);
     element.addEventListener("pointercancel", cancelSelection);
     map.on("dragstart zoomstart", clearInspection);
-    map.on("moveend", drawGrid);
     observer = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(invalidate);
     observer?.observe(element);
     refreshTimer = window.setInterval(() => {
@@ -186,7 +170,6 @@ export default function MapCanvas(props: Props) {
   createEffect(() => [ready(), props.view] as const, ([mounted, point]) => {
     if (mounted) map?.panTo(position(point), { animate: false });
   });
-  createEffect(() => [ready(), props.grid] as const, () => untrack(drawGrid));
   createEffect(() => [ready(), props.refresh] as const, ([mounted, refresh]) => {
     if (mounted && refresh > 0) terrainRefresh?.request();
   });
